@@ -1,0 +1,25 @@
+.header-admin {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    background-color: var(--dark-blue);
+    .menu {
+        background-color: transparent;
+        color: #fff;
+    }
+    
+    .ant-menu-submenu-title, .ant-menu-title-content {
+        color: #fff !important;
+    }
+    
+    .ant-menu-horizontal.ant-menu-light>.ant-menu-item::after,
+    .ant-menu-horizontal.ant-menu-light>.ant-menu-item:hover,
+    .ant-menu-horizontal.ant-menu-light>.ant-menu-submenu::after {
+        color: #fff !important;
+        border-bottom: none !important;
+    }
+}
+.breadcrump-admin{
+    padding: 1% 2%;
+}

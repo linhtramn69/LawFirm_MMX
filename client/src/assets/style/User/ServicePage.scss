@@ -1,0 +1,34 @@
+.service{
+    .img-service{
+       img{
+        width: 100%;
+       }
+    }
+    .list-card-service{
+        justify-content: space-between;
+        padding: 5% 0 ;
+        text-align: center;
+        .col-service-item{
+            padding: 3% 1%;
+        }
+        
+        .card-service {
+            text-align: start;
+        
+            .btn-card {
+                margin: 15% 0 5% 20%;
+                background-color: var(--dark-blue);
+                letter-spacing: 0.5px;
+                padding: 3% 10%;
+                border-radius: 5px;
+                color: #fff !important;
+            }
+            &:hover {
+                transition: 0.3s;
+                box-shadow: 5px 5px 10px var(--dark-blue);
+                transform: scale(1.05);
+            }
+        }
+    }
+   
+}

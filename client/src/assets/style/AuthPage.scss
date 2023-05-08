@@ -1,0 +1,31 @@
+.auth-page {
+    padding: 0% 30% 4%;
+    background-image: url('https://law-co.com/wp-content/themes/lawco/images/home.svg');
+    .auth-header{
+        display: grid;
+        justify-content: center;
+        .menu-auth{
+            width: 100%;
+            background-color: transparent;
+        }
+    }
+    .auth-content{
+        .login-form-button{
+            padding: 2% 5% !important;
+            font-size: 0.8rem !important;
+            text-transform: none !important;
+            letter-spacing: 0;
+            background-color: var(--dark-blue);
+            color: #fff !important;
+        }
+        .login-form-item{
+            width: 80%;
+            margin: 30px;
+            input{
+                
+                margin-bottom: 3px;
+            }
+        }
+    }
+    
+}

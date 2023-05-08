@@ -1,0 +1,95 @@
+.header {
+    text-transform: uppercase;
+    .nav-top {
+        text-align: center;
+        padding: 0.5% 10%;
+        background-color: var(--grey-blue);
+        .menu {
+            display: block;
+            text-align: right;
+            letter-spacing: 0.8px;
+            background-color: transparent;
+            border-bottom: transparent;
+        }
+    }
+    .nav-bot {
+        text-align: center;
+        padding: 1.6% 1%;
+        .menu {
+            display: block;
+            text-align: center;
+            font-size: 15px;
+            letter-spacing: 0.8px;
+            font-weight: 300;
+            background-color: transparent;
+            border-bottom: transparent;
+            margin-left: 20%;
+            li {
+                margin-right: 5px;
+            }
+        }
+        .head-btn {
+            background-color: var(--grey-blue);
+            border: 1px solid var(--dark-blue);
+            color: var(--dark-blue) !important;
+        }
+    }
+}
+.content{
+    padding-top: 2%;
+    .sidebar{
+        position: sticky;
+        height: 100%;
+        top: 0;
+        margin-bottom: 5%;
+        margin-left: 8%;
+        .sidebar-info{
+            margin-bottom: 30px;
+            width: 100%;
+            background-image: url('../../images/banner/banner_top.png');
+            background-size: cover;
+            border-radius: 10px;
+           .btn-card{
+                background-color: orange !important;
+                border: 0;
+                border-radius: 5px;
+                padding: 3% 10%;
+                margin: 85% 0 15% 25%;
+           }
+        }
+        .card-list-service {
+            border-radius: 5px;
+            border: 0;
+            box-shadow: 5px 5px 10px var(--light-blue);
+        }
+        @media only screen and (max-width: 768px) {
+            margin-left: 5% !important;
+            .btn-card{
+                margin-left: 35% !important;
+            }
+        }
+    }
+}
+.footer{
+    .foot-top {
+        text-align: left;
+        padding-top: 2%;
+        padding-bottom: 1%;
+    
+        .listItem {
+            font-size: 16px;
+        }
+        img {
+            margin-top: 8px;
+            margin-bottom: 10px;
+        }
+    }
+    .foot-bot {
+        text-transform: uppercase;
+        background-color: rgba(206, 209, 213, 0.2);
+        padding-top: 1.2%;
+        letter-spacing: 0.8px;
+        font-weight: 400;
+    }
+}
+
