@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { taskService, userService } from "~/services";
 import { useToken } from "~/store";
-const statusText = ['Đã giao', 'Hoàn thành', 'Tạm ngưng']
+const statusText = ['Đã giao', 'Đã trình', 'Hoàn thành', 'Tạm ngưng']
 
 function TaskListGiao() {
 
@@ -97,7 +97,7 @@ function TaskListGiao() {
             },
             render: (status) => (
                 <Tag
-                    color={status === 0 ? 'geekblue' : 'success' }
+                    color={status === 0 ? 'geekblue' : status === 1 ? '#ff4d4f' : 'success' }
                 >
                     {statusText[status]}
                 </Tag>

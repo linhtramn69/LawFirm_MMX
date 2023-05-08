@@ -28,9 +28,6 @@ function Manager() {
     const [isModalOpenTask, setIsModalOpenTask] = useState(false);
     const [isModalOpenFee, setIsModalOpenFee] = useState(false);
 
-    
-
-
     const showModalTask = () => {
         setIsModalOpenTask(true)
     }
@@ -44,19 +41,32 @@ function Manager() {
         setIsModalOpenFee(false);
     };
     useEffect(() => {
-        const getMatters = async () => {
+        console.log('ók');
+        const getQuotes = async () => {
             const quote = (await quoteService.get()).data;
-            const matter = (await matterService.get()).data;
-            const task = (await taskService.get()).data;
-            const fee = (await feeService.get()).data;
-            const bill = (await billService.get()).data;
-            dispatch(actions.setFees(fee));
-            dispatch(actions.setMatters(matter));
-            dispatch(actions.setTasks(task));
             dispatch(actions.setQuotes(quote));
+        }
+        const getFees = async () => {
+            const fee = (await feeService.get()).data;
+            dispatch(actions.setFees(fee));
+        }
+        const getMatters = async () => {
+            const matter = (await matterService.get()).data;
+            dispatch(actions.setMatters(matter));
+        }
+        const getTasks = async () => {
+            const task = (await taskService.get()).data;
+            dispatch(actions.setTasks(task));
+        }
+        const getBills = async () => {
+            const bill = (await billService.get()).data;
             dispatch(actions.setBills(bill));
         }
         getMatters();
+        getBills();
+        getTasks();
+        getFees();
+        getQuotes()
     }, [])
 
     const handleTotalMatter = (value) => {
@@ -114,25 +124,6 @@ function Manager() {
                             </Row>
                         </Col>
                     </Row>
-                    {/* <Divider />
-                    <Row>
-                        <Col style={{ ...styleCol }} xs={4}>
-                            <Avatar
-                                style={{ backgroundColor: `var(--grey)` }}
-                                size={50}
-                                icon={
-                                    <CreditCardFilled />
-                                } />
-                            <Title level={5}>Công việc</Title>
-                        </Col>
-                        <Col md={{ span: 18, push: 2 }} xs={{ span: 19, push: 1 }}>
-                            <Row gutter={[8, 8]}>
-                                <CardMatter title="Được giao" total={handleTotalTask(0)} color={0} url={`/admin/tasks/0`} />
-                                <CardMatter title="Tạm ngưng" total={handleTotalTask(2)} color={2} url={`/admin/tasks/2`} />
-                                <CardMatter title="Hoàn thành" total={handleTotalTask(1)} color={1} url={`/admin/tasks/1`} />
-                            </Row>
-                        </Col>
-                    </Row> */}
                     <Divider />
                     <Row>
                         <Col style={{ ...styleCol }} xs={{ span: 4 }}>
@@ -168,7 +159,7 @@ function Manager() {
                                 <CardMatter title="Đã trình" total={handleTotalFee(0)} color={0} url={`fees/0`} />
                                 <CardMatter title="Đã duyệt" total={handleTotalFee(1)} color={1} url={`fees/1`} />
                                 <CardMatter title="Đã kết toán" total={handleTotalFee(2)} color={2} url={`fees/2`} />
-                                <CardMatter title="Từ chối" total={handleTotalFee(3)} color={3} url={`fees/3`} />
+                                <CardMatter title="Từ chối" total={handleTotalFee(-1)} color={-1} url={`fees/-1`} />
                             </Row>
                         </Col>
                     </Row>
@@ -202,11 +193,7 @@ function Manager() {
                             <Title level={5}>Lịch hẹn</Title>
                         </Col>
                         <Col md={{ span: 18, push: 2 }} xs={{ span: 19, push: 1 }}>
-                            {/* <Row gutter={[8, 8]}>
-                                <CardMatter title="Hôm nay" total={0} />
-                                <CardMatter title="Tuần này" total={handleTotalTask(0)} status={0} />
-                                <CardMatter title="Tháng này" total={0} />
-                            </Row> */}
+
                         </Col>
                     </Row>
                 </Col>

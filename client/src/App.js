@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { KeToanRouter, TuVanVienRouter, privateRoutes, publicRoutes, staffRouter } from "./routes/routes";
+import { KeToanRouter, TroLyRouter, TuVanVienRouter, privateRoutes, publicRoutes, staffRouter } from "./routes/routes";
 import "~/assets/GlobalStyle.scss"
 import { useToken } from "./store";
 import HomePage from "./pages/user/HomePage";
@@ -66,6 +66,18 @@ function App() {
             let Layout = route.layout
             return (
               <Route key={index} path={'/ke-toan' + route.path} element={
+                <Layout>
+                  <route.component />
+                </Layout>
+
+              } />
+            )
+          })
+          : token && token.account.quyen == 2 && token.chuc_vu._id == 'TL02' ?
+          TroLyRouter.map((route, index) => {
+            let Layout = route.layout
+            return (
+              <Route key={index} path={'/tro-ly' + route.path} element={
                 <Layout>
                   <route.component />
                 </Layout>

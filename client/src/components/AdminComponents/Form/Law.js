@@ -1,4 +1,4 @@
-import { Avatar, Button, Col, DatePicker, Form, Input, Radio, Row, Select, Switch } from "antd";
+import { Avatar, Button, Col, DatePicker, Form, Input, Radio, Row, Select, Switch, Tabs } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { avatar } from "~/assets/images";
@@ -6,6 +6,8 @@ import { boPhanService, chucVuService, typeServiceService, userService } from '.
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { useStore } from "~/store";
+import { UploadImg, fileSelected } from "../UploadImg";
+import Title from "antd/es/typography/Title";
 dayjs.extend(customParseFormat);
 
 const formItemLayout = {
@@ -14,7 +16,7 @@ const formItemLayout = {
             span: 24,
         },
         md: {
-            span: 8,
+            span: 9,
         },
     }
 };
@@ -131,7 +133,8 @@ function FormLaw({ props }) {
             chuc_vu: values.chucVu,
             bo_phan: values.boPhan,
             boss: values.boss,
-            chuyen_mon: values.type
+            chuyen_mon: values.type,
+            avatar: fileSelected
         }
         if (props)
             handleUpdate(data);
@@ -210,7 +213,9 @@ function FormLaw({ props }) {
                 onFinish={onFinish}
             >
                 <Row>
-                    <Col md={{ span: 8 }}>
+                    <Col span={16}>
+                    <Row>
+                    <Col md={{ span: 12 }}>
                         <Form.Item
                             label="Họ tên"
                             name="name"
@@ -224,7 +229,7 @@ function FormLaw({ props }) {
                             <Input />
                         </Form.Item>
                     </Col>
-                    <Col md={{ span: 8, push: 1 }}>
+                    <Col md={{ span: 12, push: 1 }}>
                         <Form.Item
                             label="Di động"
                             name="phone"
@@ -242,17 +247,9 @@ function FormLaw({ props }) {
                             <Input />
                         </Form.Item>
                     </Col>
-                    <Col md={{ span: 4, push: 3 }}>
-                        <div className="edit-img">
-                            <Avatar size={150} style={{
-                                position: 'absolute'
-                            }} src={avatar.user} />
-
-                        </div>
-                    </Col>
                 </Row>
                 <Row>
-                    <Col md={{ span: 8 }}>
+                    <Col md={{ span: 12 }}>
                         <Form.Item
                             name="dateOfBirth"
                             label="Ngày sinh"
@@ -260,7 +257,7 @@ function FormLaw({ props }) {
                             <DatePicker format={'DD-MM-YYYY'} />
                         </Form.Item>
                     </Col>
-                    <Col md={{ span: 8, push: 1 }}>
+                    <Col md={{ span: 12, push: 1 }}>
                         <Form.Item
                             label="Địa chỉ"
                             name="address"
@@ -270,7 +267,7 @@ function FormLaw({ props }) {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md={{ span: 8 }}>
+                    <Col md={{ span: 12 }}>
                         <Form.Item
                             name="email"
                             label="E-mail"
@@ -288,7 +285,7 @@ function FormLaw({ props }) {
                             <Input />
                         </Form.Item>
                     </Col>
-                    <Col md={{ span: 8, push: 1 }}>
+                    <Col md={{ span: 12, push: 1 }}>
                         <Form.Item
                             label="Mật khẩu tài khoản"
                             name="password"
@@ -304,7 +301,7 @@ function FormLaw({ props }) {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md={{ span: 8 }}>
+                    <Col md={{ span: 12 }}>
                         <Form.Item
                             name="boPhan"
                             label="Bộ phận"
@@ -315,7 +312,7 @@ function FormLaw({ props }) {
                             />
                         </Form.Item>
                     </Col>
-                    <Col md={{ span: 8, push: 1 }}>
+                    <Col md={{ span: 12, push: 1 }}>
                         <Form.Item
                             label="Chức vụ"
                             name="chucVu"
@@ -328,7 +325,7 @@ function FormLaw({ props }) {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md={{ span: 8 }}>
+                    <Col md={{ span: 12 }}>
                         <Form.Item
                             label='Hoạt động'
                             name="active"
@@ -338,7 +335,7 @@ function FormLaw({ props }) {
                             <Switch checkedChildren="Hoạt động" unCheckedChildren="Khoá" success="false" />
                         </Form.Item>
                     </Col>
-                    <Col md={{ span: 8, push: 1 }}>
+                    <Col md={{ span: 12, push: 1 }}>
                         {showBoss
                             ? <Form.Item
                                 label="Thuộc cấp"
@@ -360,6 +357,24 @@ function FormLaw({ props }) {
                             </Form.Item> : <></>}
                     </Col>
                 </Row>
+                    </Col>
+                    <Col push={4}>
+                    <Form.Item>
+                        <Title level={5}>Hình đại diện</Title>
+                    </Form.Item>
+                    <UploadImg/>
+                    </Col>
+                </Row>
+                <Tabs
+                items={[
+                    {
+                        key: 1,
+                        label: "Chứng chỉ - Bằng cấp",
+                        children: <>
+                        </>
+                    }
+                ]}
+                />
                 <Form.Item
                     wrapperCol={{
                         offset: 20,

@@ -13,6 +13,9 @@ class QuoteService {
     async findByTypeServiceAndYear(data){
         return (await API.post(`quote-form/findByTypeServiceAndYear`, data));
     }
+    async findByProvinceAndYear(data){
+        return (await API.post(`quote-form/findByProvinceAndYear`, data));
+    }
     async sendMail(data){
         return (await API.post(`quote-form/sendMail`, data));
     }

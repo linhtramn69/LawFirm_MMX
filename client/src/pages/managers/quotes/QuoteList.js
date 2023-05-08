@@ -7,7 +7,7 @@ import moment from "moment";
 import Highlighter from "react-highlight-words";
 import { SearchOutlined } from '@ant-design/icons';
 const url = ['', 'admin', 'tu-van-vien']
-const statusText = ['Yêu cầu báo giá', 'Đã gửi báo giá', 'Đã lên lịch']
+const statusText = ['Yêu cầu báo giá', 'Đã  tạo báo giá', 'Đã gửi báo giá', 'Đã lên lịch']
 
 
 function QuoteList() {
@@ -19,7 +19,7 @@ function QuoteList() {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
-
+    console.log(id);
     useEffect(() => {
         const getQuotes = async () => {
             const result = (await quoteService.get()).data

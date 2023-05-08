@@ -77,7 +77,9 @@ function FormQuotes({ quote }) {
         return (
             arrTimePay.push({
                 value: value.ten,
-                label: value.ten
+                label: value.ten == 0 ? "Thanh toán ngay"
+                        : value.ten == -1 ? "Thanh toán ngay khi hoàn thành"
+                        : value.ten + " ngày"
             })
         )
     })

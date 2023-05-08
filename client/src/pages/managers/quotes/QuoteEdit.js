@@ -9,6 +9,9 @@ const item = [
         title: 'Yêu cầu báo giá'
     },
     {
+        title: 'Đã tạo báo giá'
+    },
+    {
         title: 'Đã gửi báo giá'
     },
     {

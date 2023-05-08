@@ -1,6 +1,6 @@
 import { faHouse, faReceipt, faTasks } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Avatar, Button, Card, Tabs, Descriptions, Space, Row, Col, Typography, Divider } from "antd";
+import { Avatar, Button, Card, Tabs, Descriptions, Space, Row, Col, Typography, Divider, Image } from "antd";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { avatar } from "~/assets/images";
@@ -99,7 +99,7 @@ function CustomerDetail() {
                         </Descriptions>
                     </Col>
                     <Col>
-                        <Avatar shape='square' size={150} src={user.loai_cong_ty === 'Doanh nghiệp' ? avatar.company : avatar.user} />
+                    <Image width={150} src={user.avatar ? user.avatar : avatar.company}/>
                     </Col>
                 </Row>
                 <Tabs defaultActiveKey="1" items={items} />

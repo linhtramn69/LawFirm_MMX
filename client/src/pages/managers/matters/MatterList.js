@@ -23,7 +23,7 @@ function MatterList() {
     let url = 'admin'
     if(token.chuc_vu._id === 'LS02')
         url = 'staff'
-    else if(token.chuc_vu._id === 'TVV02') 
+    else if(token.chuc_vu._id === 'TL02') 
         url = 'tro-ly'
     else if(token.chuc_vu._id === 'KT02') 
         url = 'ke-toan'
@@ -31,12 +31,15 @@ function MatterList() {
     useEffect(() => {
         const getMatter = async () => {
             const result =
-                token.account.quyen === 1 || token.chuc_vu._id === 'KT02' ?
-                    ((await matterService.get()).data)
-                    : ((await matterService.findByIdAccess({ id: token._id })).data)
+            token.account.quyen === 1 || token.chuc_vu._id === 'KT02' ?
+            ((await matterService.get()).data)
+            : token.chuc_vu._id === 'TL02' ?
+            ((await matterService.findByIdAccess({ id: token.boss })).data)
+            : ((await matterService.findByIdAccess({ id: token._id })).data)
             const arr = id === 'all' ? result : result.filter(item => item.status == id || item.status_tt == id)
             setMatters(arr)
         }
+
         const getType = async () => {
             setType((await typeServiceService.get()).data)
         }
@@ -51,7 +54,8 @@ function MatterList() {
         getService()
         getLaw()
     }, [id])
-
+    console.log(matters);
+    console.log(id);
     const data = matters.map((value, index) => {
         return {
             _id: value._id,

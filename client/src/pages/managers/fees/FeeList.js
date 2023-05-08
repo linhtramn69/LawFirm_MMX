@@ -50,7 +50,6 @@ const columns = [
     }
 
 ]
-const url = ['', 'admin', 'ke-toan']
 
 function FeeList() {
 
@@ -58,7 +57,13 @@ function FeeList() {
     const { token } = useToken();
     const [fee, setFees] = useState([]);
     let navigate = useNavigate()
-    
+    let url = 'admin'
+    if(token.chuc_vu._id === 'LS02')
+        url = 'staff'
+    else if(token.chuc_vu._id === 'TL02') 
+        url = 'tro-ly'
+    else if(token.chuc_vu._id === 'KT02') 
+        url = 'ke-toan'
     useEffect(() => {
         const getFees = async () => {
             const result = (await feeService.get()).data;
@@ -86,7 +91,7 @@ function FeeList() {
                 onRow={(record, rowIndex) => {
                     return {
                         onClick: (event) => {
-                            navigate(`/${url[token.account.quyen]}/fee/${record._id}`)
+                            navigate(`/${url}/fee/${record._id}`)
                         }, // click row
                     }
                 }} />

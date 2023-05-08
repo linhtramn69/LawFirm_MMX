@@ -7,7 +7,11 @@ function CardMatter({ title, total, url, color }) {
             <Link to={url} >
                 <div className="card-matter" 
                     style={{
-                        backgroundColor: color===0 ? "#91caff" : color===1 ? "#95de64" : color===2 ?  "#fff566" : "#ff9c6e"
+                        backgroundColor: color===0 ? "#91caff" 
+                        : color === 1 ? "#95de64" 
+                        : color=== 2 ?  "#fff566" 
+                        : color=== 3 ?  "#d9d9d9" 
+                        : "#ff9c6e"
                     }
                 }
                 >

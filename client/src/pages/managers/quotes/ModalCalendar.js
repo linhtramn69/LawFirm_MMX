@@ -99,7 +99,7 @@ function ModalCalendar(props) {
             await quoteService.update(quote._id, {
                 linh_vuc: quote.linh_vuc._id,
                 dich_vu: quote.dich_vu._id,
-                status: 2
+                status: 3
             })
             navigate(`/${url[token.account.quyen]}/calendar`);
         }
@@ -317,7 +317,7 @@ function ModalCalendar(props) {
                         offset: 20,
                         span: 6
                     }}>
-                    <Button htmlType="submit">Lưu</Button>
+                    <Button htmlType="submit" type="primary">Thêm mới</Button>
                 </Form.Item>
             </Form>
         </Modal>

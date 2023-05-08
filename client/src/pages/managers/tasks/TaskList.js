@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { taskService, userService } from "~/services";
 import { useToken } from "~/store";
-const statusText = ['Đã giao', 'Hoàn thành', 'Tạm ngưng']
+const statusText = ['Đã giao', 'Đã trình', 'Hoàn thành', 'Tạm ngưng']
 
 function TaskList() {
 
@@ -16,7 +16,7 @@ function TaskList() {
     let url = 'admin'
     if(token.chuc_vu._id === 'LS02')
         url = 'staff'
-    else if(token.chuc_vu._id === 'TVV02') 
+    else if(token.chuc_vu._id === 'TL02') 
         url = 'tro-ly'
 
     useEffect(() => {
@@ -99,9 +99,10 @@ function TaskList() {
             },
             render: (status) => (
                 <Tag
-                    color={status === 0 ? 'geekblue' : status === 1 ? 'success' : 'volcano'}
+                    color={status === 0 ? 'geekblue' : status === 1 ? 'volcano' : status === 2 ? 'success' : '#faad14'}
                 >
-                    {statusText[status]}
+                    
+                    { status != -1 ?  statusText[status] : "Tạm ngưng"}
                 </Tag>
             ),
         }

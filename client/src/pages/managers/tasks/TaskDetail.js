@@ -1,4 +1,4 @@
-import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCancel, faCircleCheck, faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Badge, Button, Card, Col, Descriptions, Divider, Popconfirm, Row, Tabs, message } from "antd";
 import moment from "moment";
@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import FormAddFile from "~/components/AdminComponents/Form/FormAddFile";
 import { matterService, taskService } from "~/services";
-import { useStore } from "~/store";
+import { useStore, useToken } from "~/store";
 
 function TaskDetail() {
 
@@ -15,6 +15,7 @@ function TaskDetail() {
     const [task, setTask] = useState({});
     const [matter, setMatter] = useState({});
     const [messageApi, contextHolder] = message.useMessage();
+    const {token} = useToken()
 
     const success = () => {
         messageApi.open({
@@ -87,15 +88,16 @@ function TaskDetail() {
                 style={{ width: '90%', marginLeft: 60 }}
                 title={
                     task.status === 0 ? <Badge status="processing" text="Đã giao" />
-                        : task.status === 1 ? <Badge status="success" text="Hoàn thành" />
+                        : task.status === 1 ? <Badge status="warning" text="Trình duyệt" />
+                        : task.status === 2 ? <Badge status="success" text="Hoàn thành" />
                             : <Badge status="warning" text="Tạm ngưng" />
                 }
                 extra={
                     task.status === 0 ?
                         <Popconfirm
                             placement="topRight"
-                            title="Hoàn thành vụ việc"
-                            description="Bạn có chắc là vụ việc đã hoàn thành chứ?"
+                            title="Trình duyệt công việc"
+                            description="Bạn có chắc là công việc đã thực hiện xong chứ?"
                             okText="Xác nhận"
                             cancelText="Hủy"
                             onConfirm={() => handleOk(1)}
@@ -104,10 +106,46 @@ function TaskDetail() {
                                 className="btn btn-status"
                                 icon={<FontAwesomeIcon
                                     style={{
+                                        color: '#faad14',
+                                        marginRight: 10
+                                    }} icon={faPen} />}>Trình lên duyệt</Button>
+                        </Popconfirm> 
+                        : task.status === 1 && token.chuc_vu._id == 'TL02' ?
+                        <Popconfirm
+                            placement="topRight"
+                            title="Huỷ trình công việc"
+                            description="Bạn có chắc muốn huỷ trình công việc này chứ?"
+                            okText="Xác nhận"
+                            cancelText="Hủy"
+                            onConfirm={() => handleOk(0)}
+                        >
+                            <Button
+                                className="btn btn-status"
+                                icon={<FontAwesomeIcon
+                                    style={{
+                                        color: '#cf1322',
+                                        marginRight: 10
+                                    }} icon={faCancel} />}>Huỷ trình</Button>
+                        </Popconfirm>
+                        : task.status === 1 && token.chuc_vu._id == 'LS02' ?
+                        <Popconfirm
+                            placement="topRight"
+                            title="Hoàn thành công việc"
+                            description="Bạn có chắc chắn là công việc này đã hoàn thành chứ chứ?"
+                            okText="Xác nhận"
+                            cancelText="Hủy"
+                            onConfirm={() => handleOk(2)}
+                        >
+                            <Button
+                                className="btn btn-status"
+                                icon={<FontAwesomeIcon
+                                    style={{
                                         color: '#389e0d',
                                         marginRight: 10
                                     }} icon={faCircleCheck} />}>Hoàn thành</Button>
-                        </Popconfirm> : null
+                        </Popconfirm>
+                        : <></>
+
                 }
             >
                 {
@@ -190,7 +228,10 @@ function TaskDetail() {
                         {
                             key: '1',
                             label: `Tài liệu đính kèm`,
-                            children: <FormAddFile />
+                            children: task._id && task.status == 0 ? <FormAddFile fileTask = {task.tai_lieu}/> :
+                            task._id && task.status != 0 ?
+                            <FormAddFile fileTask = {task.tai_lieu} props={1}/>
+                            : <></>
                         },
                     ]} />
                 {task.status === 0 ?

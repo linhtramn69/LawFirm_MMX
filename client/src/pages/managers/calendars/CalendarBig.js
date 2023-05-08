@@ -79,7 +79,7 @@ function CalendarBig({ dateSelect, onNhan, select  }) {
                             md: 4,
                             sm: 2,
                         }}
-                        title={event.loai_lich}
+                        title="Lịch hẹn"
                     >
                         <Descriptions.Item span={4} label="Tiêu đề">{event.tieu_de}</Descriptions.Item>
                         <Descriptions.Item span={2} label="Bắt đầu">{moment(event.thoi_gian.start).format(' DD-MM-YYYY LT')}</Descriptions.Item>

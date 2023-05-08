@@ -1,4 +1,4 @@
-import { Avatar, Badge, Button, Card, Col, Descriptions, Divider, List, Modal, Row, Space, Table, Tabs, Tag, Tooltip, Typography } from "antd";
+import { Avatar, Badge, Button, Card, Col, Descriptions, Divider, Image, List, Modal, Row, Space, Table, Tabs, Tag, Tooltip, Typography } from "antd";
 import { faHouse, faReceipt, faTasks } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useParams } from "react-router-dom";
@@ -8,7 +8,11 @@ import { actions, useStore, useToken } from "~/store";
 import { avatar } from "~/assets/images";
 import moment from "moment";
 import FormAddFile from "~/components/AdminComponents/Form/FormAddFile";
-const url = ['', 'admin', 'ke-toan'];
+import {
+    UsbFilled
+} from '@ant-design/icons';
+const url = ['', 'admin', 'staff'];
+const url2 = ['', 'admin', 'ke-toan'];
 const statusTask = ['Đã giao', 'Đã hoàn thành', 'Tạm ngưng'];
 const statusFee = ['Đã trình', 'Đã duyệt', 'Đã kết toán', 'Đã huỷ'];
 
@@ -163,7 +167,7 @@ const detail = (data) => Modal.info({
                 <Descriptions.Item span={2} label="Số tài khoản">{data.numberCreditCard}</Descriptions.Item>
             </Descriptions>
             <Divider/>
-            <img src={data.hinh_anh} width="50%" height="auto" alt="ok"/>
+            <Image src={data.hinh_anh} width={150}/>
 
         </>
     ),
@@ -325,9 +329,14 @@ function MatterDetail() {
 
     return (
         <>
-            <Link to={`/${url[token.account.quyen]}/bill/add/${state.matter._id}`}>
-                <Button>Tạo hoá đơn</Button>
+        {
+            token.account.quyen == 1 || token.chuc_vu._id == 'KT02' ?
+            <Link to={`/${url2[token.account.quyen]}/bill/add/${state.matter._id}`}>
+                <Button style={{width: 140, marginBottom: 20}} className="btn-cyan" icon={<UsbFilled />} block>Hóa đơn mới</Button>
             </Link>
+            : <></>
+        }
+            
             {state.matter._id ?
                 <Badge.Ribbon
                     style={{
@@ -340,10 +349,12 @@ function MatterDetail() {
                         color: '#000'
                     }}
                     text={
-                       state.matter.status_tt == 0 ? "Chưa thanh toán" : "Đang thanh toán"
+                       state.matter.status_tt == 0 ? "Chưa thanh toán" : state.matter.status_tt == 1 ? "Đang thanh toán"
+                       : "Đã thanh toán"
                     }
                     color={
-                        state.matter.status_tt == 0 ? "vocalno" : "greekblue"
+                        state.matter.status_tt == 0 ? "vocalno" : state.matter.status_tt == 1 ? "greekblue"
+                        : "green"
                     }
                 >
                     <Card
@@ -414,11 +425,15 @@ function MatterDetail() {
                                                     }}>
 
                                                     <Descriptions.Item span={4} label="Điều khoản thanh toán">
-                                                        {state.matter.dieu_khoan_thanh_toan.ten}
+                                                        {
+                                                            state.matter.dieu_khoan_thanh_toan.ten == 0 ? "Thanh toán ngay"
+                                                            : state.matter.dieu_khoan_thanh_toan.ten == -1 ? "Thanh toán ngay khi hoàn thành"
+                                                            : state.matter.dieu_khoan_thanh_toan.ten + " ngày"
+                                                        }
                                                     </Descriptions.Item>
-                                                    <Descriptions.Item span={4} label="Phương thức tính phí">
+                                                    {/* <Descriptions.Item span={4} label="Phương thức tính phí">
                                                         {state.matter.phuong_thuc_tinh_phi.ten}
-                                                    </Descriptions.Item>
+                                                    </Descriptions.Item> */}
                                                     <Descriptions.Item span={4} label="Chiết khấu hoa hồng">
                                                         {state.matter.chiet_khau_hoa_hong} %
                                                     </Descriptions.Item>
@@ -466,6 +481,7 @@ function MatterDetail() {
                             {
                                 key: '2',
                                 label: `Giấy tờ`,
+                                disabled : token.account.quyen != 1 || state.matter.luat_su._id == token._id,
                                 children: <FormAddFile props={1} />
                             },
                             {
@@ -513,7 +529,7 @@ function MatterDetail() {
                             }
                         ]} />
                         {
-                            state.matter.status !== 1 ?
+                            state.matter.status !== 1 && token.chuc_vu._id != 'TL02' && token.chuc_vu._id != 'KT02' ?
                                 <Link to={`/${url[token.account.quyen]}/matter/edit/${id}`}>
                                     <Button type="primary" className="btn-primary">Chỉnh sửa</Button>
                                 </Link>

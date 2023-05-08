@@ -1,7 +1,7 @@
 import { quoteService } from '~/services';
 import '~/assets/style/User/HomePage.scss';
 import { banner, service, attribute, avatar } from '~/assets/images/index';
-import { Row, Col, Divider, Card, Space, Button, Input, Form, Avatar, notification, Typography, FloatButton, message } from 'antd';
+import { Row, Col, Divider, Card, Space, Button, Input, Form, Avatar, notification, Typography, FloatButton, message, Select } from 'antd';
 import {
     ForwardOutlined,
     PhoneOutlined,
@@ -13,6 +13,10 @@ import {
 import TextArea from 'antd/es/input/TextArea';
 import Title from 'antd/es/typography/Title';
 import moment from 'moment';
+import { useState } from 'react';
+import axios from 'axios';
+import { useEffect } from 'react';
+import { Option } from 'antd/es/mentions';
 const { Text } = Typography;
 
 function HomePage() {
@@ -58,7 +62,16 @@ function HomePage() {
     const [form] = Form.useForm();
     const [api, contextHolder] = notification.useNotification();
     const [messageApi, contextHolderMess] = message.useMessage();
-
+    const [provinces, setProvinces] = useState();
+    useEffect(() => {
+        axios('https://provinces.open-api.vn/api/')
+            .then(rs => {
+                setProvinces(rs.data);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }, [])
     const openNotification = (placement) => {
         api.open({
             duration: false,
@@ -71,6 +84,7 @@ function HomePage() {
                 </Space>
 
             </Space>,
+            style: {width: 500},
             description: <Card title="Yêu cầu báo giá">
                 <Form
                     form={form}
@@ -120,6 +134,19 @@ function HomePage() {
                         <Input />
                     </Form.Item>
                     <Form.Item
+                        label="Tỉnh/Thành phố"
+                        name="province">
+                        <Select>
+                            {
+                                provinces.map((value) => {
+                                    return <Option value={value.name}>
+                                        {value.name}
+                                    </Option>
+                                })
+                            }
+                        </Select>
+                    </Form.Item>
+                    <Form.Item
                         label="Vấn đề của bạn"
                         name="description"
                         rules={[
@@ -158,8 +185,10 @@ function HomePage() {
             },
             ngay_gui_phieu: moment().toDate(),
             van_de: values.description,
-            status: 0
+            status: 0,
+            tinh_thanh: values.province
         }
+        console.log(data);
         try {
             await quoteService.create(data).data;
             messageApi.open({

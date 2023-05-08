@@ -3,16 +3,21 @@ import {
     ReconciliationFilled,
     CreditCardFilled,
     TeamOutlined,
+    UsbFilled
 } from '@ant-design/icons';
 import Title from "antd/es/typography/Title";
 import CardMatter from "../../../components/AdminComponents/Card/CardMatter";
 import { Link } from "react-router-dom";
 import { actions, useStore, useToken } from "~/store";
 import { useEffect } from "react";
-import { matterService, quoteService, taskService } from "~/services";
+import { matterService, taskService, timeAppointmentService } from "~/services";
 import { useState } from "react";
 import ModalAddTask from "./ModalAddTask";
 import { MatterFinishBar } from "../Chart/MatterFinishBar";
+import ModalAddFee from "./ModalAddFee";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarPlus } from "@fortawesome/free-solid-svg-icons";
+import moment from "moment";
 const styleCol = {
     textAlign: 'center'
 }
@@ -22,6 +27,8 @@ function MatterManager() {
     const [state, dispatch] = useStore();
     const [taskGiaoCho, setTaskGiaoCho] = useState([]);
     const [isModalOpenTask, setIsModalOpenTask] = useState(false);
+    const [isModalOpenFee, setIsModalOpenFee] = useState(false);
+    const [time, setTime] = useState([]);
 
     const showModalTask = () => {
         setIsModalOpenTask(true)
@@ -39,6 +46,11 @@ function MatterManager() {
             dispatch(actions.setMatters(matter));
             dispatch(actions.setTasks(task));
         }
+        const getTime = async() => {
+            const time = (await timeAppointmentService.findByStaff({id: token._id})).data;
+            setTime(time)
+        }
+        getTime()
         getMatters();
     }, [])
 
@@ -54,17 +66,23 @@ function MatterManager() {
         const arr = taskGiaoCho.filter(vl => vl.status === value)
         return arr.length
     }
-
+    const handleTimeByDay= (value) => {
+        const arr = time.filter(vl => moment(vl.thoi_gian.start).format('DDMMYYYY') ===  moment().format('DDMMYYYY'))
+        return arr.length
+    }
+    const handleTimeByWeek= (value) => {
+        const arr = time.filter(vl => moment(vl.thoi_gian.start).week() ===  moment().week())
+        return arr.length
+    }
+    const handleTimeByMonth= (value) => {
+        const arr = time.filter(vl => moment(vl.thoi_gian.start).format('MMYYYY') ===  moment().format('MMYYYY'))
+        return arr.length
+    }
     return (
         <>
             <Space wrap direction="horizontal">
-                {token.account.quyen === 1 ?
-                    <Link to="matter/add">
-                        <Button className="btn-cyan" icon={<ReconciliationFilled />} block>Vụ việc mới</Button>
-                    </Link>
-                    : null
-                }
                 <Button onClick={showModalTask} className="btn-cyan" icon={<CreditCardFilled />} block >Công việc mới</Button>
+                <Button onClick={() => setIsModalOpenFee(true)} className="btn-cyan" icon={<UsbFilled />} block>Chi phí mới</Button>
             </Space>
             <Divider />
             <Row>
@@ -101,10 +119,8 @@ function MatterManager() {
                         <Col md={{ span: 18, push: 2 }} xs={{ span: 19, push: 1 }}>
                             <Row gutter={[8, 8]}>
                                 <CardMatter title="Được phân công" total={handleTotalTask(0)} color={0} url={`tasks/0`} />
-                                <CardMatter title="Tạm ngưng" total={handleTotalTask(2)} color={2} url={`tasks/2`} />
+                                <CardMatter title="Tạm ngưng" total={handleTotalTask(-1)} color={2} url={`tasks/-1`} />
                                 <CardMatter title="Hoàn thành" total={handleTotalTask(1)} color={1} url={`tasks/1`} />
-                                {/* <CardMatter title="Hạn hôm nay" total={0} />
-                                <CardMatter title="Quá hạn" total={0} /> */}
                             </Row>
                         </Col>
                     </Row>
@@ -122,9 +138,8 @@ function MatterManager() {
                         <Col md={{ span: 18, push: 2 }} xs={{ span: 19, push: 1 }}>
                             <Row gutter={[8, 8]}>
                                 <CardMatter title="Đã giao" total={handleTotalTaskGiaoCho(0)} color={0} url={`tasks-giao/0`} />
-                                <CardMatter title="Đã hoàn thành" total={handleTotalTaskGiaoCho(1)} color={1} url={`tasks-giao/1`} />
-                                {/* <CardMatter title="Hạn hôm nay" total={0} />
-                                <CardMatter title="Quá hạn" total={0} /> */}
+                                <CardMatter title="Đã trình" total={handleTotalTaskGiaoCho(1)} color={2} url={`tasks-giao/1`} />
+                                <CardMatter title="Đã hoàn thành" total={handleTotalTaskGiaoCho(2)} color={1} url={`tasks-giao/2`} />
                             </Row>
                         </Col>
                     </Row>
@@ -140,11 +155,11 @@ function MatterManager() {
                             <Title level={5}>Lịch hẹn</Title>
                         </Col>
                         <Col md={{ span: 18, push: 2 }} xs={{ span: 19, push: 1 }}>
-                            {/* <Row gutter={[8, 8]}>
-                                <CardMatter title="Hôm nay" total={0} />
-                                <CardMatter title="Tuần này" total={handleTotalTask(0)} status={0} />
-                                <CardMatter title="Tháng này" total={0} />
-                            </Row> */}
+                        <Row gutter={[8, 8]}>
+                            <CardMatter title="Hôm nay" total={handleTimeByDay(0)} color={0} url={`/staff/calendar`} />
+                                <CardMatter title="Tuần này" total={handleTimeByWeek(1)} color={1} url={`/staff/calendar`} />
+                                <CardMatter title="Tháng này" total={handleTimeByMonth(2)} color={2} url={`/staff/calendar`} />
+                            </Row>
                         </Col>
                     </Row>
                 </Col>
@@ -156,13 +171,12 @@ function MatterManager() {
                         <Col span={24} >
                             <MatterFinishBar />
                         </Col>
-                        {/* <Col span={24} >
-                            <BillChiLine />
-                        </Col> */}
                     </Row>
                 </Col>
             </Row>
             {isModalOpenTask ? <ModalAddTask open={isModalOpenTask} onCancel={handleCancelTask} /> : null}
+            {isModalOpenFee ? <ModalAddFee open={isModalOpenFee} onCancel={() => setIsModalOpenFee(false)} /> : null}
+
         </>
     );
 }

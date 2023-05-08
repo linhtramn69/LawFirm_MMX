@@ -33,6 +33,7 @@ import TaskListGiao from "~/pages/managers/tasks/TaskListGiao"
 import BillList from "~/pages/managers/bills/BillList"
 import BillDetail from "~/pages/managers/bills/BillDetail"
 import BillCreate from "~/pages/managers/bills/BillCreate"
+import TaskManager from "~/pages/managers/tasks/TaskManager"
 
 const publicRoutes = [
     { path: config.routes.login, component: LoginPage, layout: UserLayout },
@@ -94,6 +95,20 @@ const staffRouter = [
     { path: config.routes.staff.calendarManager, component: CalendarManager, layout: LayoutAdmin },
 
 ]
+const TroLyRouter = [
+    { path: config.routes.tl.dashboard, component: TaskManager, layout: LayoutAdmin },
+    { path: config.routes.tl.taskList, component: TaskList, layout: LayoutAdmin },
+    { path: config.routes.tl.taskDetail, component: TaskDetail, layout: LayoutAdmin },
+
+    { path: config.routes.tl.matterList, component: MatterList, layout: LayoutAdmin },
+    { path: config.routes.tl.matterDetail, component: MatterDetail, layout: LayoutAdmin },
+
+    { path: config.routes.tl.feeList, component: FeeList, layout: LayoutAdmin },
+    { path: config.routes.tl.feeDetail, component: FeeDetail, layout: LayoutAdmin },
+
+    { path: config.routes.tl.calendarManager, component: CalendarManager, layout: LayoutAdmin },
+
+]
 const TuVanVienRouter = [
     // Dashboard
     { path: config.routes.tvv.dashboard, component: QuotesManager, layout: LayoutAdmin },
@@ -118,7 +133,8 @@ const KeToanRouter = [
     // Matter
     { path: config.routes.keToan.matterList, component: MatterList, layout: LayoutAdmin },
     { path: config.routes.keToan.matterDetail, component: MatterDetail, layout: LayoutAdmin },
+    { path: config.routes.keToan.calendarManager, component: CalendarManager, layout: LayoutAdmin },
 
 ]
 
-export { privateRoutes, publicRoutes, staffRouter, TuVanVienRouter, KeToanRouter }
+export { privateRoutes, publicRoutes, staffRouter, TuVanVienRouter, KeToanRouter, TroLyRouter }

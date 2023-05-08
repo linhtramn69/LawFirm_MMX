@@ -1,4 +1,4 @@
-import { Card, Col, Descriptions, message, Divider, Row, Space, Popconfirm, Badge, Button, Modal, Form, Input, Select, InputNumber } from "antd";
+import { Card, Col, Descriptions, message, Divider, Row, Space, Popconfirm, Badge, Button, Modal, Form, Input, Select, InputNumber, Image } from "antd";
 import { faCircleCheck, faMoneyBillTransfer, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useParams } from "react-router-dom";
@@ -134,11 +134,11 @@ function FeeDetail() {
                     extra={
                         <Space>
                             {
-                                fee.status === 0 ?
+                                fee.status === 0 && (token.chuc_vu._id == 'KT02' || token.account.quyen == 1) ?
                                     <>
                                         <Popconfirm
                                             placement="topRight"
-                                            title="Bạn có chắc duyệt hoá đơn ?"
+                                            title="Bạn có chắc duyệt chi phí ?"
                                             okText="Xác nhận"
                                             cancelText="Hủy"
                                             onConfirm={() => handleOk(1)}
@@ -153,10 +153,10 @@ function FeeDetail() {
                                         </Popconfirm>
                                         <Popconfirm
                                             placement="topRight"
-                                            title="Bạn có chắc từ chối duyệt hoá đơn này ?"
+                                            title="Bạn có chắc từ chối duyệt chi phí này ?"
                                             okText="Xác nhận"
                                             cancelText="Hủy"
-                                            onConfirm={() => handleOk(3)}
+                                            onConfirm={() => handleOk(-1)}
                                         >
                                             <Button
                                                 className="btn btn-status"
@@ -168,7 +168,7 @@ function FeeDetail() {
                                         </Popconfirm>
                                     </>
 
-                                    : fee.status === 1 ?
+                                    : fee.status === 1 && (token.chuc_vu._id == 'KT02' || token.account.quyen == 1) ?
                                         <>
                                             <Button
                                                 className="btn btn-status"
@@ -180,10 +180,10 @@ function FeeDetail() {
                                                     }} icon={faMoneyBillTransfer} />}>Tạo hoá đơn</Button>
                                             <Popconfirm
                                                 placement="topRight"
-                                                title="Bạn có chắc từ chối duyệt hoá đơn này ?"
+                                                title="Bạn có chắc từ chối duyệt chi phí này ?"
                                                 okText="Xác nhận"
                                                 cancelText="Hủy"
-                                                onConfirm={() => handleOk(3)}
+                                                onConfirm={() => handleOk(-1)}
                                             >
                                                 <Button
                                                     className="btn btn-status"
@@ -191,7 +191,7 @@ function FeeDetail() {
                                                         style={{
                                                             color: '#e31616',
                                                             marginRight: 10
-                                                        }} icon={faXmark} />}>Huỷ hoá đơn</Button>
+                                                        }} icon={faXmark} />}>Huỷ chi phí</Button>
                                             </Popconfirm>
                                         </>
                                         : null
@@ -234,8 +234,13 @@ function FeeDetail() {
                                 <Descriptions.Item span={2} label="Số tài khoản">{fee.tai_khoan.so_tai_khoan}</Descriptions.Item>
                             </Descriptions>
                         </Col>
+                        
+
                     </Row>
                     <Divider />
+                    <Space direction="horizontal" style={{marginLeft: 50}}>
+                        <Title level={5}>Hình ảnh</Title> <Image width={150} src={fee.hinh_anh}/>
+                    </Space>
                 </Card>
                 : null}
             <Modal width={1000} title="Hoá đơn mới" open={isModalOpen} onOk={handleOpen} onCancel={handleCancel} footer={null}>

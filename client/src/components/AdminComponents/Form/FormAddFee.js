@@ -1,4 +1,4 @@
-import { Button, Form, Modal, Popconfirm, Select, Table, Divider, InputNumber, Input, Row, Col, Tag, Descriptions } from "antd";
+import { Button, Form, Modal, Popconfirm, Select, Table, Divider, InputNumber, Input, Row, Col, Tag, Descriptions, Image } from "antd";
 import { useEffect, useState } from "react";
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import dayjs from 'dayjs';
@@ -51,6 +51,7 @@ function FormAddFee() {
                     nameBank: value.tai_khoan.ngan_hang,
                     nameCreditCard: value.tai_khoan.chu_tai_khoan,
                     numberCreditCard: value.tai_khoan.so_tai_khoan,
+                    hinh_anh: value.hinh_anh
                 }
             })
         }
@@ -180,6 +181,7 @@ function FormAddFee() {
                     <Descriptions.Item span={4} label="Số tài khoản">{data.numberCreditCard}</Descriptions.Item>
                 </Descriptions>
                 <Divider />
+                <Image width={100} src={data.hinh_anh}/>
             </>
         ),
         onOk() { },

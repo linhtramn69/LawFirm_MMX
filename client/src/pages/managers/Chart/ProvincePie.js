@@ -7,11 +7,11 @@ import moment from 'moment';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
-export function TypeServiceFavoritePie() {
+export function ProvincePie() {
     const [dataSource, setDataSource] = useState([])
   useEffect(() => {
     const getData = async() => {
-      setDataSource((await quoteService.findByTypeServiceAndYear()).data)
+      setDataSource((await quoteService.findByProvinceAndYear()).data)
     }
     getData()
   }, [])
@@ -23,16 +23,25 @@ export function TypeServiceFavoritePie() {
         },
         title: {
             display: true,
-            text: `Lĩnh vực được quan tâm / ${moment().year()}`,
+            text: `Khách hàng theo khu vực / ${moment().year()}`,
         },
     },
 };
+console.log(dataSource);
     const data = {
-        labels: dataSource.map((item) => item._id),
+        labels: dataSource.map((item) => {
+          if(item._id != null ){
+            return item._id
+          }
+        } ),
         datasets: [
           {
             label: 'Tổng',
-            data: dataSource.map((item) => item.count),
+            data: dataSource.map((item) => {
+              if(item._id){
+                return item.count
+              }
+            }),
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
               'rgba(54, 162, 235, 0.2)',

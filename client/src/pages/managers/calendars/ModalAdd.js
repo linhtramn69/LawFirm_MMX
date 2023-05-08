@@ -33,7 +33,7 @@ function ModalAdd(props) {
 
     useEffect(() => {
         const getBoPhan = async () => {
-            token.bo_phan.id === 'LS' ?
+            token.bo_phan._id === 'LS' ?
                 setBoPhan((await boPhanService.getById('LS')).data)
             : setBoPhan((await boPhanService.get()).data)
         }
@@ -44,7 +44,9 @@ function ModalAdd(props) {
         getType()
     }, [])
     const handleChangeBoPhan = async(value) => {
-        setStaff((await userService.getByBoPhan(value)).data)
+        token.chuc_vu._id == 'TL02' || token.chuc_vu._id == 'KT' ?
+        setStaff([token])
+        : setStaff((await userService.getByBoPhan(value)).data)
     }
     const arrType = type.map((value) => {
         return ({ value: value._id, label: value.ten})

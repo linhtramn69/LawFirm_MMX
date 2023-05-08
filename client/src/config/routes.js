@@ -59,6 +59,20 @@ const routes = {
         calendarManager: '/calendar'
 
     },
+    tl: {
+        dashboard: '/',
+        taskList: '/tasks/:id',
+        taskDetail: '/task/:id',
+
+        matterList: '/matters/:id',
+        matterDetail: '/matter/:id',
+
+        feeList: '/fees/:id',
+        feeDetail: '/fee/:id',
+
+        calendarManager: '/calendar'
+
+    },
     tvv: {
         dashboard: '/',
         // Quotes
@@ -80,7 +94,9 @@ const routes = {
         billAdd: '/bill/add/:id',
         // Matter
         matterList: '/matters/:id',
-        matterDetail: '/matter/:id'
+        matterDetail: '/matter/:id',
+        calendarManager: '/calendar',
+
     }
 }
 export default routes;

@@ -30,7 +30,7 @@ function MatterEdit() {
             await matterService.setStatus(state.matter._id, { status: value })
             success()
             setTimeout(() => {
-                navigate(`/staff/matters/${state.matter._id}`)
+                navigate(`/staff/matter/${state.matter._id}`)
             }, [500])
         } catch (err) {
             error()

@@ -14,6 +14,9 @@ const item = [
         title: 'Yêu cầu báo giá'
     },
     {
+        title: 'Đã tạo báo giá'
+    },
+    {
         title: 'Đã gửi báo giá'
     },
     {
@@ -65,14 +68,14 @@ function QuoteDetail() {
                         current={quote ? quote.status : 0}
                     />}>
                 <Space size={10}>
-                    {quote.status < 2 ?
+                    {quote.status < 3 ?
                         <Link to={`/${url[token.account.quyen]}/quote/edit/${id}`}>
                             <Button type="primary" className="btn-primary">
                                 {quote.status === 0 ? 'TẠO BÁO GIÁ' : 'CHỈNH SỬA'}
                             </Button>
                         </Link>
                         : null}
-                    {quote.status === 1 ?
+                    {quote.status > 0 ?
                         <Button type="primary" className="btn-primary" onClick={showModal}>
                             TẠO LỊCH HẸN
                         </Button>

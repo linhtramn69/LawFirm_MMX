@@ -7,6 +7,9 @@ class FeeService {
     async getById(id) {
         return (await API.get(`/fee/${id}`));
     }
+    async findByStaff(id) {
+        return (await API.get(`/fee/findByStaff/${id}`));
+    }
     async findByMatter(data) {
         return (await API.post(`/fee/findByMatter`, data));
     }

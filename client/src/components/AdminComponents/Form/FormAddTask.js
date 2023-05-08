@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 
 dayjs.extend(customParseFormat);
 const dateFormat = 'DD-MM-YYYY hh:mm A';
-const statusText = ['Đã giao', 'Đã hoàn thành', 'Tạm ngưng']
+const statusText = ['Đã giao', 'Đã trình', 'Đã hoàn thành', 'Tạm ngưng']
 const url = ['', 'admin', 'staff'];
 function FormAddTask() {
 
@@ -132,16 +132,18 @@ function FormAddTask() {
             dataIndex: 'status',
             render: (status) => (
                 <Tag
-                    color={status === 0 ? 'volcano' : status===1 ? 'success' : 'warning'}
-                >
-                    {statusText[status]}
-                </Tag>
+                color={status === 0 ? 'geekblue' : status === 1 ? 'volcano' : status === 2 ? 'success' : '#faad14'}
+            >
+                
+                { status != -1 ?  statusText[status] : "Tạm ngưng"}
+            </Tag>
             ),
         },
         {
             title: 'Thao tác',
             dataIndex: 'operation',
             render: (_, record) => (
+                record.status != 2 ?
                 <Space split={<Divider type="vertical" />}>
                     <Button onClick={() => {
                         setEdit({...task[record.key], key: record.key})
@@ -150,7 +152,7 @@ function FormAddTask() {
                     <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record._id)}>
                         <Button><DeleteOutlined /></Button>
                     </Popconfirm>
-                </Space>)
+                </Space> : <></>)
         },
         {
             title: '',

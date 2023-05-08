@@ -8,8 +8,7 @@ import { accountingEntryService, matterService, serviceService, timePayService, 
 import { useNavigate } from "react-router-dom";
 import { useStore, useToken } from "~/store";
 import FormAddFile from "./FormAddFile";
-import FormAccountingEntry from "./FormAccountingEntry";
-
+const url = ['', 'admin', 'staff']
 const formItemLayout = {
     labelCol: {
         xs: {
@@ -150,16 +149,18 @@ function FormMatter({ props }) {
             label: value.ten_dv
         })
     })
-    const arrTypePay = typePay.map((value) => {
-        return ({
-            value: value._id,
-            label: value.ten
-        })
-    })
+    // const arrTypePay = typePay.map((value) => {
+    //     return ({
+    //         value: value._id,
+    //         label: value.ten
+    //     })
+    // })
     const arrTimePay = timePay.map((value) => {
         return ({
             value: value._id,
-            label: value.ten
+            label: value.ten == 0 ? "Thanh toán ngay"
+                        : value.ten == -1 ? "Thanh toán ngay khi hoàn thành"
+                        : value.ten + " ngày"
         })
     })
     access.map((value) => {
@@ -177,24 +178,34 @@ function FormMatter({ props }) {
     const handleAdd = async (data) => {
         try {
             let result = (await matterService.create(data)).data;
-            navigate(`/admin/matter/${result.insertedId}`);
+            navigate(`/${url[token.account.quyen]}/matter/${result.insertedId}`);
         }
         catch (error) {
             console.log(error);
         }
     }
     const handleUpdate = async (data) => {
-        const newData = {
+        let newData = {}
+        token.account.quyen == 1 ?
+        newData = {
             ...data,
             truy_cap: {
                 khach_hang: data.customerAccess,
                 nhan_vien: data.staffAccess,
             }
-        }
+        } : newData = {
+            ...data,
+            dieu_khoan_thanh_toan: matter.dieu_khoan_thanh_toan._id,
+            chiet_khau_hoa_hong: matter.chiet_khau_hoa_hong,
+            truy_cap: {
+                khach_hang: matter.truy_cap.khach_hang,
+                nhan_vien: matter.truy_cap.nhan_vien,
+            }
+        } 
         try {
             if (window.confirm(`Bạn muốn cập nhật lại vụ việc ${matter.ten_vu_viec} ?`)) {
                 await matterService.update(matter._id, newData);
-                navigate(`/admin/matters/${matter._id}`);
+                navigate(`/${url[token.account.quyen]}/matter/${matter._id}`);
             }
         }
         catch (error) {
@@ -217,7 +228,6 @@ function FormMatter({ props }) {
             phi_co_dinh: matter._id ? state.steps : null,
             chi_phi_phat_sinh: matter._id ? state.fees : null
         }
-       
         matter._id ? handleUpdate(newData) : handleAdd(newData)
     }
 
@@ -252,10 +262,10 @@ function FormMatter({ props }) {
                         name: ['dieu_khoan_thanh_toan'],
                         value: matter.dieu_khoan_thanh_toan._id
                     },
-                    {
-                        name: ['phuong_thuc_tinh_phi'],
-                        value: matter.phuong_thuc_tinh_phi._id
-                    },
+                    // {
+                    //     name: ['phuong_thuc_tinh_phi'],
+                    //     value: matter.phuong_thuc_tinh_phi._id
+                    // },
                     {
                         name: ['chiet_khau_hoa_hong'],
                         value: matter.chiet_khau_hoa_hong
@@ -375,11 +385,11 @@ function FormMatter({ props }) {
                                     label="Điều khoản thanh toán">
                                     <Select options={arrTimePay} />
                                 </Form.Item>
-                                <Form.Item
+                                {/* <Form.Item
                                     name='phuong_thuc_tinh_phi'
                                     label="Phương thức tính phí">
                                     <Select options={arrTypePay} />
-                                </Form.Item>
+                                </Form.Item> */}
                                 <Form.Item
                                     name='chiet_khau_hoa_hong'
                                     label="Chiết khấu hoa hồng">

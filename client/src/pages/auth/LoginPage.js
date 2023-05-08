@@ -20,6 +20,8 @@ function LoginPage() {
                     window.location.href = '/staff'
                 else if (token.token.chuc_vu._id === 'TVV02')
                     window.location.href = '/tu-van-vien'
+                else if (token.token.chuc_vu._id === 'TL02')
+                    window.location.href = '/tro-ly'
                 else
                     window.location.href = '/ke-toan'
             }
