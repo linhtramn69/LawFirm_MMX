@@ -15,6 +15,9 @@ router.route("/:id")
 router.route("/findByMatter")
     .post(fee.findByMatter)
 
+router.route("/findByStaff/:id")
+    .get(fee.findByStaff)
+
 router.route("/findByStatus")
     .post(fee.findByStatus);
 

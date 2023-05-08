@@ -93,8 +93,7 @@ class QuoteForm {
         const mailHost = 'smtp.gmail.com';
         const mailPort = 587;
         const subject = 'Thông tin báo giá'
-        const html = `
-        <table align="center" border="0" cellpadding="0" cellspacing="0" style="background:#fafafa;border-collapse:collapse;font-family:Arial,sans-serif;font-weight:normal;width:100%" width="100%">
+        const html = `<table align="center" border="0" cellpadding="0" cellspacing="0" style="background:#fafafa;border-collapse:collapse;font-family:Arial,sans-serif;font-weight:normal;width:100%" width="100%">
         <tbody><tr>
             <td style="border-collapse:collapse">
                 <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-family:Arial,sans-serif;font-weight:normal;margin:0 auto;max-width:600px;width:100%" width="100%">
@@ -271,7 +270,6 @@ class QuoteForm {
                 pass: adminPassword
             }
         })
-
         const options = {
             from: adminEmail,
             to: payload.khach_hang.email,

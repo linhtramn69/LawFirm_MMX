@@ -42,6 +42,18 @@ exports.findByMatter = async (req, res, next) => {
         );
     }
 };
+exports.findByStaff = async (req, res, next) => {
+    try {
+        const fee = new Fee(MongoDB.client);
+        const documents = await fee.findByStaff(req.params.id);
+        return res.send(documents);
+    }
+    catch (error) {
+        return next(
+            new ApiError(500, "An error occured while find fee by id")
+        );
+    }
+};
 
 exports.findByStatus = async (req, res, next) => {
     try{
