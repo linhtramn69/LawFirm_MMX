@@ -8,9 +8,10 @@ class Period {
     // define csdl
     extractConactData(payload){
         const period = {
-            ten_giai_doan: payload.ten_giai_doan,
-            so_luong: payload.so_luong,
-            vu_viec: payload.vu_viec
+            ten_qt: payload.ten_qt,
+            vu_viec: payload.vu_viec,
+            status: payload.status,
+            mo_ta: payload.mo_ta
         };
 
         // remove undefined fields
@@ -35,18 +36,25 @@ class Period {
 
     async create(payload){
         const period = this.extractConactData(payload);
-        const result = await this.Period.insertOne(period);
-        return result;
+        const result = await this.Period.insertOne({
+            ...period,
+            status: 0
+        });
+        return result
     }
-
+    async findByMatter(payload) {
+        const result = await this.Period.find({
+            vu_viec: payload
+        });
+        return result.toArray();
+    }
     async update(id, payload){
         id = {
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null
         };
-        const period = this.extractConactData(payload);
         const result = await this.Period.findOneAndUpdate(
             id,
-            { $set: period },
+            { $set: {status: payload} },
             { returnDocument: "after" }
         )
         return result.value;

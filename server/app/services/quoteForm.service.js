@@ -88,8 +88,8 @@ class QuoteForm {
 
     async sendMail(payload) {
         const price = `${payload.tong_gia_du_kien}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-        const adminEmail = 'coopmart.service69@gmail.com';
-        const adminPassword = 'zkxomevbzvqlmkdy';
+        const adminEmail = 'law.service.2023@gmail.com';
+        const adminPassword = 'kmxyoazydtlikdgz';
         const mailHost = 'smtp.gmail.com';
         const mailPort = 587;
         const subject = 'Thông tin báo giá'

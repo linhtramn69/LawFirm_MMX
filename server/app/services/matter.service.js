@@ -61,43 +61,40 @@ class Matter {
         const result = await this.Matter.find({ status: Number(statusP) });
         return result.toArray();
     }
-    async reminder(){
+    async reminder() {
         const rs = await this.Matter.find({
-            status_tt: {$ne: 2}
+            status_tt: { $ne: 2 }
         })
         return rs.toArray()
     }
+
     //thong ke hoa hong vu viec
-    async getRoseByMonth(payload) {
-        if(payload.quyen == 1){
+    async getRoseByMonth(payload, i) {
+        if (payload.quyen == 1) {
             const rs = await this.Matter.find({
                 status: 1,
-                chiet_khau_hoa_hong: {$gt: 0},
                 "$expr": {
                     "$and": [
-                        { "$eq": [{ "$month": "$cap_nhat_lan_cuoi" }, payload.month] },
+                        { "$eq": [{ "$month": "$cap_nhat_lan_cuoi" }, i] },
                         { "$eq": [{ "$year": "$cap_nhat_lan_cuoi" }, payload.year] }
                     ]
                 }
             })
-        return rs.toArray()
+            return rs.toArray()
         }
-        else{
-             const rs = await this.Matter.find({
-            "luat_su._id": new ObjectId(payload._id),
-            status: 1,
-            chiet_khau_hoa_hong: {$gt: 0},
-            "$expr": {
-                "$and": [
-                    { "$eq": [{ "$month": "$cap_nhat_lan_cuoi" }, payload.month] },
-                    { "$eq": [{ "$year": "$cap_nhat_lan_cuoi" }, payload.year] }
-                ]
-            }
-        })
-        return rs.toArray()
-        
+        else {
+            const rs = await this.Matter.find({
+                "luat_su._id": new ObjectId(payload._id),
+                status: 1,
+                "$expr": {
+                    "$and": [
+                        { "$eq": [{ "$month": "$cap_nhat_lan_cuoi" }, i] },
+                        { "$eq": [{ "$year": "$cap_nhat_lan_cuoi" }, payload.year] }
+                    ]
+                }
+            })
+            return rs.toArray()
         }
-       
     }
 
     // lay vu viec theo id truy cap
@@ -108,14 +105,13 @@ class Matter {
 
     // tim cac vu viec da hoan thanh theo id luat su va theo nam
     async findFinishedByIdAndYear(payload, i) {
-        const quyen = payload.quyen
-        if (quyen === 1) {
+        if (payload.quyen === 1) {
             const rs = await this.Matter.find({
                 status: 1,
                 "$expr": {
                     "$and": [
-                        { "$eq": [{ "$month": "$ngay_lap" }, i] },
-                        { "$eq": [{ "$year": "$ngay_lap" }, payload.year] }
+                        { "$eq": [{ "$month": "$cap_nhat_lan_cuoi" }, i] },
+                        { "$eq": [{ "$year": "$cap_nhat_lan_cuoi" }, payload.year] }
                     ]
                 }
             })
@@ -124,18 +120,28 @@ class Matter {
         else {
             const rs = await this.Matter.find({
                 status: 1,
-                "luat_su._id": new ObjectId(payload.id),
+                "luat_su._id": new ObjectId(payload._id),
                 "$expr": {
                     "$and": [
-                        { "$eq": [{ "$month": "$ngay_lap" }, i] },
-                        { "$eq": [{ "$year": "$ngay_lap" }, payload.year] }
+                        { "$eq": [{ "$month": "$cap_nhat_lan_cuoi" }, i] },
+                        { "$eq": [{ "$year": "$cap_nhat_lan_cuoi" }, payload.year] }
                     ]
                 }
             })
             return rs.toArray()
         }
     }
-
+    async updateProgress (id, payload) {
+        id = {
+            _id: ObjectId.isValid(id) ? new ObjectId(id) : null
+        };
+        const result = await this.Matter.findOneAndUpdate(
+            id,
+            { $set: {quy_trinh: payload} },
+            { returnDocument: "after" }
+        );
+        return result.value;
+    }
     async create(payload) {
         const linh_vuc = await this.TypeService.findOne({ _id: payload.linh_vuc });
         const dich_vu = await this.Service.findOne({ _id: new ObjectId(payload.dich_vu) });
@@ -204,8 +210,6 @@ class Matter {
 
     // set status cac task cua vu viec
     async setStatus(id, payload) {
-        console.log(payload.status);
-
         const id_string = id;
         id = {
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null
@@ -228,10 +232,10 @@ class Matter {
                 { $set: { status: 0 } }
             )
         }
-        else if(payload.status == 1){
+        else if (payload.status == 1) {
             const update = await this.Matter.findOneAndUpdate(
                 id,
-                { $set: {cap_nhat_lan_cuoi: new Date()} },
+                { $set: { cap_nhat_lan_cuoi: new Date() } },
                 { returnDocument: "after" }
             );
         }

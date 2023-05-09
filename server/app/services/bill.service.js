@@ -62,6 +62,7 @@ class Bill {
         this.updateToTalMatter(payload.vu_viec)
         return result;
     }
+
     async updateToTalMatter(payload) {
         let total = 0;
         const id = {
@@ -85,6 +86,7 @@ class Bill {
             );
         })
     }
+    
     // tim cac bill theo loai hoa don va theo nam
     async getByMonthAndType(payload, i) {
         const rs = await this.Bill.find({

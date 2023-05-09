@@ -9,9 +9,11 @@ class Degree {
     extractConactData(payload){
         const degree = {
             _id: payload._id,
+            loai: payload.loai,
             ngay_cap: payload.ngay_cap,
-            noi_cap: payload.noi_cap,
-            hinh_anh: payload.hinh_anh
+            thoi_han: payload.thoi_han,
+            hinh_anh: payload.hinh_anh,
+            nhan_vien: payload.nhan_vien
         };
 
         // remove undefined fields
@@ -29,6 +31,13 @@ class Degree {
     async findById(id){
         const result = await this.Degree.findOne({ _id: id });
         return result;
+    }
+
+    async findByStaff(payload){
+        const result = await this.Degree.find({
+            nhan_vien : {$eq : payload}
+        });
+        return result.toArray();
     }
 
     async create(payload){

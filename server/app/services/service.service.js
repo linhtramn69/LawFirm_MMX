@@ -57,7 +57,6 @@ class Service {
             { $set: service },
             { returnDocument: "after" }
         );
-        console.log(payload);
         return result.value;
     }
 

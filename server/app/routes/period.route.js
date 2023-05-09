@@ -9,7 +9,10 @@ router.route("/")
 
 router.route("/:id")
     .get(period.findById)
-    .put(period.update)
+    .patch(period.update)
     .delete(period.delete);
 
+router.route("/findByMatter/:id")
+    .get(period.findByMatter)
+    
 module.exports = router;

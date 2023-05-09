@@ -72,15 +72,14 @@ exports.create = async (req, res, next) => {
     let document = {}
     try{
         const fee = new Fee(MongoDB.client);
-        cloudinary.uploader.upload(req.body.hinh_anh, {
+        const result =   cloudinary.uploader.upload(req.body.hinh_anh, {
             folder: "Fee"
-        }).then((result) => {
-            document = fee.create({
+        })
+        document = await fee.create({
             ...req.body,
             hinh_anh: result.secure_url
-        });
         })
-        return res.send(document);
+        return res.send(document)
     }
     catch(error){
         return next(

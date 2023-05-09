@@ -25,12 +25,15 @@ router.route("/findByIdAccess")
     .post(matter.findByIdAccess);
 
 router.route("/getRoseByMonth")
-        .post(matter.getRoseByMonth)
+    .post(matter.getRoseByMonth)
 
 router.route("/reminder")
-        .post(matter.reminder)
+    .post(matter.reminder)
 
 router.route("/findFinishedMatterByYear")
     .post(matter.findFinishedByIdAndYear);
+
+router.route("/update-progress/:id")
+    .patch(matter.updateProgress);
 
 module.exports = router;

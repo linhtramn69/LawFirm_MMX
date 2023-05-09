@@ -38,6 +38,7 @@ class Fee {
         const result = await this.Fee.findOne(id);
         return result;
     }
+    
     async findByStaff(id){
         const result = await this.Fee.find({
             "nhan_vien._id" : new ObjectId(id)

@@ -9,8 +9,10 @@ router.route("/")
 
 router.route("/:id")
     .get(degree.findById)
-    .put(degree.update)
+    .patch(degree.update)
     .delete(degree.delete);
 
-    
+router.route("/findByStaff/:id")
+    .get(degree.findByStaff)
+
 module.exports = router;

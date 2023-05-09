@@ -57,7 +57,6 @@ class TimeAppointment {
                 $lte: timeAppointment.thoi_gian.end
             },
         }).toArray();
-        console.log(isExist);
         const newVal = {
             ...timeAppointment,
             thoi_gian:{
