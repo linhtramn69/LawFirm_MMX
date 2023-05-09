@@ -8,7 +8,7 @@ import axios from "axios";
 import { Option } from "antd/es/mentions";
 import { feeService } from "~/services";
 import { DeleteOutlined } from '@ant-design/icons';
-import {UploadImg, fileSelected} from "../UploadImg";
+import { UploadImg, fileSelected } from "../UploadImg";
 import moment from "moment";
 dayjs.extend(customParseFormat);
 const statusText = ['Đã trình', 'Đã duyệt', 'Đã kết toán', 'Đã huỷ'];
@@ -73,6 +73,7 @@ function FormAddFee() {
             const feeNew = (await feeService.getById(result.insertedId)).data;
             setFee([...fee, feeNew]);
             setOpen(false);
+
         }
         catch (err) {
             console.log(err);
@@ -138,9 +139,9 @@ function FormAddFee() {
             dataIndex: 'operation',
             width: 100,
             render: (_, record) => (
-                    <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record._id)}>
-                        <Button><DeleteOutlined /></Button>
-                    </Popconfirm>
+                <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record._id)}>
+                    <Button><DeleteOutlined /></Button>
+                </Popconfirm>
             )
         },
         {
@@ -148,12 +149,12 @@ function FormAddFee() {
             dataIndex: '',
             width: 130,
             render: (_, record) => (
-                <p 
-                onClick={() => detail(record)}
-                style={{
-                    color: "#1677ff",
-                    cursor: 'pointer'
-                }}
+                <p
+                    onClick={() => detail(record)}
+                    style={{
+                        color: "#1677ff",
+                        cursor: 'pointer'
+                    }}
                 >
                     Xem chi tiết</p>
             )
@@ -181,7 +182,7 @@ function FormAddFee() {
                     <Descriptions.Item span={4} label="Số tài khoản">{data.numberCreditCard}</Descriptions.Item>
                 </Descriptions>
                 <Divider />
-                <Image width={100} src={data.hinh_anh}/>
+                <Image width={100} src={data.hinh_anh} />
             </>
         ),
         onOk() { },
@@ -223,19 +224,19 @@ function FormAddFee() {
                     autoComplete="off"
                     fields={
                         state.matter._id ? [
-                        {
-                            name: ['matter'],
-                            value: state.matter.ten_vu_viec
-                        },
-                        {
-                            name: ['staff'],
-                            value: state.matter.luat_su.ho_ten
-                        },
-                        {
-                            name: ['customer'],
-                            value: state.matter.khach_hang.ho_ten
-                        }
-                    ] : null}
+                            {
+                                name: ['matter'],
+                                value: state.matter.ten_vu_viec
+                            },
+                            {
+                                name: ['staff'],
+                                value: state.matter.luat_su.ho_ten
+                            },
+                            {
+                                name: ['customer'],
+                                value: state.matter.khach_hang.ho_ten
+                            }
+                        ] : null}
                 >
                     <Row>
                         <Col span={24} pull={4}>
@@ -343,10 +344,10 @@ function FormAddFee() {
                             </Form.Item>
                         </Col>
                         <Col span={10} push={4}>
-                        <Form.Item>
+                            <Form.Item>
                                 <Title level={5}>Hình ảnh minh chứng</Title>
                             </Form.Item>
-                            <UploadImg/>
+                            <UploadImg />
                         </Col>
                     </Row>
                     <Divider />

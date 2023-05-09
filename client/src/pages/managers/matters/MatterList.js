@@ -1,10 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { matterService, serviceService, typeServiceService, userService } from "~/services";
+import { matterService, periodService, serviceService, typeServiceService, userService } from "~/services";
 import { useToken } from "~/store";
-import { Button, Input, Space, Table, Tag, Tooltip } from "antd";
+import { Button, Input, Progress, Space, Table, Tag, Tooltip } from "antd";
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
+import { green, red } from '@ant-design/colors';
 const statusText = ['Đang thực hiện', 'Hoàn thành', 'Tạm ngưng'];
 const statusTT = ['Chưa thanh toán', 'Đang thanh toán', 'Đã thanh toán'];
 function MatterList() {
@@ -19,24 +20,25 @@ function MatterList() {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
-
+    const [dataSource, setDataSource] = useState([])
+    const [period, setPeriod] = useState([])
     let url = 'admin'
-    if(token.chuc_vu._id === 'LS02')
+    if (token.chuc_vu._id === 'LS02')
         url = 'staff'
-    else if(token.chuc_vu._id === 'TL02') 
+    else if (token.chuc_vu._id === 'TL02')
         url = 'tro-ly'
-    else if(token.chuc_vu._id === 'KT02') 
+    else if (token.chuc_vu._id === 'KT02')
         url = 'ke-toan'
 
     useEffect(() => {
         const getMatter = async () => {
             const result =
-            token.account.quyen === 1 || token.chuc_vu._id === 'KT02' ?
-            ((await matterService.get()).data)
-            : token.chuc_vu._id === 'TL02' ?
-            ((await matterService.findByIdAccess({ id: token.boss })).data)
-            : ((await matterService.findByIdAccess({ id: token._id })).data)
-            const arr = id === 'all' ? result : result.filter(item => item.status == id || item.status_tt == id)
+                token.account.quyen === 1 || token.chuc_vu._id === 'KT02' ?
+                    ((await matterService.get()).data)
+                    : token.chuc_vu._id === 'TL02' ?
+                        ((await matterService.findByIdAccess({ id: token.boss })).data)
+                        : ((await matterService.findByIdAccess({ id: token._id })).data)
+            const arr = id === 'all' ? result : result.filter(item => item.status == id)
             setMatters(arr)
         }
 
@@ -54,22 +56,24 @@ function MatterList() {
         getService()
         getLaw()
     }, [id])
-    console.log(matters);
-    console.log(id);
-    const data = matters.map((value, index) => {
-        return {
-            _id: value._id,
-            key: index + 1,
-            nameMatter: value.ten_vu_viec,
-            typeService: value.linh_vuc.ten_linh_vuc,
-            service: value.dich_vu.ten_dv,
-            customer: value.khach_hang.ho_ten,
-            phoneCus: value.khach_hang.account.sdt,
-            law: value.luat_su.ho_ten,
-            status: value.status,
-            status_tt: value.status_tt
-        }
-    })
+    useEffect(() => {
+        const data =  matters.map((value, index) => {
+            return {
+                _id: value._id,
+                key: index + 1,
+                nameMatter: value.ten_vu_viec,
+                typeService: value.linh_vuc.ten_linh_vuc,
+                service: value.dich_vu.ten_dv,
+                customer: value.khach_hang.ho_ten,
+                phoneCus: value.khach_hang.account.sdt,
+                law: value.luat_su.ho_ten,
+                status: value.status,
+                status_tt: value.status_tt, 
+                progress: value.quy_trinh
+            }
+        })
+        setDataSource(data)
+    }, [matters])
     const arrType = type.map((value) => {
         return {
             value: value.ten_linh_vuc,
@@ -246,7 +250,7 @@ function MatterList() {
             dataIndex: 'status',
             render: (status) => (
                 <Tag
-                    color={status === 0 ? 'geekblue' : status === 1 ?  'success' : 'volcano'}
+                    color={status === 0 ? 'geekblue' : status === 1 ? 'success' : 'volcano'}
                 >
                     {statusText[status]}
                 </Tag>
@@ -257,17 +261,39 @@ function MatterList() {
             dataIndex: 'status_tt',
             render: (status_tt) => (
                 <Tag
-                    color={status_tt === 0 ? 'volcano' : status_tt === 2 ?  'success' : 'geekblue'}
+                    color={status_tt === 0 ? 'volcano' : status_tt === 2 ? 'success' : 'geekblue'}
                 >
                     {statusTT[status_tt]}
                 </Tag>
             ),
         },
+        {
+            title: 'Tiến độ',
+            dataIndex: 'progress',
+            render: (progress) => (
+                   progress ? 
+                <Progress percent={(
+                    Math.floor((((progress.filter((item) => item.status > 0))).length/progress.length)*100)
+                    
+                )} strokeColor={
+                    (((progress.filter((item) => item.status > 0))).length/progress.length)*100 < 50
+                    ? "#1677ff"
+                    :
+                    (((progress.filter((item) => item.status > 0))).length/progress.length)*100 >= 50
+                    && 
+                    (((progress.filter((item) => item.status > 0))).length/progress.length)*100 < 100
+                    ? "#fadb14"
+                    : '#7cb305'
+                }/>
+                : <Progress percent={0}/> 
+                
+                
+            ),
+        },
     ]
-
     return (
         <>
-            <Table columns={columns} dataSource={data}
+            <Table columns={columns} dataSource={dataSource}
                 onRow={(record, rowIndex) => {
                     return {
                         onClick: (event) => {

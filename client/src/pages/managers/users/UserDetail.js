@@ -1,33 +1,73 @@
 import { faHouse, faReceipt, faTasks } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Avatar, Button, Card, Tabs, Descriptions, Space, Row, Col, Typography, Divider, Image } from "antd";
+import { Avatar, Button, Card, Tabs, Descriptions, Space, Row, Col, Typography, Divider, Image, Modal, Table } from "antd";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { avatar } from "~/assets/images";
-import { userService } from '../../../services/index';
+import { degreeService, userService } from '../../../services/index';
+import { useStore } from "~/store";
+import moment from "moment";
 
-const items = [
+const columnsDegree = [
     {
-        key: '1',
-        label: `Contacts`,
-        children: `Content of Tab Pane 1`,
+        title: 'Mã BC/CC',
+        dataIndex: 'id',
+        width: 200
     },
     {
-        key: '2',
-        label: `Internal Notes`,
-        children: `Internal Notes`,
+        title: 'Loại BC/CC',
+        dataIndex: 'type',
+        width: 400
     },
     {
-        key: '3',
-        label: `Sales and Purchases`,
-        children: `Content of Tab Pane 3`,
+        title: 'Ngày cấp',
+        dataIndex: 'date',
+        width: 200
     },
     {
-        key: '4',
-        label: `Account`,
-        children: `Content of Tab Pane 4`,
+        title: 'Thời hạn',
+        dataIndex: 'dateEnd',
+        width: 200
+    },
+    {
+        title: '',
+        dataIndex: '',
+        width: 130,
+        render: (_, record) => (
+            <p 
+            onClick={() => detail(record)}
+            style={{
+                color: "#1677ff",
+                cursor: 'pointer'
+            }}
+            >
+                Xem chi tiết</p>
+        )
     },
 ];
+const detail = (data) => Modal.info({
+    title: 'Thông tin chi tiết Bằng cấp / Chứng chỉ',
+    content: (
+        <>
+            <Descriptions
+                column={{
+                    lg: 4,
+                    md: 4,
+                    sm: 2,
+                }}
+            >
+                <Descriptions.Item span={4} label="Mã BC/CC">{data.id}</Descriptions.Item>
+                <Descriptions.Item span={4} label="Loại BC/CC">{data.type}</Descriptions.Item>
+                <Descriptions.Item span={4} label="Ngày cấp">{data.date}</Descriptions.Item>
+                <Descriptions.Item span={4} label="Thời hạn">{data.dateEnd}</Descriptions.Item>
+            </Descriptions>
+            <Divider />
+            <Image width={100} src={data.img}/>
+        </>
+    ),
+    onOk() { },
+})
+
 const defaultValue = ['customer', 'admin', 'staff']
 
 function CustomerDetail() {
@@ -45,14 +85,36 @@ function CustomerDetail() {
             ten_bo_phan: ''
         }
     });
+    const [degrees, setDegrees] = useState([]);
+    const [dataDegree, setDegree] = useState([])
 
     useEffect(() => {
         const getUser = async () => {
             setUser((await userService.getById(id)).data)
         };
+        const getDegree = async () => {
+            const rs = (await degreeService.findByStaff(id)).data
+            const data = rs.map((value) => {
+                return {
+                    id: value._id,
+                    type: value.loai,
+                    date: moment(value.ngay_cap).format('DD-MM-YYYY'),
+                    dateEnd: value.thoi_han
+                }
+            })
+            setDegree(data)
+        }
         getUser();
+        getDegree();
     }, [id]);
 
+    const items = [
+        {
+            key: '1',
+            label: `Bằng cấp / Chứng chỉ`,
+            children: <Table columns={columnsDegree} dataSource={dataDegree} />,
+        },
+    ];
     return (
         <>
             <Card

@@ -8,10 +8,10 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
-import { billService } from '~/services';
+import { billService, matterService } from '~/services';
+import { useToken } from '~/store';
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -30,26 +30,27 @@ const options = {
         },
         title: {
             display: true,
-            text: 'Tổng tiền khách hàng thanh toán',
+            text: 'Tổng tiền hoa hồng',
         },
     },
 };
 
 const labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-export function BillThuLine() {
+export function MatterRoseLine() {
 
     let arr = []
+    const {token} = useToken();
     const [bill, setBill] = useState()
 
     useEffect(() => {
         const getBills = async () => {
-            arr = (await billService.findByMonthYearAndType({loai_hoa_don: "KH", year: new Date().getFullYear()})).data;
+            arr = (await matterService.getRoseByMonth({quyen: token.account.quyen, _id: token._id, year: new Date().getFullYear()})).data;
             setBill(arr)
         }
         getBills()
     }, [])
-
+    
     const data = {
         labels,
         datasets: [

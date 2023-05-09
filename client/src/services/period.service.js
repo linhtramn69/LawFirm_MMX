@@ -7,11 +7,14 @@ class PeriodService {
     async getById(id){
         return (await API.get(`/period/${id}`));
     }
+    async findByMatter(id) {
+        return (await API.get(`/period/findByMatter/${id}`));
+    }
     async create(data){
         return (await API.post(`period`, data));
     }
     async update(id, data){
-        return (await API.put(`period/${id}`, data));
+        return (await API.patch(`period/${id}`, data));
     }
     async delete(id){
         return (await API.delete(`period/${id}`));

@@ -278,7 +278,6 @@ function MatterDetail() {
         showDataSource();
         setDataFee(dataFee);
     }, [state.tasks, state.steps, state.fees])
-    console.log(dataBill);
     const columnsTask = [
         {
             title: 'Tên công việc',

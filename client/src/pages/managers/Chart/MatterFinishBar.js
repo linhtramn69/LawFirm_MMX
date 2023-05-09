@@ -41,7 +41,7 @@ export function MatterFinishBar() {
 
     useEffect(() => {
         const getMatters = async () => {
-            arr = (await matterService.findFinishedMatterByYear({"year": new Date().getFullYear(), "quyen": token.account.quyen, "id": token._id})).data;
+            arr = (await matterService.findFinishedMatterByYear({year: new Date().getFullYear(), quyen: token.account.quyen, _id: token._id})).data;
             setMatter(arr)
         }
         getMatters()

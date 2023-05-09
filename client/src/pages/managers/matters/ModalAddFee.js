@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { UploadImg, fileSelected } from "~/components/AdminComponents/UploadImg";
 import { feeService } from "~/services";
-import { actions, useStore, useToken } from "~/store";
+import { useStore, useToken } from "~/store";
 
 function ModalAddFee(props) {
 
@@ -35,7 +35,6 @@ function ModalAddFee(props) {
 
     const handleAdd = async (values) => {
         try {
-            console.log(values);
             let result = (await feeService.create(values)).data;
             if(result){
                 messageApi.open({
@@ -50,7 +49,6 @@ function ModalAddFee(props) {
                 type: 'error',
                 content: 'Vui lòng kiểm tra lại thông tin',
             });
-            console.log(err);
         }
     }
     const onSubmit = (values) => {

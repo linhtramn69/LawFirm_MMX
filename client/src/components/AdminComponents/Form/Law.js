@@ -1,13 +1,12 @@
-import { Avatar, Button, Col, DatePicker, Form, Input, Radio, Row, Select, Switch, Tabs } from "antd";
+import { Button, Col, DatePicker, Form, Input, Row, Select, Switch, Tabs } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { avatar } from "~/assets/images";
 import { boPhanService, chucVuService, typeServiceService, userService } from '../../../services/index';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { useStore } from "~/store";
 import { UploadImg, fileSelected } from "../UploadImg";
 import Title from "antd/es/typography/Title";
+import FormAddDegree from "./FormAddDegree";
 dayjs.extend(customParseFormat);
 
 const formItemLayout = {
@@ -27,7 +26,6 @@ function FormLaw({ props }) {
     let btn = ['Thêm mới', 'Cập nhật'];
     const user = { ...props }
     const [form] = Form.useForm();
-    const [state, dispatch] = useStore()
     const [chucVu, setChucVu] = useState([]);
     const [boPhan, setBoPhan] = useState([]);
     const [showBoss, setShowBoss] = useState(false);
@@ -370,8 +368,7 @@ function FormLaw({ props }) {
                     {
                         key: 1,
                         label: "Chứng chỉ - Bằng cấp",
-                        children: <>
-                        </>
+                        children: <FormAddDegree/>
                     }
                 ]}
                 />

@@ -2,13 +2,13 @@ import { Badge, Card, Button, Popconfirm, Space, message } from "antd";
 import FormMatter from "~/components/AdminComponents/Form/Matter";
 import { faCircleCheck, faCirclePause, faCirclePlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useStore } from "~/store";
+import { useStore, useToken } from "~/store";
 import { matterService } from "~/services";
 import { useNavigate } from "react-router-dom";
 import ErrorResult from "~/pages/Result/Error";
-
+const url = ['', 'admin', 'staff']
 function MatterEdit() {
-
+    const {token} = useToken()
     const [state, dispatch] = useStore();
     const [messageApi, contextHolder] = message.useMessage();
     let navigate = useNavigate();
@@ -30,7 +30,7 @@ function MatterEdit() {
             await matterService.setStatus(state.matter._id, { status: value })
             success()
             setTimeout(() => {
-                navigate(`/staff/matter/${state.matter._id}`)
+                navigate(`/${url[token.account.quyen]}/matter/${state.matter._id}`)
             }, [500])
         } catch (err) {
             error()

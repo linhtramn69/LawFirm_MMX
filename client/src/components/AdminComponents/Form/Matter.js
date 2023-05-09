@@ -483,6 +483,11 @@ function FormMatter({ props }) {
                         children: <FormAddTask props={matter.cong_viec} />,
                         disabled: matter ? false : true
                     },
+                    {
+                        key: '5',
+                        label: `Quy trình thực hiện`,
+                        children: <FormAddPeriod props={matter}/>
+                    },
                     
                     {
                         key: '6',

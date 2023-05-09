@@ -16,5 +16,6 @@ export { default as typeFeeService } from './typeFee.service';
 export { default as feeService } from './fee.service';
 export { default as billService } from './bill.service';
 export { default as accountingEntryService } from './accountingEntry.service';
+export { default as degreeService } from './degree.service';
 
 

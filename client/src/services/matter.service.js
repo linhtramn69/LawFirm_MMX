@@ -25,6 +25,9 @@ class MatterService {
     async setStatus_TT(id, data){
         return (await API.patch(`matter/setStatus-tt/${id}`, data));
     }
+    async getRoseByMonth(data){
+        return (await API.post('matter/getRoseByMonth', data));
+    }
     async delete(id){
         return (await API.delete(`matter/${id}`));
     }

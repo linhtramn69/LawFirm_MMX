@@ -43,7 +43,7 @@ export function BillChiLine() {
 
     useEffect(() => {
         const getBills = async () => {
-            arr = (await billService.findByMonthYearAndType({"loai_hoa_don": "NB", "year": new Date().getFullYear()})).data;
+            arr = (await billService.findByMonthYearAndType({loai_hoa_don: "NB", year: new Date().getFullYear()})).data;
             setBill(arr)
         }
         getBills()

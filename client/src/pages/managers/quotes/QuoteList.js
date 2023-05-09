@@ -1,6 +1,6 @@
 import { quoteService } from "~/services";
 import { useToken } from "~/store";
-import { useState, useEffect, useRef} from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Input, Space, Table, Tag } from "antd";
 import moment from "moment";
@@ -19,7 +19,7 @@ function QuoteList() {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
-    console.log(id);
+
     useEffect(() => {
         const getQuotes = async () => {
             const result = (await quoteService.get()).data
@@ -28,19 +28,19 @@ function QuoteList() {
         };
         getQuotes()
     }, [id]);
+
     const data = quotes.map((value, index) => {
         return {
-                stt: index + 1,
-                _id: value._id,
-                customer: value.khach_hang.ho_ten,
-                sdt: value.khach_hang.sdt,
-                email: value.khach_hang.email,
-                date: value.ngay_gui_phieu ? 
-                moment(value.ngay_gui_phieu).format('DD-MM-YYYY LTS')  : 
+            stt: index + 1,
+            _id: value._id,
+            customer: value.khach_hang.ho_ten,
+            sdt: value.khach_hang.sdt,
+            email: value.khach_hang.email,
+            date: value.ngay_gui_phieu ?
+                moment(value.ngay_gui_phieu).format('DD-MM-YYYY LTS') :
                 moment(value.ngay_gui_phieu).format('DD-MM-YYYY LTS'),
-                status: value.status
-          
-    }
+            status: value.status
+        }
     })
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -166,7 +166,7 @@ function QuoteList() {
     ];
     return (
         <>
-           <Table columns={columns} dataSource={data}
+            <Table columns={columns} dataSource={data}
                 onRow={(record, rowIndex) => {
                     return {
                         onClick: (event) => {

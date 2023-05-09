@@ -40,8 +40,8 @@ function Manager() {
     const handleCancelFee = () => {
         setIsModalOpenFee(false);
     };
+
     useEffect(() => {
-        console.log('ók');
         const getQuotes = async () => {
             const quote = (await quoteService.get()).data;
             dispatch(actions.setQuotes(quote));
@@ -66,7 +66,7 @@ function Manager() {
         getBills();
         getTasks();
         getFees();
-        getQuotes()
+        getQuotes();
     }, [])
 
     const handleTotalMatter = (value) => {

@@ -20,7 +20,7 @@ class UserService {
         return (await API.post(`user`, data));
     }
     async update(id, data){
-        return (await API.put(`user/${id}`, data));
+        return (await API.patch(`user/${id}`, data));
     }
     async delete(id){
         return (await API.delete(`user/${id}`));

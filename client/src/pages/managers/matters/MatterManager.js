@@ -7,7 +7,6 @@ import {
 } from '@ant-design/icons';
 import Title from "antd/es/typography/Title";
 import CardMatter from "../../../components/AdminComponents/Card/CardMatter";
-import { Link } from "react-router-dom";
 import { actions, useStore, useToken } from "~/store";
 import { useEffect } from "react";
 import { matterService, taskService, timeAppointmentService } from "~/services";
@@ -15,9 +14,8 @@ import { useState } from "react";
 import ModalAddTask from "./ModalAddTask";
 import { MatterFinishBar } from "../Chart/MatterFinishBar";
 import ModalAddFee from "./ModalAddFee";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarPlus } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
+import { MatterRoseLine } from "../Chart/MatterRoseLine";
 const styleCol = {
     textAlign: 'center'
 }
@@ -170,6 +168,14 @@ function MatterManager() {
                     <Row>
                         <Col span={24} >
                             <MatterFinishBar />
+                        </Col>
+                    </Row>
+                    <Divider>
+                        <Title level={4}>Tổng tiền hoa hồng được nhận theo tháng / {new Date().getFullYear()}</Title>
+                    </Divider>
+                    <Row>
+                        <Col span={24} >
+                            <MatterRoseLine />
                         </Col>
                     </Row>
                 </Col>
