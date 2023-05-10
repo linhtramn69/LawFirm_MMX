@@ -1,18 +1,26 @@
-import { Button, Divider, Form, Modal, Select, Table, Input, Space, Tag, Popconfirm, DatePicker, Radio } from "antd";
-import { PlusOutlined, DeleteOutlined, CheckOutlined } from '@ant-design/icons';
+import { Button, Divider, Form, Modal, Select, Table, Input, Space, Popconfirm, DatePicker, Radio, Descriptions } from "antd";
+import { PlusOutlined, DeleteOutlined, FormOutlined } from '@ant-design/icons';
 import Title from "antd/es/typography/Title";
+import dayjs from 'dayjs';
 import { useEffect } from "react";
-import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCancel, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
-import { useRef } from "react";
-const relationship = ['Nhân chứng', 'Người thân',  'Bạn bè', 'Đồng nghiệp', 'Họ hàng']
+import { useState, useRef} from "react";
+import { useParams } from "react-router-dom";
+import { contactService } from "~/services";
+import moment from "moment";
+const relationship = ['Nhân chứng', 'Người thân', 'Bạn bè', 'Đồng nghiệp', 'Họ hàng']
+
 function FormAddContact({ props }) {
+
+    let { id } = useParams();
     const [form] = Form.useForm();
     const [open, setOpen] = useState();
+    const [edit, setEdit] = useState();
+    const [dataSource, setDataSource] = useState([]);
+    const [contacts, setContacts] = useState([]);
+    let data = [];
     const [items, setItems] = useState(
         relationship.map((value) => {
-           return {
+            return {
                 value: value,
                 label: value
             }
@@ -34,11 +42,175 @@ function FormAddContact({ props }) {
             inputRef.current?.focus();
         }, 0);
     };
-    const handleSubmit = (values) => {
-        console.log(values);
+
+    useEffect(() => {
+        const getContact = async () => {
+            setContacts((await contactService.findByMatter({ vu_viec: id })).data)
+        }
+        getContact()
+    }, [])
+    useEffect(() => {
+        if (contacts.length > 0) {
+            data = contacts.map((value, index) => {
+                return {
+                    key: index,
+                    _id: value._id,
+                    fullname: value.ho_ten,
+                    sex: value.gioi_tinh,
+                    year: moment(value.nam_sinh).format('YYYY'),
+                    sdt: value.sdt,
+                    address: value.dia_chi,
+                    relationship: value.quan_he
+                }
+            })
+        }
+        setDataSource(data);
+    }, [contacts])
+
+    const handleAdd = async (value) => {
+        try {
+            let result = (await contactService.create(value)).data;
+            const contactNew = (await contactService.getById(result.insertedId)).data;
+            setContacts([...contacts, contactNew]);
+            setOpen(false);
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
+    const handleEdit = async (id, data, key) => {
+        try {
+            let result = (await contactService.update(id, data)).data;
+            const index = dataSource.findIndex((item) => key === item.key);
+            dataSource.splice(index, 1, {
+                ...result,
+                key: key,
+                fullname: data.ho_ten,
+                sex: data.gioi_tinh,
+                year: moment(data.nam_sinh).format('YYYY'),
+                sdt: data.sdt,
+                address: data.dia_chi,
+                relationship: data.quan_he
+            });
+            setDataSource([...dataSource]);
+            setEdit(null);
+            setOpen(false);
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+    const handleDelete = async (value) => {
+        try {
+            (await contactService.delete(value));
+            const newData = contacts.filter((item) => item._id !== value);
+            setContacts(newData);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    const handleSubmit = (values) => {
+        const data = {
+            ho_ten: values.fullname,
+            nam_sinh: values.year,
+            gioi_tinh: values.sex,
+            sdt: values.sdt,
+            dia_chi: values.address,
+            quan_he: values.relationship,
+            vu_viec: id
+        }
+        form.resetFields();
+        edit ? handleEdit(edit._id, data, edit.key) : handleAdd(data)
+    }
+    const columns = [
+        {
+            title: 'Họ tên',
+            dataIndex: 'fullname',
+            width: 300
+        },
+        {
+            title: 'Giới tính',
+            dataIndex: 'sex',
+            width: 150
+        },
+        {
+            title: 'Năm sinh',
+            dataIndex: 'year',
+            width: 200
+        },
+        {
+            title: 'Số điện thoại',
+            dataIndex: 'sdt',
+            width: 250
+        },
+        {
+            title: 'Địa chỉ',
+            dataIndex: 'address',
+            width: 300
+        },
+        {
+            title: 'Mối quan hệ',
+            dataIndex: 'relationship',
+            width: 200
+        },
+        {
+            title: 'Thao tác',
+            dataIndex: 'operation',
+            width: 100,
+            render: (_, record) => (
+                
+                <Space split={<Divider type="vertical" />}>
+                <Button onClick={() => {
+                    setEdit({...contacts[record.key], key: record.key})
+                    setOpen(true)
+                }}><FormOutlined /></Button>
+                <Popconfirm title="Xác nhận xoá thông tin liên hệ này?" onConfirm={() => handleDelete(record._id)}>
+                    <Button><DeleteOutlined /></Button>
+                </Popconfirm>
+            </Space> 
+            )
+        },
+        {
+            title: '',
+            dataIndex: '',
+            width: 130,
+            render: (_, record) => (
+                <p
+                    onClick={() => detail(record)}
+                    style={{
+                        color: "#1677ff",
+                        cursor: 'pointer'
+                    }}
+                >
+                    Xem chi tiết</p>
+            )
+        },
+    ];
+    const detail = (data) => Modal.info({
+        title: 'Thông tin chi tiết liên hệ',
+        content: (
+            <>
+                <Descriptions
+                    column={{
+                        lg: 4,
+                        md: 4,
+                        sm: 2,
+                    }}
+                >
+                    <Descriptions.Item span={4} label="Họ tên">{data.fullname}</Descriptions.Item>
+                    <Descriptions.Item span={4} label="Giới tính">{data.sex}</Descriptions.Item>
+                    <Descriptions.Item span={4} label="Năm sinh">{data.year}</Descriptions.Item>
+                    <Descriptions.Item span={4} label="Số điện thoại">{data.sdt}</Descriptions.Item>
+                    <Descriptions.Item span={4} label="Địa chỉ">{data.address}</Descriptions.Item>
+                    <Descriptions.Item span={4} label="Mối quan hệ">{data.relationship}</Descriptions.Item>
+                </Descriptions>
+            </>
+        ),
+        onOk() { },
+    })
     return (
         <>
+            <Button onClick={() => setOpen(true)} type="primary">Thêm mới</Button>
             <Modal
                 title={
                     <>
@@ -66,6 +238,34 @@ function FormAddContact({ props }) {
                     form={form}
                     autoComplete="off"
                     onFinish={handleSubmit}
+                    fields={
+                        edit ? [
+                            {
+                                name: ["fullname"],
+                                value: edit.ho_ten,
+                            },
+                            {
+                                name: ["year"],
+                                value: dayjs(edit.nam_sinh),
+                            },
+                            {
+                                name: ["sex"],
+                                value: edit.gioi_tinh,
+                            },
+                            {
+                                name: ["sdt"],
+                                value: edit.sdt,
+                            },
+                            {
+                                name: ["address"],
+                                value: edit.dia_chi,
+                            },
+                            {
+                                name: ["relationship"],
+                                value: edit.quan_he,
+                            }
+                        ] : null
+                    }
                 >
                     <Form.Item
                         label="Họ tên"
@@ -86,7 +286,7 @@ function FormAddContact({ props }) {
                     <Form.Item
                         label="Giới tính"
                         name="sex"
-                        >
+                    >
                         <Radio.Group name="radiogroup" defaultValue="Nam">
                             <Radio value="Nam">Nam</Radio>
                             <Radio value="Nữ">Nữ</Radio>
@@ -137,7 +337,7 @@ function FormAddContact({ props }) {
                                         }}
                                     >
                                         <Input
-                                            placeholder="Nhập tên quy trình"
+                                            placeholder="Nhập tên mối quan hệ"
                                             ref={inputRef}
                                             value={name}
                                             onChange={onNameChange}
@@ -149,7 +349,7 @@ function FormAddContact({ props }) {
                                 </>
                             )}
                             options={items}
-                            
+
                         />
                     </Form.Item>
                     <Form.Item
@@ -164,7 +364,7 @@ function FormAddContact({ props }) {
                     </Form.Item>
                 </Form>
             </Modal>
-            <Button onClick={() => setOpen(true)} type="primary">Thêm mới</Button>
+            <Table dataSource={dataSource} columns={columns} />
         </>
     );
 }

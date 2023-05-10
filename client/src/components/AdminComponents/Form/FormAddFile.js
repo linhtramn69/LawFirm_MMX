@@ -5,7 +5,7 @@ import { useState } from "react";
 import { actions, useStore } from "~/store";
 
 function FormAddFile({ props, fileTask }) {
-    console.log(fileTask);
+    
     const [state, dispatch] = useStore();
     const [dataSource, setDataSource] = useState( fileTask ? fileTask : state.files ? state.files : []);
     useEffect(() => {

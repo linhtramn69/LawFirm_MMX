@@ -40,7 +40,6 @@ function FormAddDegree() {
         }
         getDegree()
     }, [])
-    console.log(degrees);
     useEffect(() => {
         if (degrees.length > 0) {
             data = degrees.map((value, index) => {

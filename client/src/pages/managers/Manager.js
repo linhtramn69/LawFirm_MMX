@@ -18,6 +18,7 @@ import { BillChiLine } from "./Chart/BillChiLine";
 import { BillThuLine } from "./Chart/BillThuLine";
 import { MatterFinishBar } from "./Chart/MatterFinishBar";
 import { TypeServiceFavoritePie } from "./Chart/TypeServiceFavoritePie";
+import { CustomerOldLine } from "./Chart/CustomerOldLine";
 const styleCol = {
     textAlign: 'center'
 }
@@ -223,6 +224,11 @@ function Manager() {
                     <Row>
                         <Col span={20} >
                             <TypeServiceFavoritePie />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={20} >
+                            <CustomerOldLine />
                         </Col>
                     </Row>
                 </Col>

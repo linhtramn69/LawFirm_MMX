@@ -28,6 +28,9 @@ class MatterService {
     async getRoseByMonth(data){
         return (await API.post('matter/getRoseByMonth', data));
     }
+    async thongKeKhachHangCu(data){
+        return (await API.post('matter/thongKeKhachHangCu', data));
+    }
     async delete(id){
         return (await API.delete(`matter/${id}`));
     }

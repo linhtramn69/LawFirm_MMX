@@ -61,12 +61,11 @@ function FormCustomer({ props }) {
             active: values.active,
             
         }
-       
+        console.log(data);
         if (props)
             handleUpdate(data);
         else handleAdd(data);
     }
-    console.log(typeof user.ngay_sinh);
     return (
         <>
 
