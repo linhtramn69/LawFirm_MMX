@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { feeService } from "~/services";
 import { useToken } from "~/store";
-const statusText = ['Đã trình', 'Đã duyệt', 'Đã duyệt', 'Đã từ chối']
+const statusText = ['Đã trình', 'Đã duyệt', 'Đã kết toán']
 const columns = [
     {
         title: 'STT',
@@ -34,7 +34,7 @@ const columns = [
         key: 'staff',
     },
     {
-        title: 'Tiến độ công việc',
+        title: 'Trạng thái',
         dataIndex: 'status',
         key: 'status',
         ellipsis: {
@@ -42,9 +42,13 @@ const columns = [
         },
         render: (status) => (
             <Tag
-                color={status === 0 ? 'cyan' : status === 1 ? 'geekblue' : status === 2 ? 'green' : 'error'}
+                color={status === 0 ? 'cyan' : status === 1 ? 'geekblue' : status === 2 ? 'green' : '#ff4d4f'}
             >
-                {statusText[status]}
+                {
+                    status == -1 ? "Đã từ chối" 
+                    : statusText[status]
+                }
+                
             </Tag>
         ),
     }

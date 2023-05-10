@@ -61,8 +61,8 @@ function FormAddFee() {
     const handleDelete = async (value) => {
         try {
             (await feeService.delete(value));
-            const newData = dataSource.filter((item) => item._id !== value);
-            setDataSource(newData);
+            const newData = fee.filter((item) => item._id !== value);
+            setFee(newData);
         } catch (err) {
             console.log(err);
         }

@@ -55,6 +55,9 @@ const routes = {
         taskListGiao: '/tasks-giao/:id',
         taskDetail: '/task/:id',
         taskAdd: '/task/add',
+
+        feeList: '/fees/:id',
+        feeDetail: '/fee/:id',
         // Calendar
         calendarManager: '/calendar'
 

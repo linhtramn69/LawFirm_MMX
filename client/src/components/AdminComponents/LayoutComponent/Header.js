@@ -37,7 +37,7 @@ function HeaderAdmin() {
       label: <Link to={`/${url}/matters/all`}>
         Vụ việc
       </Link>,
-      key: 'customer-service',
+      key: 'matter',
     },
     {
       label: <Link to={`/${url}/calendar`}>
@@ -65,9 +65,15 @@ function HeaderAdmin() {
     },
     {
       label: <Link to={`/${url}/fees/all`}>
-        Kế toán
+        Chi phí
       </Link>,
       key: 'fee',
+    },
+    {
+      label: <Link to={`/${url}/bills/all`}>
+        Hoá đơn
+      </Link>,
+      key: 'bill',
     },
   ];
   const itemsLaw = [
@@ -81,7 +87,7 @@ function HeaderAdmin() {
       label: <Link to={`/${url}/matters/all`}>
         Quản lý vụ việc
       </Link>,
-      key: 'customer-service',
+      key: 'matter',
     },
     {
       label: <Link to={`/${url}/calendar`}>
@@ -90,10 +96,10 @@ function HeaderAdmin() {
       key: 'calendar',
     },
     {
-      label: <Link to={`/${url}/calendar`}>
+      label: <Link to={`/${url}/fees/all`}>
         Quản lý chi phí
       </Link>,
-      key: 'calendar',
+      key: 'fee',
     }
   ];
   const itemsTroLy = [
@@ -107,7 +113,7 @@ function HeaderAdmin() {
       label: <Link to={`/${url}/tasks/all`}>
         Quản lý công việc
       </Link>,
-      key: 'customer-service',
+      key: 'task',
     },
     {
       label: <Link to={`/${url}/calendar`}>
@@ -116,10 +122,10 @@ function HeaderAdmin() {
       key: 'calendar',
     },
     {
-      label: <Link to={`/${url}/calendar`}>
+      label: <Link to={`/${url}/fees/all`}>
         Quản lý chi phí
       </Link>,
-      key: 'calendar',
+      key: 'fee',
     }
   ];
   const itemsTuVanVien = [
@@ -159,7 +165,7 @@ function HeaderAdmin() {
       label: <Link to={`/${url}/bills/type-bill/all`}>
         Quản lý hoá đơn
       </Link>,
-      key: 'fee',
+      key: 'bill',
     },
     {
       label: <Link to={`/${url}/fees/all`}>

@@ -29,6 +29,11 @@ function FeeManager() {
         }
         getFees();
     }, [])
+    const get_day_of_time = (d1, d2) => {
+        let ms1 = d1.getTime();
+        let ms2 = d2.getTime();
+        return Math.ceil((ms2 - ms1) / (24*60*60*1000));
+    };
     const handleTotalMatter = (value) => {
         const arr = state.matters.filter(vl => vl.status_tt === value)
         return arr.length
@@ -39,6 +44,19 @@ function FeeManager() {
     }
     const handleTotalBill = (value) => {
         const arr = state.bills.filter(vl => vl.loai_hoa_don === value)
+        return arr.length
+    }
+    const handleTotalMatterDay = (value) => {
+        const arr = state.matters.filter(vl => 
+            vl.status_tt != 2 &&
+            vl.dieu_khoan_thanh_toan.ten - get_day_of_time(new Date(vl.ngay_lap), new Date()) <= value
+            && vl.dieu_khoan_thanh_toan.ten - get_day_of_time(new Date(vl.ngay_lap), new Date()) >= 0)
+        return arr.length
+    }
+    const handleTotalMatterMiss = (value) => {
+        const arr = state.matters.filter(vl => 
+            vl.status_tt != 2 &&
+            vl.dieu_khoan_thanh_toan.ten < get_day_of_time(new Date(vl.ngay_lap), new Date()))
         return arr.length
     }
     return (
@@ -103,6 +121,26 @@ function FeeManager() {
                                 <CardMatter title="Chưa thanh toán" color={0} total={handleTotalMatter(0)} url={`/${url[token.account.quyen]}/matters/0`} />
                                 <CardMatter title="Đang thanh toán" color={2}total={handleTotalMatter(1)} url={`/${url[token.account.quyen]}/matters/1`} />
                                 <CardMatter title="Đã thanh toán" color={1} total={handleTotalMatter(2)} url={`/${url[token.account.quyen]}/matters/2`}/>
+                            </Row>
+                        </Col>
+                    </Row>
+                    <Divider/>
+                    <Row>
+                        <Col style={{ ...styleCol }} xs={{ span: 4 }}>
+                            <Avatar
+                                style={{ backgroundColor: `var(--grey)` }}
+                                size={50}
+                                icon={
+                                    <ReconciliationFilled />
+                                } />
+                            <Title level={5}>Hạn thanh toán vụ việc</Title>
+                        </Col>
+                        <Col md={{ span: 18, push: 2 }} xs={{ span: 19, push: 1 }}>
+                            <Row gutter={[8, 8]}>
+                                <CardMatter title="Hạn hôm nay" color={0} total={handleTotalMatterDay(1)} url={`/${url[token.account.quyen]}/matters/tt-1`} />
+                                <CardMatter title="Hạn tuần này" color={2}total={handleTotalMatterDay(7)} url={`/${url[token.account.quyen]}/matters/tt-7`} />
+                                <CardMatter title="Hạn tháng này" color={1} total={handleTotalMatterDay(30)} url={`/${url[token.account.quyen]}/matters/tt-30`}/>
+                                <CardMatter title="Trễ hạn" color={1} total={handleTotalMatterMiss()} url={`/${url[token.account.quyen]}/matters/tt-miss`}/>
                             </Row>
                         </Col>
                     </Row>

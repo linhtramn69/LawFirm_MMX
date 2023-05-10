@@ -24,7 +24,17 @@ function TaskList() {
             const result = token.account.quyen === 1 ?
                 ((await taskService.get()).data)
                 : ((await taskService.getByStaff({ id: token._id })).data)
-            const arr = id === 'all' ? result : result.filter(item => item.status == id)
+            const arr = id === 'all' ? result
+            : id === 'day' ?  result.filter(item =>  
+                item.status == 0 &&
+                moment(item.han_chot_cong_viec).format('DDMMYYYY') == moment().format('DDMMYYYY'))
+            : id === 'week' ?  result.filter(item =>  
+                item.status == 0 &&
+                moment(item.han_chot_cong_viec).week() == moment().week())
+            : id === 'month' ?  result.filter(item =>  
+                item.status == 0 &&
+                moment(item.han_chot_cong_viec).format('MMYYYY') == moment().format('MMYYYY'))
+            :   result.filter(item => item.status == id)
             setTask(arr)
         };
         const getLaw = async () => {

@@ -61,8 +61,8 @@ function FormAddTask() {
     })
     const handleDelete = async (key) => {
         (await taskService.delete(key));
-        const newData = dataSource.filter((item) => item._id !== key);
-        setDataSource(newData);
+        const newData = task.filter((item) => item._id !== key);
+        setTask(newData);
     };
     const handleEdit = async (id, data, key) => {
         try {

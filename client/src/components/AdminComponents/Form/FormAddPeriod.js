@@ -251,7 +251,6 @@ function FormAddPeriod({ props }) {
                             span: 6,
                         }}
                     >
-
                         <Button type="primary" htmlType="submit">
                             Tạo mới
                         </Button>

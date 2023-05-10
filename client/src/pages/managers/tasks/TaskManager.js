@@ -176,9 +176,9 @@ function TaskManager() {
                         </Col>
                         <Col md={{ span: 18, push: 2 }} xs={{ span: 19, push: 1 }}>
                             <Row gutter={[8,8]}>
-                                <CardMatter title="Hạn hôm nay" color={0} total={handleTotalTaskByDay()} />
-                                <CardMatter title="Hạn tuần này" color={2} total={handleTotalTaskByWeek()} />
-                                <CardMatter title="Hạn tháng này" color={1} total={handleTotalTaskByMonth()} />
+                                <CardMatter title="Hạn hôm nay" color={0} total={handleTotalTaskByDay()} url={`/tro-ly/tasks/day`}/>
+                                <CardMatter title="Hạn tuần này" color={2} total={handleTotalTaskByWeek()}  url={`/tro-ly/tasks/week`}/>
+                                <CardMatter title="Hạn tháng này" color={1} total={handleTotalTaskByMonth()} url={`/tro-ly/tasks/month`}/>
                                 <CardMatter title="Trễ hạn" total={handleTotalTaskByMiss()} />
                             </Row>
                         </Col>

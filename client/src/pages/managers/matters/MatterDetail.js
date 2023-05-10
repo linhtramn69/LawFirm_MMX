@@ -11,6 +11,7 @@ import FormAddFile from "~/components/AdminComponents/Form/FormAddFile";
 import {
     UsbFilled
 } from '@ant-design/icons';
+import ListHistory from "./ListHistoryMatter";
 const url = ['', 'admin', 'staff'];
 const url2 = ['', 'admin', 'ke-toan'];
 const statusTask = ['Đã giao', 'Đã hoàn thành', 'Tạm ngưng'];
@@ -166,8 +167,8 @@ const detail = (data) => Modal.info({
                 <Descriptions.Item span={2} label="Tên tài khoản">{data.nameCreditCard}</Descriptions.Item>
                 <Descriptions.Item span={2} label="Số tài khoản">{data.numberCreditCard}</Descriptions.Item>
             </Descriptions>
-            <Divider/>
-            <Image src={data.hinh_anh} width={150}/>
+            <Divider />
+            <Image src={data.hinh_anh} width={150} />
 
         </>
     ),
@@ -209,7 +210,7 @@ function MatterDetail() {
     }, [id, dispatch])
     useEffect(() => {
         const getAccess = async () => {
-            const arr1 = state.matter.truy_cap.nhan_vien ;
+            const arr1 = state.matter.truy_cap.nhan_vien;
             const arr2 = state.matter.truy_cap.khach_hang ? state.matter.truy_cap.khach_hang : [];
             setAccess((await userService.getByMatter(arr1.concat(arr2))).data)
         }
@@ -328,214 +329,218 @@ function MatterDetail() {
 
     return (
         <>
-        {
-            token.account.quyen == 1 || token.chuc_vu._id == 'KT02' ?
-            <Link to={`/${url2[token.account.quyen]}/bill/add/${state.matter._id}`}>
-                <Button style={{width: 140, marginBottom: 20}} className="btn-cyan" icon={<UsbFilled />} block>Hóa đơn mới</Button>
-            </Link>
-            : <></>
-        }
-            
+            {
+                token.account.quyen == 1 || token.chuc_vu._id == 'KT02' ?
+                    <Link to={`/${url2[token.account.quyen]}/bill/add/${state.matter._id}`}>
+                        <Button style={{ width: 140, marginBottom: 20 }} className="btn-cyan" icon={<UsbFilled />} block>Hóa đơn mới</Button>
+                    </Link>
+                    : <></>
+            }
+
             {state.matter._id ?
-                <Badge.Ribbon
-                    style={{
-                        width: 200,
-                        height: 40,
-                        textAlign: 'center',
-                        lineHeight: 3,
-                        fontWeight: 600,
-                        textTransform: 'uppercase',
-                        color: '#000'
-                    }}
-                    text={
-                       state.matter.status_tt == 0 ? "Chưa thanh toán" : state.matter.status_tt == 1 ? "Đang thanh toán"
-                       : "Đã thanh toán"
-                    }
-                    color={
-                        state.matter.status_tt == 0 ? "vocalno" : state.matter.status_tt == 1 ? "greekblue"
-                        : "green"
-                    }
-                >
-                    <Card
-                        title={
-                            state.matter.status === 0 ? <Badge status="processing" text="Đang thực hiện" />
-                                : state.matter.status === 1 ? <Badge status="success" text="Hoàn thành" />
-                                    : <Badge status="warning" text="Tạm ngưng" />
-                        }
-                        extra={
-                            <Space split={<Divider type="vertical" />}>
-                                <Typography.Link><FontAwesomeIcon icon={faHouse} /> Vụ việc</Typography.Link>
-                                <Typography.Link><FontAwesomeIcon icon={faTasks} /> Hợp đồng</Typography.Link>
-                                <Typography.Link><FontAwesomeIcon icon={faTasks} /> Báo giá</Typography.Link>
-                                <Typography.Link><FontAwesomeIcon icon={faReceipt} /> Hóa đơn</Typography.Link>
+                <Row>
+                    <Col span={18}>
+                        <Badge.Ribbon
+                            style={{
+                                width: 200,
+                                height: 40,
+                                textAlign: 'center',
+                                lineHeight: 3,
+                                fontWeight: 600,
+                                textTransform: 'uppercase',
+                                color: '#000'
+                            }}
+                            text={
+                                state.matter.status_tt == 0 ? "Chưa thanh toán" : state.matter.status_tt == 1 ? "Đang thanh toán"
+                                    : "Đã thanh toán"
+                            }
+                            color={
+                                state.matter.status_tt == 0 ? "vocalno" : state.matter.status_tt == 1 ? "greekblue"
+                                    : "green"
+                            }
+                        >
+                            <Card
+                                title={
+                                    state.matter.status === 0 ? <Badge status="processing" text="Đang thực hiện" />
+                                        : state.matter.status === 1 ? <Badge status="success" text="Hoàn thành" />
+                                            : <Badge status="warning" text="Tạm ngưng" />
+                                }
+                                extra={
+                                    <Space split={<Divider type="vertical" />}>
+                                        <Typography.Link><FontAwesomeIcon icon={faHouse} /> Vụ việc</Typography.Link>
+                                        <Typography.Link><FontAwesomeIcon icon={faTasks} /> Hợp đồng</Typography.Link>
+                                        <Typography.Link><FontAwesomeIcon icon={faTasks} /> Báo giá</Typography.Link>
+                                        <Typography.Link><FontAwesomeIcon icon={faReceipt} /> Hóa đơn</Typography.Link>
 
-                            </Space>
-                        }
-                    >
-                        <Descriptions style={{ paddingLeft: 40 }} column={{
-                            md: 3,
-                        }}>
+                                    </Space>
+                                }
+                            >
+                                <Descriptions style={{ paddingLeft: 40 }} column={{
+                                    md: 3,
+                                }}>
 
-                            <Descriptions.Item label="Tên vụ việc">{state.matter.ten_vu_viec}</Descriptions.Item>
-                            <Descriptions.Item label="Lĩnh vực">{state.matter.linh_vuc.ten_linh_vuc}</Descriptions.Item>
-                            <Descriptions.Item label="Dịch vụ">{state.matter.dich_vu.ten_dv}</Descriptions.Item>
-                        </Descriptions>
-                        <Divider />
-                        <Row>
-                            <Col md={{ span: 10, push: 1 }}>
-                                <Descriptions
-                                    title="Luật sư phụ trách"
-                                    column={{
-                                        md: 4
-                                    }}>
-
-                                    <Descriptions.Item span={4} label="Họ tên">{state.matter.luat_su.ho_ten}</Descriptions.Item>
-                                    <Descriptions.Item span={2} label="Số điện thoại">{state.matter.luat_su.account.sdt}</Descriptions.Item>
-                                    <Descriptions.Item span={2} label="Email">{state.matter.luat_su.email}</Descriptions.Item>
+                                    <Descriptions.Item label="Tên vụ việc">{state.matter.ten_vu_viec}</Descriptions.Item>
+                                    <Descriptions.Item label="Lĩnh vực">{state.matter.linh_vuc.ten_linh_vuc}</Descriptions.Item>
+                                    <Descriptions.Item label="Dịch vụ">{state.matter.dich_vu.ten_dv}</Descriptions.Item>
                                 </Descriptions>
-                            </Col>
-                            <Col md={{ span: 10, push: 3 }}>
-                                <Descriptions
-                                    title="Thông tin khách hàng"
-                                    column={{
-                                        md: 4
-                                    }}>
+                                <Divider />
+                                <Row>
+                                    <Col md={{ span: 10, push: 1 }}>
+                                        <Descriptions
+                                            title="Luật sư phụ trách"
+                                            column={{
+                                                md: 4
+                                            }}>
 
-                                    <Descriptions.Item span={4} label="Họ tên">{state.matter.khach_hang.ho_ten}</Descriptions.Item>
-                                    <Descriptions.Item span={2} label="Số điện thoại">{state.matter.khach_hang.account.sdt}</Descriptions.Item>
-                                    <Descriptions.Item span={2} label="Email">{state.matter.khach_hang.email}</Descriptions.Item>
-                                </Descriptions>
-                            </Col>
-                        </Row>
-                        <Divider />
-                        <Tabs type="card" defaultActiveKey="0" items={[
-                            {
-                                key: 0,
-                                label: 'Thiết lập',
-                                children:
-                                    <Descriptions
-                                    >
-                                        <Row style={{ paddingTop: 20 }}>
-                                            <Col md={{ span: 10, push: 1 }}>
-                                                <Descriptions
-                                                    title="Thiết lập chi phí"
-                                                    column={{
-                                                        md: 4
-                                                    }}>
+                                            <Descriptions.Item span={4} label="Họ tên">{state.matter.luat_su.ho_ten}</Descriptions.Item>
+                                            <Descriptions.Item span={2} label="Số điện thoại">{state.matter.luat_su.account.sdt}</Descriptions.Item>
+                                            <Descriptions.Item span={2} label="Email">{state.matter.luat_su.email}</Descriptions.Item>
+                                        </Descriptions>
+                                    </Col>
+                                    <Col md={{ span: 10, push: 3 }}>
+                                        <Descriptions
+                                            title="Thông tin khách hàng"
+                                            column={{
+                                                md: 4
+                                            }}>
 
-                                                    <Descriptions.Item span={4} label="Điều khoản thanh toán">
-                                                        {
-                                                            state.matter.dieu_khoan_thanh_toan.ten == 0 ? "Thanh toán ngay"
-                                                            : state.matter.dieu_khoan_thanh_toan.ten == -1 ? "Thanh toán ngay khi hoàn thành"
-                                                            : state.matter.dieu_khoan_thanh_toan.ten + " ngày"
-                                                        }
-                                                    </Descriptions.Item>
-                                                    {/* <Descriptions.Item span={4} label="Phương thức tính phí">
+                                            <Descriptions.Item span={4} label="Họ tên">{state.matter.khach_hang.ho_ten}</Descriptions.Item>
+                                            <Descriptions.Item span={2} label="Số điện thoại">{state.matter.khach_hang.account.sdt}</Descriptions.Item>
+                                            <Descriptions.Item span={2} label="Email">{state.matter.khach_hang.email}</Descriptions.Item>
+                                        </Descriptions>
+                                    </Col>
+                                </Row>
+                                <Divider />
+                                <Tabs type="card" defaultActiveKey="0" items={[
+                                    {
+                                        key: 0,
+                                        label: 'Thiết lập',
+                                        children:
+                                            <Descriptions
+                                            >
+                                                <Row style={{ paddingTop: 20 }}>
+                                                    <Col md={{ span: 10, push: 1 }}>
+                                                        <Descriptions
+                                                            title="Thiết lập chi phí"
+                                                            column={{
+                                                                md: 4
+                                                            }}>
+
+                                                            <Descriptions.Item span={4} label="Điều khoản thanh toán">
+                                                                {
+                                                                    state.matter.dieu_khoan_thanh_toan.ten == 0 ? "Thanh toán ngay"
+                                                                        : state.matter.dieu_khoan_thanh_toan.ten == -1 ? "Thanh toán ngay khi hoàn thành"
+                                                                            : state.matter.dieu_khoan_thanh_toan.ten + " ngày"
+                                                                }
+                                                            </Descriptions.Item>
+                                                            {/* <Descriptions.Item span={4} label="Phương thức tính phí">
                                                         {state.matter.phuong_thuc_tinh_phi.ten}
                                                     </Descriptions.Item> */}
-                                                    <Descriptions.Item span={4} label="Chiết khấu hoa hồng">
-                                                        {state.matter.chiet_khau_hoa_hong} %
-                                                    </Descriptions.Item>
-                                                    <Descriptions.Item span={4} label="Tổng tiền">
+                                                            <Descriptions.Item span={4} label="Chiết khấu hoa hồng">
+                                                                {state.matter.chiet_khau_hoa_hong} %
+                                                            </Descriptions.Item>
+                                                            <Descriptions.Item span={4} label="Tổng tiền">
+                                                                {`${state.matter.tong_tien}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' đ'}
+                                                            </Descriptions.Item>
+                                                        </Descriptions>
+                                                    </Col>
+                                                    <Col md={{ span: 10, push: 3 }}>
+                                                        <Descriptions
+                                                            title="Quyền truy cập"
+                                                            column={{
+                                                                md: 4
+                                                            }}>
+                                                        </Descriptions>
+                                                        <List
+                                                            dataSource={access}
+                                                            renderItem={(item) => (
+                                                                <List.Item key={item.ho_ten}>
+                                                                    <List.Item.Meta
+                                                                        avatar={<Avatar src={avatar.user} />}
+                                                                        title={<a href="https://ant.design">{item.ho_ten}</a>}
+                                                                        description={item.email}
+                                                                    />
+                                                                    <div>
+                                                                        {
+                                                                            item.account.quyen === 0 ?
+                                                                                <Tag color="blue">Khách hàng</Tag>
+                                                                                : <Tag color="gold">Nhân viên</Tag>
+
+                                                                        }
+                                                                    </div>
+                                                                </List.Item>
+                                                            )}
+                                                        />
+                                                    </Col>
+                                                </Row>
+
+                                            </Descriptions>
+                                    },
+                                    {
+                                        key: '2',
+                                        label: `Giấy tờ`,
+                                        disabled: !(token.account.quyen == 1 || state.matter.luat_su._id == token._id),
+                                        children: <FormAddFile props={1} />
+                                    },
+                                    {
+                                        key: '3',
+                                        label: `Liên hệ`,
+                                    },
+                                    {
+                                        key: '4',
+                                        label: `Công việc`,
+                                        children: <Table columns={columnsTask} dataSource={dataTask} />,
+                                    },
+                                    {
+                                        key: '5',
+                                        label: `Quy trình thực hiện`,
+                                        children: <Table columns={columnsStep} dataSource={dataStep} />,
+
+                                    },
+                                    {
+                                        key: '6',
+                                        label: `Chi phí`,
+                                        children: <Table columns={columnsFees} dataSource={dataFee} />,
+                                    },
+                                    {
+                                        key: '7',
+                                        label: `Hoá đơn khách hàng`,
+                                        children:
+                                            <>
+                                                <Table pagination={false} columns={columnsBill} dataSource={dataBill} />
+                                                <br />
+                                                <Space direction="vertical" style={{ textAlign: 'end', float: 'right' }}>
+                                                    <span>
+                                                        <b style={{ marginRight: 15 }}>Tổng tiền vụ việc :</b>
                                                         {`${state.matter.tong_tien}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' đ'}
-                                                    </Descriptions.Item>
-                                                </Descriptions>
-                                            </Col>
-                                            <Col md={{ span: 10, push: 3 }}>
-                                                <Descriptions
-                                                    title="Quyền truy cập"
-                                                    column={{
-                                                        md: 4
-                                                    }}>
-                                                </Descriptions>
-                                                <List
-                                                    dataSource={access}
-                                                    renderItem={(item) => (
-                                                        <List.Item key={item.ho_ten}>
-                                                            <List.Item.Meta
-                                                                avatar={<Avatar src={avatar.user} />}
-                                                                title={<a href="https://ant.design">{item.ho_ten}</a>}
-                                                                description={item.email}
-                                                            />
-                                                            <div>
-                                                                {
-                                                                    item.account.quyen === 0 ?
-                                                                        <Tag color="blue">Khách hàng</Tag>
-                                                                        : <Tag color="gold">Nhân viên</Tag>
+                                                    </span>
+                                                    <span>
+                                                        <b style={{ marginRight: 15 }}>Đã thanh toán :</b>
+                                                        {`${result ? result : 0}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' đ'}
+                                                    </span>
+                                                    <span>
+                                                        <b style={{ marginRight: 15 }}>Số tiền còn lại:</b>
+                                                        {`${state.matter.tong_tien - (result ? result : 0)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' đ'}
+                                                    </span>
+                                                </Space>
+                                            </>,
+                                    }
+                                ]} />
+                                {
+                                    state.matter.status !== 1 && token.chuc_vu._id != 'TL02' && token.chuc_vu._id != 'KT02' || token.account.quyen == 1 ?
+                                        <Link to={`/${url[token.account.quyen]}/matter/edit/${id}`}>
+                                            <Button type="primary" className="btn-primary">Chỉnh sửa</Button>
+                                        </Link>
+                                        : <></>
+                                }
+                            </Card>
+                        </Badge.Ribbon>
+                    </Col>
+                    <Col span={5} push={1}>
+                        <ListHistory props={state.matter.lich_su_chinh_sua}/>
+                    </Col>
+                </Row>
 
-                                                                }
-                                                            </div>
-                                                        </List.Item>
-                                                    )}
-                                                />
-                                            </Col>
-                                        </Row>
-
-                                    </Descriptions>
-                            },
-                            {
-                                key: '1',
-                                label: `Mô tả`,
-                            },
-                            {
-                                key: '2',
-                                label: `Giấy tờ`,
-                                disabled : token.account.quyen != 1 || state.matter.luat_su._id == token._id,
-                                children: <FormAddFile props={1} />
-                            },
-                            {
-                                key: '3',
-                                label: `Liên hệ`,
-                            },
-                            {
-                                key: '4',
-                                label: `Công việc`,
-                                children: <Table columns={columnsTask} dataSource={dataTask} />,
-                            },
-                            {
-                                key: '5',
-                                label: `Phí cố định`,
-                                children: <Table columns={columnsStep} dataSource={dataStep} />,
-
-                            },
-                            {
-                                key: '6',
-                                label: `Chi phí`,
-                                children: <Table columns={columnsFees} dataSource={dataFee} />,
-                            },
-                            {
-                                key: '7',
-                                label: `Hoá đơn khách hàng`,
-                                children:
-                                    <>
-                                        <Table pagination={false} columns={columnsBill} dataSource={dataBill} />
-                                        <br />
-                                        <Space direction="vertical" style={{ textAlign: 'end', float: 'right' }}>
-                                            <span>
-                                                <b style={{ marginRight: 15 }}>Tổng tiền vụ việc :</b>
-                                                {`${state.matter.tong_tien}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' đ'}
-                                            </span>
-                                            <span>
-                                                <b style={{ marginRight: 15 }}>Đã thanh toán :</b>
-                                                {`${result ? result : 0}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' đ'}
-                                            </span>
-                                            <span>
-                                                <b style={{ marginRight: 15 }}>Số tiền còn lại:</b>
-                                                {`${state.matter.tong_tien - (result ? result : 0)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' đ'}
-                                                </span>
-                                        </Space>
-                                    </>,
-                            }
-                        ]} />
-                        {
-                            state.matter.status !== 1 && token.chuc_vu._id != 'TL02' && token.chuc_vu._id != 'KT02' ?
-                                <Link to={`/${url[token.account.quyen]}/matter/edit/${id}`}>
-                                    <Button type="primary" className="btn-primary">Chỉnh sửa</Button>
-                                </Link>
-                                : <></>
-                        }
-                    </Card>
-                </Badge.Ribbon>
                 : null
             }
         </>

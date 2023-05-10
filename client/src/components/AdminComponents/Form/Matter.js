@@ -8,6 +8,7 @@ import { accountingEntryService, matterService, serviceService, timePayService, 
 import { useNavigate } from "react-router-dom";
 import { useStore, useToken } from "~/store";
 import FormAddFile from "./FormAddFile";
+import FormAddContact from "./FormAddContact";
 const url = ['', 'admin', 'staff']
 const formItemLayout = {
     labelCol: {
@@ -192,14 +193,25 @@ function FormMatter({ props }) {
             truy_cap: {
                 khach_hang: data.customerAccess,
                 nhan_vien: data.staffAccess,
+            },
+            nguoi_thuc_hien: {
+                ho_ten: token.ho_ten,
+                _id: token._id,
+                chuc_vu: token.chuc_vu.ten_chuc_vu
             }
-        } : newData = {
+        } 
+        : newData = {
             ...data,
             dieu_khoan_thanh_toan: matter.dieu_khoan_thanh_toan._id,
             chiet_khau_hoa_hong: matter.chiet_khau_hoa_hong,
             truy_cap: {
                 khach_hang: matter.truy_cap.khach_hang,
                 nhan_vien: matter.truy_cap.nhan_vien,
+            },
+            nguoi_thuc_hien: {
+                ho_ten: token.ho_ten,
+                _id: token._id,
+                chuc_vu: token.chuc_vu.ten_chuc_vu
             }
         } 
         try {
@@ -469,13 +481,12 @@ function FormMatter({ props }) {
                         key: '2',
                         label: `Giấy tờ`,
                         children: <FormAddFile />,
-                        disabled: matter ? false : true
+                        disabled: !(token.account.quyen == 1 || matter.luat_su._id == token._id)
                     },
                     {
                         key: '3',
                         label: `Liên hệ`,
-                        children: <TableAddFile />,
-                        disabled: matter ? false : true
+                        children: <FormAddContact />,
                     },
                     {
                         key: '4',

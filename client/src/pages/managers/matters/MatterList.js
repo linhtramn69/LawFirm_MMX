@@ -29,7 +29,25 @@ function MatterList() {
         url = 'tro-ly'
     else if (token.chuc_vu._id === 'KT02')
         url = 'ke-toan'
-
+    const get_day_of_time = (d1, d2) => {
+            let ms1 = d1.getTime();
+            let ms2 = d2.getTime();
+            return Math.ceil((ms2 - ms1) / (24*60*60*1000));
+        };
+    const handleTotalMatterDay = (value, array) => {
+            const arr = array.filter(vl => 
+                 vl.status_tt != 2 &&
+                 vl.dieu_khoan_thanh_toan.ten - get_day_of_time(new Date(vl.ngay_lap), new Date()) <= value
+                 && vl.dieu_khoan_thanh_toan.ten - get_day_of_time(new Date(vl.ngay_lap), new Date()) >= 0)    
+                 
+            return arr
+        }
+        const handleTotalMatterMiss = (array) => {
+           const arr = array.filter(vl => 
+                vl.status_tt != 2 &&
+                vl.dieu_khoan_thanh_toan.ten < get_day_of_time(new Date(vl.ngay_lap), new Date()))
+            return arr
+        }
     useEffect(() => {
         const getMatter = async () => {
             const result =
@@ -38,10 +56,14 @@ function MatterList() {
                     : token.chuc_vu._id === 'TL02' ?
                         ((await matterService.findByIdAccess({ id: token.boss })).data)
                         : ((await matterService.findByIdAccess({ id: token._id })).data)
-            const arr = id === 'all' ? result : result.filter(item => item.status == id)
+            const arr = id === 'all' ? result 
+            : id === 'tt-1' ? handleTotalMatterDay(1, result) 
+            : id === 'tt-7' ? handleTotalMatterDay(7, result) 
+            : id === 'tt-30' ? handleTotalMatterDay(30, result) 
+            : id === 'tt-miss' ? handleTotalMatterMiss(result) 
+            : result.filter(item => item.status == id)
             setMatters(arr)
         }
-
         const getType = async () => {
             setType((await typeServiceService.get()).data)
         }

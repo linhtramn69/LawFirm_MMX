@@ -25,7 +25,7 @@ function FeeDetail() {
 
     let { id } = useParams();
     const [state, dispatch] = useStore();
-    const [fee, setFee] = useState({})
+    const [fee, setFee] = useState()
     const { token } = useToken()
     const [messageApi, contextHolder] = message.useMessage();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -74,7 +74,6 @@ function FeeDetail() {
         }
         getMatter()
     }, [fee])
-
     const handleOk = async (value) => {
         try {
             const rs = (await feeService.update(id, { status: value })).data
@@ -119,11 +118,10 @@ function FeeDetail() {
         } 
         handleAddBill(data);
     }
-    
     return (
         <>
             {contextHolder}
-            {fee.nhan_vien && state.matter._id ?
+            {fee && state.matter._id ?
                 <Card
                     title={
                         fee.status === 0 ? <Badge status="processing" text="Đang chờ xử lý" />
@@ -242,7 +240,7 @@ function FeeDetail() {
                         <Title level={5}>Hình ảnh</Title> <Image width={150} src={fee.hinh_anh}/>
                     </Space>
                 </Card>
-                : null}
+                : <></>}
             <Modal width={1000} title="Hoá đơn mới" open={isModalOpen} onOk={handleOpen} onCancel={handleCancel} footer={null}>
                 <Form
                     form={form}

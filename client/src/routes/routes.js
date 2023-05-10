@@ -91,6 +91,9 @@ const staffRouter = [
     { path: config.routes.staff.taskList, component: TaskList, layout: LayoutAdmin },
     { path: config.routes.staff.taskListGiao, component: TaskListGiao, layout: LayoutAdmin },
     { path: config.routes.staff.taskDetail, component: TaskDetail, layout: LayoutAdmin },
+
+    { path: config.routes.staff.feeList, component: FeeList, layout: LayoutAdmin },
+    { path: config.routes.staff.feeDetail, component: FeeDetail, layout: LayoutAdmin },
     // Calendar
     { path: config.routes.staff.calendarManager, component: CalendarManager, layout: LayoutAdmin },
 
