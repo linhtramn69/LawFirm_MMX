@@ -34,7 +34,8 @@ class Matter {
             tong_tien: payload.tong_tien,
             status_tt: payload.status_tt,
             ngay_lap: payload.ngay_lap,
-            cap_nhat_lan_cuoi: payload.cap_nhat_lan_cuoi
+            cap_nhat_lan_cuoi: payload.cap_nhat_lan_cuoi, 
+            lich_su_chinh_sua: payload.lich_su_chinh_sua
         };
 
         Object.keys(matter).forEach(
@@ -147,7 +148,6 @@ class Matter {
         const dich_vu = await this.Service.findOne({ _id: new ObjectId(payload.dich_vu) });
         const luat_su = await this.User.findOne({ _id: new ObjectId(payload.luat_su) });
         const khach_hang = await this.User.findOne({ _id: new ObjectId(payload.khach_hang) });
-        // const phuong_thuc_tinh_phi = await this.TypePay.findOne({ _id: new ObjectId(payload.phuong_thuc_tinh_phi) });
         const dieu_khoan_thanh_toan = await this.TimePay.findOne({ _id: new ObjectId(payload.dieu_khoan_thanh_toan) });
         const vu_viec = {
             ...payload,
@@ -155,10 +155,11 @@ class Matter {
             dich_vu: dich_vu,
             luat_su: luat_su,
             khach_hang: khach_hang,
-            // phuong_thuc_tinh_phi: phuong_thuc_tinh_phi,
             dieu_khoan_thanh_toan: dieu_khoan_thanh_toan,
             ngay_lap: new Date(payload.ngay_lap),
-            status_tt: 0
+            status_tt: 0,
+            lich_su_chinh_sua: []
+            
         }
 
         const matter = this.extractConactData(vu_viec);
@@ -174,16 +175,22 @@ class Matter {
         const dich_vu = await this.Service.findOne({ _id: new ObjectId(payload.dich_vu) });
         const luat_su = await this.User.findOne({ _id: new ObjectId(payload.luat_su) });
         const khach_hang = await this.User.findOne({ _id: new ObjectId(payload.khach_hang) });
-        // const phuong_thuc_tinh_phi = await this.TypePay.findOne({ _id: new ObjectId(payload.phuong_thuc_tinh_phi) });
         const dieu_khoan_thanh_toan = await this.TimePay.findOne({ _id: new ObjectId(payload.dieu_khoan_thanh_toan) });
+        const matter_history = await this.Matter.findOne(id)
         const vu_viec = {
             ...payload,
             linh_vuc: linh_vuc,
             dich_vu: dich_vu,
             luat_su: luat_su,
             khach_hang: khach_hang,
-            // phuong_thuc_tinh_phi: phuong_thuc_tinh_phi,
             dieu_khoan_thanh_toan: dieu_khoan_thanh_toan,
+            lich_su_chinh_sua: [
+                ...matter_history.lich_su_chinh_sua,
+                {
+                    thoi_gian: new Date(),
+                    nguoi_thuc_hien: payload.nguoi_thuc_hien
+                }
+            ]
         }
         const matter = this.extractConactData(vu_viec);
         const result = await this.Matter.findOneAndUpdate(
