@@ -30,7 +30,7 @@ const typePayRoute = require("./app/routes/typePay.route");
 const timePayRoute = require("./app/routes/timePay.route");
 const timeAppointmentRoute = require("./app/routes/timeAppointment.route");
 const typeAppointmentRoute = require("./app/routes/typeAppointment.route");
-const accountingEntryRoute = require("./app/routes/accountingEntry.route");
+const contactRoute = require("./app/routes/contact.route");
 
 // use Route
 app.use("/api/type-service", typeServiceRoute);
@@ -56,7 +56,7 @@ app.use("/api/type-pay", typePayRoute);
 app.use("/api/time-pay", timePayRoute);
 app.use("/api/time-appointment", timeAppointmentRoute);
 app.use("/api/type-appointment", typeAppointmentRoute);
-app.use("/api/accounting-entry", accountingEntryRoute);
+app.use("/api/contact", contactRoute);
 
 // handle 404 response
 app.use((req, res, next) => {

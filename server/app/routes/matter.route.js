@@ -32,6 +32,10 @@ router.route("/reminder")
 
 router.route("/findFinishedMatterByYear")
     .post(matter.findFinishedByIdAndYear);
+    
+router.route("/thongKeKhachHangCu")
+    .post(matter.thongKeKhachHangCu);
+
 
 router.route("/update-progress/:id")
     .patch(matter.updateProgress);

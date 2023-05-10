@@ -87,6 +87,7 @@ class User {
 
     async create(payload) {
         const user = this.extractConactData(payload);
+        console.log(payload);
         const isExist = await this.User.findOne({ "account.sdt": user.account.sdt })
         if (!isExist) {
             const bo_phan = await this.BoPhan.findOne({ _id: payload.bo_phan });

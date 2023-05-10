@@ -41,7 +41,32 @@ exports.findByIdAccess = async (req, res, next) => {
         );
     }
 }
+exports.thongKeKhachHangCu = async (req, res, next) => {
+    let total = []
+    try {
+        const matter = new Matter(MongoDB.client);
+        for (let i = ((new Date()).getFullYear()) - 4; i <= (new Date()).getFullYear(); i++) {
+            const document = await matter.thongKeKhachHangCu(i);
+            const document2 = await matter.thongKeKhachHangCuTruoc(i);
+            if(document2.length == 0){
+                total.push(0)
+            }
+            else{
+                const tyle = Math.floor((document.length / document2.length) * 100);
+                total.push(tyle);
+            }
+            
+        }
 
+
+        return res.send(total);
+    }
+    catch (error) {
+        return next(
+            new ApiError(500, "An error occured while find matter by status")
+        );
+    }
+}
 exports.findById = async (req, res, next) => {
     try {
         const matter = new Matter(MongoDB.client);
@@ -109,12 +134,12 @@ exports.reminder = async (req, res, next) => {
     }
 }
 exports.updateProgress = async (req, res, next) => {
-    try{
+    try {
         const matter = new Matter(MongoDB.client);
         const document = await matter.updateProgress(req.params.id, req.body);
         return res.send(document);
     }
-    catch(error){
+    catch (error) {
         return next(
             new ApiError(500, "An error occured while update matter")
         );

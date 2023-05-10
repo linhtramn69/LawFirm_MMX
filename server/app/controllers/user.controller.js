@@ -72,10 +72,10 @@ exports.findByMatter = async (req, res, next) => {
 
 exports.create = async (req, res, next) => {
     let document = {}
-
     try {
         const user = new User(MongoDB.client);
-        cloudinary.uploader.upload(req.body.avatar, {
+        if(req.body.avatar){
+         cloudinary.uploader.upload(req.body.avatar, {
             folder: "User"
         }).then(async (result) => {
             document = await user.create({
@@ -84,7 +84,12 @@ exports.create = async (req, res, next) => {
             });
             return res.send(document)
         }
-        )
+        )}
+        else {
+            document = await user.create(req.body);
+            return res.send(document)
+        }
+        
     }
     catch (error) {
         return next(

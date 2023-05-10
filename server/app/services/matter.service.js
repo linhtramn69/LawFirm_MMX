@@ -156,7 +156,7 @@ class Matter {
             luat_su: luat_su,
             khach_hang: khach_hang,
             dieu_khoan_thanh_toan: dieu_khoan_thanh_toan,
-            ngay_lap: new Date(payload.ngay_lap),
+            ngay_lap: new Date(),
             status_tt: 0,
             lich_su_chinh_sua: []
             
@@ -200,7 +200,34 @@ class Matter {
         );
         return result.value;
     }
-
+    async thongKeKhachHangCu (payload) {
+        const rs = await this.Matter.aggregate([
+            {
+                $match: {"$expr": {"$eq": [{ "$year": "$ngay_lap" }, payload] }}
+            },
+            {
+                $group: {
+                    _id: "$khach_hang._id",
+                    count: { $count: {} }
+                }
+            }
+        ])
+        return rs.toArray()
+    }
+    async thongKeKhachHangCuTruoc (payload) {
+        const rs = await this.Matter.aggregate([
+            {
+                $match: {"$expr": {"$lt": [{ "$year": "$ngay_lap" }, payload] }}
+            },
+            {
+                $group: {
+                    _id: "$khach_hang._id",
+                    count: { $count: {} }
+                }
+            }
+        ])
+        return rs.toArray()
+    }
     // set status thanh toan
     async setStatus_TT(id, payload) {
         id = {
