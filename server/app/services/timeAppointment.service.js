@@ -15,6 +15,7 @@ class TimeAppointment {
             phieu_bao_gia: payload.phieu_bao_gia,
             khach_hang: payload.khach_hang,
             nhan_vien: payload.nhan_vien,
+            nguoi_tao: payload.nguoi_tao
         };
 
         // remove undefined fields
@@ -49,12 +50,12 @@ class TimeAppointment {
                 $eq: timeAppointment.nhan_vien 
             },
             "thoi_gian.start": { 
-                $gte: timeAppointment.thoi_gian.start,
-                $lte: timeAppointment.thoi_gian.end
+                $gte: new Date(timeAppointment.thoi_gian.start),
+                $lte: new Date(timeAppointment.thoi_gian.end) 
             },
             "thoi_gian.end": { 
-                $gte: timeAppointment.thoi_gian.start,
-                $lte: timeAppointment.thoi_gian.end
+                $gte: new Date(timeAppointment.thoi_gian.start) ,
+                $lte: new Date(timeAppointment.thoi_gian.end) 
             },
         }).toArray();
         const newVal = {

@@ -103,7 +103,10 @@ class Matter {
         const result = await this.Matter.find({ 'truy_cap.nhan_vien': payload.id })
         return result.toArray();
     }
-
+    async findByIdAccessUser(payload) {
+        const result = await this.Matter.find({ 'truy_cap.khach_hang': payload.id })
+        return result.toArray();
+    }
     // tim cac vu viec da hoan thanh theo id luat su va theo nam
     async findFinishedByIdAndYear(payload, i) {
         if (payload.quyen === 1) {
@@ -179,6 +182,7 @@ class Matter {
         const matter_history = await this.Matter.findOne(id)
         const vu_viec = {
             ...payload,
+            ngay_lap: new Date(),
             linh_vuc: linh_vuc,
             dich_vu: dich_vu,
             luat_su: luat_su,

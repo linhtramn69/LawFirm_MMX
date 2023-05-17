@@ -98,39 +98,23 @@ class QuoteForm {
             <td style="border-collapse:collapse">
                 <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-family:Arial,sans-serif;font-weight:normal;margin:0 auto;max-width:600px;width:100%" width="100%">
                     <tbody>
-                        <tr border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0">
-                            <td border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0">
-                                <table align="center" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-family:Arial,sans-serif;font-weight:normal;margin:0 auto;max-width:600px;width:100%" width="100%">
-                                    <tbody>
-                                        <tr>
-                                            <td align="center" style="border-collapse:collapse;font-size:0;padding:10px 0px 0px 0px;text-align:center">
-                                                <table height="3" width="100%">
-                                                    <tbody><tr height="3">
-                                                        <td bgcolor="#0072BC" height="3" style="border-collapse:collapse;font-size:0;padding:3px" valign="top" width="70%"></td><td bgcolor="#FFD008" height="3" style="border-collapse:collapse;font-size:0;padding:3px" valign="top" width="30%"></td>
-                                                    </tr>
-                                                    </tbody></table>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
+                       
                         <tr border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0">
                             <td border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0">
                                 <table align="center" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-family:Arial,sans-serif;font-weight:normal;margin:0 auto;max-width:600px;width:100%" width="100%">
                                     <tbody><tr border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0">
-                                        <td bgcolor="#e5ecf2" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0;background:#e5ecf2;vertical-align:bottom" valign="bottom"><img alt="" border="0" src="https://ci6.googleusercontent.com/proxy/iZvMSEXekn8ldfwyx_s_VrplOf4uK-dRMIgNQoZjQsTiKMDhENFJd1LlKt7ILPSLR73YIrK-gZx34s8IMt_C0GN5aCPsDaexkcr0YQcd97s=s0-d-e1-ft#http://sacombank.com.vn/Documents/eBankingLib/arrow_white.png" style="display:block" class="CToWUd" data-bit="iit"></td>
+                                        <td bgcolor="#146C94" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0;background:#001253;vertical-align:bottom" valign="bottom"><img alt="" border="0" src="https://ci6.googleusercontent.com/proxy/iZvMSEXekn8ldfwyx_s_VrplOf4uK-dRMIgNQoZjQsTiKMDhENFJd1LlKt7ILPSLR73YIrK-gZx34s8IMt_C0GN5aCPsDaexkcr0YQcd97s=s0-d-e1-ft#http://sacombank.com.vn/Documents/eBankingLib/arrow_white.png" style="display:block" class="CToWUd" data-bit="iit"></td>
                                     </tr>
                                         <tr border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0">
-                                            <td bgcolor="#e5ecf2" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0;background:#e5ecf2;vertical-align:bottom" valign="bottom">
-                                                <p style="margin:20px;line-height:22px;font-size:14px;text-align:left;color:#00395e">
+                                            <td bgcolor="#001253" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0;background:#001253;vertical-align:bottom" valign="bottom">
+                                                <p style="margin:20px;line-height:22px;font-size:14px;text-align:left;color:#fff">
                                                     <b>
                                                         Kính gửi quý khách hàng
                                                         <i>/Dear customers: ${payload.khach_hang.ho_ten}</i>
                                                         <br>
                                                     </b>
-                                                    Văn phòng luật ABC trân trọng thông báo
-                                                    <i>/ABC Law Office would like to inform:</i>
+                                                    Công ty luật MMX trân trọng thông báo
+                                                    <i>/MMX Law Company would like to inform:</i>
                                                     <br>
                                                 </p>
                                             </td>
@@ -141,8 +125,9 @@ class QuoteForm {
                         <tr border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0">
                             <td border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0">
                                 <table align="center" bgcolor="#e5ecf2" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-family:Arial,sans-serif;font-weight:normal;margin:0 auto;max-width:600px;width:100%" width="100%">
-                                    <tbody><tr border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0">
-                                        <td bgcolor="#FFD103" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0;background:#ffd103;vertical-align:bottom" valign="top">
+                                    <tbody>
+                                    <tr border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0">
+                                        <td bgcolor="#FFD103" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0;background:#EAE3D2;vertical-align:bottom" valign="top">
                                             <p style="margin:10px;line-height:22px;font-size:18px;color:#000000;padding-left:10px">
                                                 <b> Thông báo nội dung báo giá </b>
                                                 <br>
@@ -192,7 +177,7 @@ class QuoteForm {
                                     </tbody></table>
                                 <table align="center" bgcolor="#FFF4C2" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-family:Arial,sans-serif;font-weight:normal;margin:0 auto;max-width:600px;width:100%" width="100%">
                                     <tbody><tr border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0">
-                                        <td bgcolor="#FFF4C2" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0;background:#fff4c2;vertical-align:bottom" valign="top">
+                                        <td bgcolor="#FFF4C2" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0;background:#EAE3D2;vertical-align:bottom" valign="top">
                                             <table align="center" border="0" cellpadding="0" cellspacing="0" style="margin:10px auto">
                                                 <tbody><tr>
                                                     <td></td>
@@ -216,23 +201,7 @@ class QuoteForm {
                                 hoặc phản hồi lại email này</i>
                             </td>
                         </tr>
-                        <tr border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0">
-                            <td border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0">
-                                <table align="center" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-family:Arial,sans-serif;font-weight:normal;margin:0 auto;max-width:600px;width:100%" width="100%">
-                                    <tbody>
-                                        <tr>
-                                            <td align="center" style="border-collapse:collapse;font-size:0;padding:10px 0px 0px 0px;text-align:center">
-                                                <table height="3" width="100%">
-                                                    <tbody><tr height="3">
-                                                        <td bgcolor="#0072BC" height="3" style="border-collapse:collapse;font-size:0;padding:3px" valign="top" width="70%"></td><td bgcolor="#FFD008" height="3" style="border-collapse:collapse;font-size:0;padding:3px" valign="top" width="30%"></td>
-                                                    </tr>
-                                                    </tbody></table>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
+                       
                         <tr border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0">
                             <td border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0;margin:0;padding:0"></td>
                         </tr>

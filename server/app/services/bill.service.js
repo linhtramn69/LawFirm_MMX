@@ -68,7 +68,7 @@ class Bill {
         const id = {
             _id: ObjectId.isValid(payload) ? new ObjectId(payload) : null
         };
-        const result = this.Bill.find({ vu_viec: payload })
+        const result = this.Bill.find({ vu_viec: payload, loai_hoa_don: 'KH' })
         const matter = await this.Matter.findOne({ _id: new ObjectId(payload)})
         result.forEach((value) => {
             total = total + value.tong_gia_tri
@@ -77,6 +77,9 @@ class Bill {
                 ? matter.status_tt = 1
                 : matter.tong_tien == total ? matter.status_tt = 2
                 : matter.status_tt = 0
+
+            console.log(matter.status_tt);
+
         }).then(() => {
             this.Matter.findOneAndUpdate(
                 id,
