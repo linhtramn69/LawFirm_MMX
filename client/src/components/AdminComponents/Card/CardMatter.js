@@ -7,11 +7,11 @@ function CardMatter({ title, total, url, color }) {
             <Link to={url} >
                 <div className="card-matter" 
                     style={{
-                        backgroundColor: color===0 ? "#91caff" 
-                        : color === 1 ? "#95de64" 
-                        : color=== 2 ?  "#fff566" 
+                        background: color===0 ? `linear-gradient(to bottom, #33ccff 0%, #3366ff 100%)` 
+                        : color === 1 ? "linear-gradient(to top, #33cc33 0%, #99ff99 100%)" 
+                        : color=== 2 ?  `linear-gradient(to top, #ffcc00 0%, #ffff66 100%)` 
                         : color=== 3 ?  "#d9d9d9" 
-                        : "#ff9c6e"
+                        : `linear-gradient(to bottom, #ff6666 0%, #ff3300 100%)`
                     }
                 }
                 >

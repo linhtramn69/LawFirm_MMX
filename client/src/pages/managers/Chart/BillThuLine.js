@@ -28,10 +28,6 @@ const options = {
         legend: {
             position: 'top',
         },
-        title: {
-            display: true,
-            text: 'Tổng tiền khách hàng thanh toán',
-        },
     },
 };
 
@@ -54,10 +50,10 @@ export function BillThuLine() {
         labels,
         datasets: [
             {
-                label: null,
+                label: "VNĐ",
                 data: bill,
-                borderColor: 'rgb(255, 99, 132)',
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                borderColor: '#1677ff',
+                backgroundColor: '#1677ff',
             },
         ],
     };

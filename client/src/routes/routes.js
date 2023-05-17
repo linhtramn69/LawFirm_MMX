@@ -34,12 +34,19 @@ import BillList from "~/pages/managers/bills/BillList"
 import BillDetail from "~/pages/managers/bills/BillDetail"
 import BillCreate from "~/pages/managers/bills/BillCreate"
 import TaskManager from "~/pages/managers/tasks/TaskManager"
+import Dashboard from "~/pages/managers/dashboard"
+import Layout from "~/layouts/Layout"
+import thongke from "~/pages/managers/thongke"
 
 const publicRoutes = [
     { path: config.routes.login, component: LoginPage, layout: UserLayout },
     { path: config.routes.user.home, component: HomePage, layout: UserLayout },
 ]
-
+const user = [
+    { path: config.routes.user.matters, component: MatterList, layout: UserLayout },
+    { path: config.routes.user.home, component: HomePage, layout: UserLayout },
+    { path: config.routes.admin.matterDetail, component: MatterDetail, layout: UserLayout },
+]
 const privateRoutes = [
     // Dashboard
     { path: config.routes.admin.dashboard, component: Manager, layout: LayoutAdmin },
@@ -72,12 +79,15 @@ const privateRoutes = [
     //Calendar
     { path: config.routes.admin.calendarManager, component: CalendarManager, layout: LayoutAdmin },
     //Fee
+    { path: config.routes.admin.feeManager, component: FeeManager, layout: LayoutAdmin },
     { path: config.routes.admin.feeList, component: FeeList, layout: LayoutAdmin },
     { path: config.routes.admin.feeDetail, component: FeeDetail, layout: LayoutAdmin }, 
     // Bill
     { path: config.routes.admin.billTypeList, component: BillList, layout: LayoutAdmin },
     { path: config.routes.admin.billDetail, component: BillDetail, layout: LayoutAdmin },
     { path: config.routes.admin.billAdd, component: BillCreate, layout: LayoutAdmin },
+
+    { path: config.routes.admin.thongke, component: thongke, layout: LayoutAdmin },
 ]
 const staffRouter = [
     // Dashboard
@@ -96,6 +106,9 @@ const staffRouter = [
     { path: config.routes.staff.feeDetail, component: FeeDetail, layout: LayoutAdmin },
     // Calendar
     { path: config.routes.staff.calendarManager, component: CalendarManager, layout: LayoutAdmin },
+
+    { path: config.routes.admin.quoteDetail, component: QuoteDetail, layout: LayoutAdmin },
+
 
 ]
 const TroLyRouter = [
@@ -140,4 +153,4 @@ const KeToanRouter = [
 
 ]
 
-export { privateRoutes, publicRoutes, staffRouter, TuVanVienRouter, KeToanRouter, TroLyRouter }
+export { privateRoutes, publicRoutes, staffRouter, TuVanVienRouter, KeToanRouter, TroLyRouter, user }

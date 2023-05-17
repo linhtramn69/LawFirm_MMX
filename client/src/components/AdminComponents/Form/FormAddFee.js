@@ -195,12 +195,7 @@ function FormAddFee() {
                 Thêm mới
             </Button>
             <Modal
-                title={
-                    <>
-                        <Title level={4}>Thêm công việc</Title>
-                        <Divider />
-                    </>
-                }
+                title="Chi phí mới"
                 centered
                 open={open}
                 footer={null}

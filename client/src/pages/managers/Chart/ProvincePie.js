@@ -19,11 +19,7 @@ export function ProvincePie() {
     responsive: true,
     plugins: {
         legend: {
-            position: 'top',
-        },
-        title: {
-            display: true,
-            text: `Khách hàng theo khu vực / ${moment().year()}`,
+            position: 'right',
         },
     },
 };

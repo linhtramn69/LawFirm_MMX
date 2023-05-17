@@ -1,4 +1,6 @@
-import { Avatar, Button, List, Skeleton } from 'antd';
+import { Avatar, Button, Card, Divider, List, Skeleton } from 'antd';
+import Title from 'antd/es/typography/Title';
+import moment from 'moment';
 import { useEffect, useState } from 'react';
 const count = 3;
 const ListHistory = ({props}) => {
@@ -37,7 +39,10 @@ const ListHistory = ({props}) => {
       </div>
     ) : null;
   return (
-    <List
+    <>
+    <Divider><Title level={4}>Lịch sử chỉnh sửa</Title></Divider>
+    <div style={{textAlign:'center'}}>
+       <List
       className="demo-loadmore-list"
       itemLayout="horizontal"
       loadMore={loadMore}
@@ -45,10 +50,20 @@ const ListHistory = ({props}) => {
       renderItem={(item) => (
         <List.Item
         >
-            <p>{item.nguoi_thuc_hien.ho_ten}</p>
+            <Skeleton avatar title={false} loading={item.loading} active>
+            <List.Item.Meta
+              title={"Vào lúc " +moment(item.thoi_gian).format('DD-MM-YYYY LTS') }
+              description={"Người dùng " + item.nguoi_thuc_hien.ho_ten + " thực hiện chỉnh sửa"}
+            />
+          </Skeleton>
         </List.Item>
       )}
     />
+    </div>
+    
+    </>
+
+   
   );
 };
 export default ListHistory;

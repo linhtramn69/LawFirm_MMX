@@ -1,11 +1,10 @@
 import { useEffect, useState, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { matterService, periodService, serviceService, typeServiceService, userService } from "~/services";
 import { useToken } from "~/store";
-import { Button, Input, Progress, Space, Table, Tag, Tooltip } from "antd";
+import { Button, Card, Input, Progress, Space, Table, Tag, Tooltip } from "antd";
 import Highlighter from 'react-highlight-words';
-import { SearchOutlined } from '@ant-design/icons';
-import { green, red } from '@ant-design/colors';
+import { SearchOutlined, ReconciliationFilled } from '@ant-design/icons';
 const statusText = ['Đang thực hiện', 'Hoàn thành', 'Tạm ngưng'];
 const statusTT = ['Chưa thanh toán', 'Đang thanh toán', 'Đã thanh toán'];
 function MatterList() {
@@ -23,45 +22,49 @@ function MatterList() {
     const [dataSource, setDataSource] = useState([])
     const [period, setPeriod] = useState([])
     let url = 'admin'
-    if (token.chuc_vu._id === 'LS02')
+    if(token.account.quyen != 0){
+         if (token.chuc_vu._id === 'LS02')
         url = 'staff'
     else if (token.chuc_vu._id === 'TL02')
         url = 'tro-ly'
     else if (token.chuc_vu._id === 'KT02')
         url = 'ke-toan'
+    }
+   
     const get_day_of_time = (d1, d2) => {
-            let ms1 = d1.getTime();
-            let ms2 = d2.getTime();
-            return Math.ceil((ms2 - ms1) / (24*60*60*1000));
-        };
+        let ms1 = d1.getTime();
+        let ms2 = d2.getTime();
+        return Math.ceil((ms2 - ms1) / (24 * 60 * 60 * 1000));
+    };
     const handleTotalMatterDay = (value, array) => {
-            const arr = array.filter(vl => 
-                 vl.status_tt != 2 &&
-                 vl.dieu_khoan_thanh_toan.ten - get_day_of_time(new Date(vl.ngay_lap), new Date()) <= value
-                 && vl.dieu_khoan_thanh_toan.ten - get_day_of_time(new Date(vl.ngay_lap), new Date()) >= 0)    
-                 
-            return arr
-        }
-        const handleTotalMatterMiss = (array) => {
-           const arr = array.filter(vl => 
-                vl.status_tt != 2 &&
-                vl.dieu_khoan_thanh_toan.ten < get_day_of_time(new Date(vl.ngay_lap), new Date()))
-            return arr
-        }
+        const arr = array.filter(vl =>
+            vl.status_tt != 2 &&
+            vl.dieu_khoan_thanh_toan.ten - get_day_of_time(new Date(vl.ngay_lap), new Date()) <= value
+            && vl.dieu_khoan_thanh_toan.ten - get_day_of_time(new Date(vl.ngay_lap), new Date()) >= 0)
+
+        return arr
+    }
+    const handleTotalMatterMiss = (array) => {
+        const arr = array.filter(vl =>
+            vl.status_tt != 2 &&
+            vl.dieu_khoan_thanh_toan.ten < get_day_of_time(new Date(vl.ngay_lap), new Date()))
+        return arr
+    }
     useEffect(() => {
         const getMatter = async () => {
             const result =
-                token.account.quyen === 1 || token.chuc_vu._id === 'KT02' ?
+            token.account.quyen === 0 ? ((await matterService.findByIdAccessUser({ id: token._id })).data)
+               : token.account.quyen === 1 || token.chuc_vu._id === 'KT02' ?
                     ((await matterService.get()).data)
                     : token.chuc_vu._id === 'TL02' ?
                         ((await matterService.findByIdAccess({ id: token.boss })).data)
                         : ((await matterService.findByIdAccess({ id: token._id })).data)
-            const arr = id === 'all' ? result 
-            : id === 'tt-1' ? handleTotalMatterDay(1, result) 
-            : id === 'tt-7' ? handleTotalMatterDay(7, result) 
-            : id === 'tt-30' ? handleTotalMatterDay(30, result) 
-            : id === 'tt-miss' ? handleTotalMatterMiss(result) 
-            : result.filter(item => item.status == id)
+            const arr = id === 'all' ? result
+                : id === 'tt-1' ? handleTotalMatterDay(1, result)
+                    : id === 'tt-7' ? handleTotalMatterDay(7, result)
+                        : id === 'tt-30' ? handleTotalMatterDay(30, result)
+                            : id === 'tt-miss' ? handleTotalMatterMiss(result)
+                                : result.filter(item => item.status == id)
             setMatters(arr)
         }
         const getType = async () => {
@@ -78,8 +81,9 @@ function MatterList() {
         getService()
         getLaw()
     }, [id])
+    console.log(matters);
     useEffect(() => {
-        const data =  matters.map((value, index) => {
+        const data = matters.map((value, index) => {
             return {
                 _id: value._id,
                 key: index + 1,
@@ -89,9 +93,11 @@ function MatterList() {
                 customer: value.khach_hang.ho_ten,
                 phoneCus: value.khach_hang.account.sdt,
                 law: value.luat_su.ho_ten,
-                status: value.status,
-                status_tt: value.status_tt, 
-                progress: value.quy_trinh
+                status: `${value.status}`,
+                status_tt: `${value.status_tt}`,
+                progress: value.quy_trinh ?
+                 Math.floor((((value.quy_trinh.filter((item) => item.status > 0))).length / value.quy_trinh.length) * 100)
+                 : 0
             }
         })
         setDataSource(data)
@@ -134,7 +140,7 @@ function MatterList() {
             >
                 <Input
                     ref={searchInput}
-                    placeholder={`Tìm kiếm theo số điện thoại khách hàng`}
+                    placeholder={dataIndex == 'phoneCus' ? `Tìm kiếm theo số điện thoại khách hàng` : `Tìm kiếm theo tên`}
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -216,6 +222,7 @@ function MatterList() {
                     {nameMatter}
                 </Tooltip>
             ),
+
         },
         {
             title: 'Lĩnh vực',
@@ -226,6 +233,7 @@ function MatterList() {
             ellipsis: {
                 showTitle: false,
             },
+            filterSearch: true,
             render: (typeService) => (
                 <Tooltip placement="topLeft" title={typeService}>
                     {typeService}
@@ -260,6 +268,7 @@ function MatterList() {
             title: 'Khách hàng',
             dataIndex: 'customer',
             key: 'customer',
+            ...getColumnSearchProps('customer')
         },
         {
             title: 'Số điện thoại khách hàng',
@@ -270,9 +279,26 @@ function MatterList() {
         {
             title: 'Trạng thái',
             dataIndex: 'status',
+            key: 'status',
+            filters: [
+                {
+                    text: 'Đang thực hiện',
+                    value: 0
+                },
+                {
+                    text: 'Đã hoàn thành',
+                    value: 1
+                },
+                {
+                    text: 'Tạm ngưng',
+                    value: 2
+                }
+            ],
+            onFilter: (value, record) => record.status.startsWith(value),
+
             render: (status) => (
                 <Tag
-                    color={status === 0 ? 'geekblue' : status === 1 ? 'success' : 'volcano'}
+                    color={status == 0 ? 'geekblue' : status == 1 ? 'success' : 'volcano'}
                 >
                     {statusText[status]}
                 </Tag>
@@ -281,9 +307,24 @@ function MatterList() {
         {
             title: 'Thanh toán',
             dataIndex: 'status_tt',
+            filters: [
+                {
+                    text: 'Chưa thanh toán',
+                    value: 0
+                },
+                {
+                    text: 'Đang thanh toán',
+                    value: 1
+                },
+                {
+                    text: 'Đã thanh toán',
+                    value: 2
+                }
+            ],
+            onFilter: (value, record) => record.status_tt.startsWith(value),
             render: (status_tt) => (
                 <Tag
-                    color={status_tt === 0 ? 'volcano' : status_tt === 2 ? 'success' : 'geekblue'}
+                    color={status_tt == 0 ? 'volcano' : status_tt == 2 ? 'success' : 'geekblue'}
                 >
                     {statusTT[status_tt]}
                 </Tag>
@@ -292,37 +333,63 @@ function MatterList() {
         {
             title: 'Tiến độ',
             dataIndex: 'progress',
+            sorter: (a, b) => a.progress - b.progress,
             render: (progress) => (
-                   progress ? 
                 <Progress percent={(
-                    Math.floor((((progress.filter((item) => item.status > 0))).length/progress.length)*100)
-                    
+                    progress
+
                 )} strokeColor={
-                    (((progress.filter((item) => item.status > 0))).length/progress.length)*100 < 50
-                    ? "#1677ff"
-                    :
-                    (((progress.filter((item) => item.status > 0))).length/progress.length)*100 >= 50
-                    && 
-                    (((progress.filter((item) => item.status > 0))).length/progress.length)*100 < 100
-                    ? "#fadb14"
-                    : '#7cb305'
-                }/>
-                : <Progress percent={0}/> 
-                
-                
+                    progress < 50
+                        ? "#1677ff"
+                        :
+                        progress >= 50
+                            &&
+                            progress < 100
+                            ? "#fadb14"
+                            : '#7cb305'
+                } />
+                // progress ?
+                //     <Progress percent={(
+                //         Math.floor((((progress.filter((item) => item.status > 0))).length / progress.length) * 100)
+
+                //     )} strokeColor={
+                //         (((progress.filter((item) => item.status > 0))).length / progress.length) * 100 < 50
+                //             ? "#1677ff"
+                //             :
+                //             (((progress.filter((item) => item.status > 0))).length / progress.length) * 100 >= 50
+                //                 &&
+                //                 (((progress.filter((item) => item.status > 0))).length / progress.length) * 100 < 100
+                //                 ? "#fadb14"
+                //                 : '#7cb305'
+                //     } />
+                //     : <Progress percent={0} />
+
+
             ),
         },
     ]
     return (
         <>
-            <Table columns={columns} dataSource={dataSource}
-                onRow={(record, rowIndex) => {
-                    return {
-                        onClick: (event) => {
-                            navigate(`/${url}/matter/${record._id}`)
-                        }, // click row
-                    }
-                }} />
+            {token.account.quyen === 1 ?
+                <Link to="/admin/matter/add">
+                    <Button className="btn-cyan" icon={<ReconciliationFilled />} block>Vụ việc mới</Button>
+                </Link>
+                : null
+            }
+            <Card className="card-list">
+                <Table columns={columns} dataSource={dataSource}
+                    onRow={(record, rowIndex) => {
+                        return {
+                            onClick: (event) => {
+                                navigate(
+                                        token.account.quyen == 0 ? `/matter/${record._id}`
+                                     : `/${url}/matter/${record._id}`
+                                       )
+                            }, // click row
+                        }
+                    }} />
+            </Card>
+
         </>
     );
 }

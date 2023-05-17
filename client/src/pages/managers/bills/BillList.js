@@ -1,10 +1,10 @@
-import { Table, Tag } from "antd";
+import { Card, Table, Tag } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { billService } from "~/services";
 import { useToken } from "~/store";
-const statusText = ['Chưa thanh toán', 'Đã thanh toán', 'Đã kết toán']
+const statusText = ['Chưa thanh toán', 'Đang thanh toán', 'Đã thanh toán']
 const url = ['', 'admin', 'ke-toan']
 
 function BillList() {
@@ -31,11 +31,10 @@ function BillList() {
             date: moment(value.ngay_lap).format('DD-MM-YYYY LT'),
             staff: value.nhan_vien_lap_hoa_don.ho_ten,
             total: `${value.tong_gia_tri}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' đ',
-            status: value.status,
             type_bill: value.loai_hoa_don
         }
     }) : null
-
+console.log(data);
     const [filteredInfo, setFilteredInfo] = useState({});
     const handleChange = (filters) => {
         setFilteredInfo(filters);
@@ -72,39 +71,13 @@ function BillList() {
                 type === 'NB' ? 'Nội bộ' : 'Khách hàng'
             )
         },
-        {
-            title: 'Trạng thái',
-            dataIndex: 'status',
-            key: 'status',
-            filters: [
-                {
-                    text: 'Chưa thanh toán',
-                    value: 0,
-                },
-                {
-                    text: 'Đã thanh toán',
-                    value: 1,
-                },
-                {
-                    text: 'Đã kết toán',
-                    value: 2,
-                },
-            ],
-            onFilter: (value, record) => record.status === value,
-            render: (status) => (
-                <Tag
-                    color={status === 0 ? 'volcano' : status === 1 ? 'green' : 'geekblue'}
-                >
-                    {statusText[status]}
-                </Tag>
-            ),
-        }
 
     ]
 
     return (
         <>
-            <Table columns={columns} dataSource={data}
+        <Card className="card-list">
+          <Table columns={columns} dataSource={data}
                 onChange={handleChange}
                 onRow={(record, rowIndex) => {
                     return {
@@ -112,7 +85,9 @@ function BillList() {
                             navigate(`/${url[token.account.quyen]}/bill/${record._id}`)
                         }, // click row
                     }
-                }} />
+                }} />  
+        </Card>
+            
         </>
     );
 }

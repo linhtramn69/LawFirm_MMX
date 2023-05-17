@@ -19,11 +19,7 @@ export function TypeServiceFavoritePie() {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
-      },
-      title: {
-        display: true,
-        text: `Lĩnh vực được quan tâm / ${moment().year()}`,
+        position: 'right',
       },
     },
   };

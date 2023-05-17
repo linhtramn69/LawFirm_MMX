@@ -3,21 +3,37 @@
     justify-content: center;
     align-items: center;
     background-color: var(--grey-blue);
-    min-height: 92.2vh;
+    min-height: 100vh;
 
     .item-dashboard {
-        box-shadow: 5px 5px 5px #595959;
-        margin-bottom: 10px;
-        border-radius: 15px;
-
-        &:hover {
-            background-color: var(--dark-blue) !important;
-            transition: 0.2s ease-in-out;
-            box-shadow: none;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        box-shadow: 5px 5px 10px #898989;
+        box-sizing: border-box;
+        color: #fff;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 55px;
+        font-weight: 400;
+        width: 140px;
+        height: 120px;
+        margin: 0;
+        outline: none;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        vertical-align: baseline;
+        white-space: nowrap;
+        &:hover{
+            box-shadow: 5px 10px 15px #848484;
         }
     }
 
     .title-item-dashboard {
+        font-size: 1.3rem !important;
         color: #000;
         font-weight: 500;
     }

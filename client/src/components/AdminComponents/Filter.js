@@ -51,12 +51,12 @@ function Filter({ seg }) {
       <Row>
         <Col md={{ span: 4 }}>
           <Space>
-            <Link to={`add`}><Button type="primary" className="btn-primary">CREATE</Button></Link>
+            <Link to={`add`}><Button type="primary" className="btn-primary">Thêm mới</Button></Link>
           </Space>
         </Col>
-        <Col md={{ span: 8, push: 10 }}>
+        <Col md={{ span: 4, push: 16 }}>
 
-          <TreeSelect
+          {/* <TreeSelect
             showSearch
             dropdownStyle={{
               maxHeight: 400,
@@ -69,7 +69,7 @@ function Filter({ seg }) {
             allowClear
             treeDefaultExpandAll
             treeData={treeData}
-          />
+          /> */}
           {seg}
         </Col>
       </Row>

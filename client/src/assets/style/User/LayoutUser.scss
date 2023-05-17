@@ -93,3 +93,44 @@
     }
 }
 
+.ant-notification-notice {
+    height: 90vh;
+    padding: 10px;
+    .ant-notification-notice-message{
+        padding: 10px 10px 0px 10px;
+    }
+    .ant-notification-notice-description {
+        height: 60vh;
+        overflow-y: scroll;
+        scroll-snap-type: y mandatory;
+        .ant-card{
+            border-radius: 3px;
+            margin: 20px;
+            border: none !important;
+            box-shadow: 1px 1px 8px 2px #e8e8e8;
+            .ant-card-body{
+                padding: 20px 20px 0 20px;
+            }
+        }
+    }
+
+    ::-webkit-scrollbar {
+        width: 7px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        border-radius: 10px;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #d3d3d3;
+        border-radius: 10px;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #b4b4b4;
+    }
+}

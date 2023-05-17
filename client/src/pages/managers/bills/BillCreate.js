@@ -103,7 +103,7 @@ function BillCreate() {
                     <Row>
                         <Col span={10} push={2}>
                             <Form.Item>
-                                <Title level={5}>Tài khoản kết toán</Title>
+                                <Title level={5}>Tài khoản công ty</Title>
                             </Form.Item>
                             <Form.Item
                                 label="Ngân hàng"
@@ -122,8 +122,8 @@ function BillCreate() {
                                 </Select>
                             </Form.Item>
                             <Form.Item
-                                label="Tên tài khoản"
-                                name="name_card_cty"
+                                label="Số tài khoản"
+                                name="number_cty"
                             >
                                 <Input
                                     style={{
@@ -132,8 +132,8 @@ function BillCreate() {
                                 />
                             </Form.Item>
                             <Form.Item
-                                label="Số tài khoản"
-                                name="number_cty"
+                                label="Tên tài khoản"
+                                name="name_card_cty"
                             >
                                 <Input
                                     style={{
@@ -157,7 +157,7 @@ function BillCreate() {
                         </Col>
                         <Col span={10} push={2}>
                             <Form.Item>
-                                <Title level={5}>Tài khoản bút toán</Title>
+                                <Title level={5}>Tài khoản khách hàng</Title>
                             </Form.Item>
                             <Form.Item
                                 label="Ngân hàng"
@@ -176,8 +176,8 @@ function BillCreate() {
                                 </Select>
                             </Form.Item>
                             <Form.Item
-                                label="Tên tài khoản"
-                                name="name_card_khach"
+                                label="Số tài khoản"
+                                name="number_khach"
                             >
                                 <Input
                                     style={{
@@ -186,8 +186,8 @@ function BillCreate() {
                                 />
                             </Form.Item>
                             <Form.Item
-                                label="Số tài khoản"
-                                name="number_khach"
+                                label="Tên tài khoản"
+                                name="name_card_khach"
                             >
                                 <Input
                                     style={{

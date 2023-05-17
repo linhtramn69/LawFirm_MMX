@@ -12,7 +12,9 @@ import {
     SET_FEES,
     SET_USER,
     SET_BILLS,
-    SET_BILL
+    SET_BILL, 
+    SET_CONTACTS,
+    SET_PERIODS
 } from './constants'
 export const setUser = payload => (
     {
@@ -95,6 +97,18 @@ export const setBills = payload => (
 export const setBill = payload => (
     {
         type: SET_BILL,
+        payload
+    }
+)
+export const setContacts = payload => (
+    {
+        type: SET_CONTACTS,
+        payload
+    }
+)
+export const setPeriods = payload => (
+    {
+        type: SET_PERIODS,
         payload
     }
 )

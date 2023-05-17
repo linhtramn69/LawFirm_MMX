@@ -1,4 +1,4 @@
-import { Table } from 'antd';
+import { Card, Table } from 'antd';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -47,7 +47,8 @@ function TableComponent({ data, columns }) {
     ],
   };
   return (
-    <Table
+    <Card className='card-list'>
+<Table
       rowSelection={rowSelection}
       columns={columns}
       dataSource={data}
@@ -59,6 +60,8 @@ function TableComponent({ data, columns }) {
         }
       }}
     />
+    </Card>
+    
   )
     ;
 };

@@ -28,10 +28,6 @@ const options = {
         legend: {
             position: 'top',
         },
-        title: {
-            display: true,
-            text: 'Tổng tiền khách hàng thanh toán',
-        },
     },
 };
 let labels = [];
@@ -51,12 +47,12 @@ export function CustomerOldLine() {
         }
         getTile()
     }, [])
-
+console.log(tile);
     const data = {
         labels,
         datasets: [
             {
-                label: null,
+                label: 'Tỷ lệ %',
                 data: tile,
                 borderColor: 'rgb(255, 99, 132)',
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',

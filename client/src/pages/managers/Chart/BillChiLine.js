@@ -27,10 +27,6 @@ const options = {
         legend: {
             position: 'top',
         },
-        title: {
-            display: true,
-            text: 'Tổng tiền chi nội bộ',
-        },
     },
 };
 
@@ -53,7 +49,7 @@ export function BillChiLine() {
         labels,
         datasets: [
             {
-                label: null,
+                label: "VNĐ",
                 data: bill,
                 borderColor: 'rgb(255, 99, 132)',
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',

@@ -12,10 +12,7 @@ function MatterAdd() {
     // }, [])
     return (
         <>
-            <Card
-                title={
-                   <TitleCardModal title="Thêm vụ việc" current={1}/>
-                }>
+            <Card title="Thêm vụ việc">
                 <FormMatter />
             </Card>
         </>

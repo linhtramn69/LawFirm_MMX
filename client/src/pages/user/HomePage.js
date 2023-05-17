@@ -75,17 +75,20 @@ function HomePage() {
     const openNotification = (placement) => {
         api.open({
             duration: false,
-            message: <Space size={20}>
+            message: 
+            <Space size={20}>
                 <Avatar size='large' src={avatar.tuvan} />
-                <Space direction="vertical" size={1}> <Title level={5}>LawKim kính chào Quý khách </Title>
+                {/* <Space direction="vertical" size={1}> <Title level={5}>LawKim kính chào Quý khách </Title> */}
                     <Text italic>
+                    <b>MMX kính chào Quý khách </b> <br/>
                         Quý Khách cần thêm thông tin xin hãy điền vào thông tin bên dưới.
                         Chúng tôi sẽ liên hệ với bạn.</Text>
-                </Space>
+                {/* </Space> */}
 
             </Space>,
-            style: {width: 500},
-            description: <Card title="Yêu cầu báo giá">
+            style: {width: 450},
+            description: 
+            <Card title="Yêu cầu báo giá">
                 <Form
                     form={form}
                     layout="vertical"
@@ -108,8 +111,7 @@ function HomePage() {
                     >
                         <Input />
                     </Form.Item>
-
-                    <Form.Item
+         <Form.Item
                         label="Số điện thoại"
                         name="sdt"
                         rules={[

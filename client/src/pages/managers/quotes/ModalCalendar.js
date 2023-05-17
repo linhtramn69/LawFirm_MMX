@@ -93,6 +93,7 @@ function ModalCalendar(props) {
                 sdt: values.sdt,
                 email: values.email
             },
+            nguoi_tao: token._id
         }
         try {
             await timeAppointmentService.create(data);
@@ -110,7 +111,7 @@ function ModalCalendar(props) {
 
     return (
         <Modal
-            title="Thêm công việc"
+            title="Lịch hẹn mới"
             width={1000}
             {...props}
             footer={null}

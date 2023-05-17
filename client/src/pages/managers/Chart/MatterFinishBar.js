@@ -51,7 +51,7 @@ export function MatterFinishBar() {
         labels,
         datasets: [
             {
-                label: 'Dataset 1',
+                label: 'Tổng',
                 data: matter,
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',
             }

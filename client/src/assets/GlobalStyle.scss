@@ -17,7 +17,9 @@
     --body-background: #f0f1f3;
 }
 .btn-primary{
-    background-color: var(--dark-blue);
+    // background-color: var(--dark-blue);
+    font-weight: 600;
+    background: linear-gradient(to bottom, #3333cc 0%, #000066 100%);
     border-radius: 1px;
     letter-spacing: 1px;
     color: #fff;
@@ -27,10 +29,13 @@
     border-radius: 1px;
 }
 .btn-cyan{
-    background-color: var(--cyan);
+    background-color: var(--dark-blue);
+    background: linear-gradient(to bottom, #000099 0%, #000066 100%);
     color: #fff;
     border-radius: 3px;
     border: none;
+    height: 40px;
+    width: 140px !important;
     &:hover{
         background-color: var(--cyan-hover);
         color: #fff !important;

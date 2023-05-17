@@ -174,8 +174,8 @@ function HeaderAdmin() {
       key: 'fee',
     },
     {
-      label: <Link to={`/${url}/fee`}>
-        Báo cáo thống kê
+      label: <Link to={`/${url}/matters/all`}>
+        Quản lý vụ việc
       </Link>,
       key: 'bc',
     },
@@ -230,7 +230,7 @@ function HeaderAdmin() {
     <>
       <Row className="header-admin">
         <Col md={
-          token.account.quyen === 1 ? { span: 15, push: 1 }
+          token.account.quyen === 1 ? { span: 12, push: 1 }
             : { span: 12, push: 1 }
         }>
           <Menu onClick={onClick} className="menu" selectedKeys={[current]} mode="horizontal" items={
@@ -242,7 +242,7 @@ function HeaderAdmin() {
           } />
         </Col>
         <Col md={
-          token.account.quyen === 1 ? { span: 9 }
+          token.account.quyen === 1 ? { span: 11, push: 1 }
             : { span: 10, push: 2 }
         }>
           <Menu onClick={onClick} className="menu" selectedKeys={[current]} mode="horizontal" items={items1} />

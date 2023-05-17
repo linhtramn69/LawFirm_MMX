@@ -4,6 +4,7 @@ const routes = {
     user: {
         home: '/',
         service: '/service',
+        matters: '/matters/:id'
     },
     admin: {
         dashboard: '/',
@@ -36,12 +37,15 @@ const routes = {
         //Calendar
         calendarManager: '/calendar',
         //Fee
+        feeManager: '/fee',
         feeList: '/fees/:id',
         feeDetail: '/fee/:id',
         // Bill
         billTypeList: '/bills/type-bill/:id',
         billDetail: '/bill/:id',
         billAdd: '/bill/add/:id',
+
+        thongke: '/thong-ke'
     },
     staff: {
         dashboard: '/',

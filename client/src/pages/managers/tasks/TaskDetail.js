@@ -1,21 +1,21 @@
 import { faCancel, faCircleCheck, faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Badge, Button, Card, Col, Descriptions, Divider, Popconfirm, Row, Tabs, message } from "antd";
+import { Badge, Button, Card, Col, Descriptions, Divider, Popconfirm, Row, Space, Tabs, message } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import FormAddFile from "~/components/AdminComponents/Form/FormAddFile";
 import { matterService, taskService } from "~/services";
-import { useStore, useToken } from "~/store";
+import { actions, useStore, useToken } from "~/store";
 
 function TaskDetail() {
 
     let { id } = useParams();
-    const [state, disabled] = useStore();
+    const [state, dispatch] = useStore();
     const [task, setTask] = useState({});
     const [matter, setMatter] = useState({});
     const [messageApi, contextHolder] = message.useMessage();
-    const {token} = useToken()
+    const { token } = useToken()
 
     const success = () => {
         messageApi.open({
@@ -35,6 +35,7 @@ function TaskDetail() {
             setTask((await taskService.getById(id)).data)
         }
         getTask()
+        dispatch(actions.setFiles(task.tai_lieu))
     }, [])
     useEffect(() => {
         const getMatter = async () => {
@@ -66,12 +67,12 @@ function TaskDetail() {
         }
         try {
             if (window.confirm(`Bạn muốn cập nhật lại công việc ${task.ten_cong_viec} ?`)) {
-                try{
+                try {
                     const rs = (await taskService.update(task._id, newData)).data;
                     setTask(rs);
                     success();
                 }
-                catch(err){
+                catch (err) {
                     error();
                 }
             }
@@ -80,7 +81,7 @@ function TaskDetail() {
             console.log(err);
         }
     }
-    
+console.log(state.files);
     return (
         <>
             {contextHolder}
@@ -89,11 +90,12 @@ function TaskDetail() {
                 title={
                     task.status === 0 ? <Badge status="processing" text="Đã giao" />
                         : task.status === 1 ? <Badge status="warning" text="Trình duyệt" />
-                        : task.status === 2 ? <Badge status="success" text="Hoàn thành" />
-                            : <Badge status="warning" text="Tạm ngưng" />
+                            : task.status === 2 ? <Badge status="success" text="Hoàn thành" />
+                            : task.status === -2 ? <Badge status="processing" text="Thực hiện lại" />
+                                : <Badge status="warning" text="Tạm ngưng" />
                 }
                 extra={
-                    task.status === 0 ?
+                    task.status === 0 && task.nguoi_phu_trach._id == token._id ?
                         <Popconfirm
                             placement="topRight"
                             title="Trình duyệt công việc"
@@ -109,49 +111,68 @@ function TaskDetail() {
                                         color: '#faad14',
                                         marginRight: 10
                                     }} icon={faPen} />}>Trình lên duyệt</Button>
-                        </Popconfirm> 
+                        </Popconfirm>
                         : task.status === 1 && token.chuc_vu._id == 'TL02' ?
-                        <Popconfirm
-                            placement="topRight"
-                            title="Huỷ trình công việc"
-                            description="Bạn có chắc muốn huỷ trình công việc này chứ?"
-                            okText="Xác nhận"
-                            cancelText="Hủy"
-                            onConfirm={() => handleOk(0)}
-                        >
-                            <Button
-                                className="btn btn-status"
-                                icon={<FontAwesomeIcon
-                                    style={{
-                                        color: '#cf1322',
-                                        marginRight: 10
-                                    }} icon={faCancel} />}>Huỷ trình</Button>
-                        </Popconfirm>
-                        : task.status === 1 && token.chuc_vu._id == 'LS02' ?
-                        <Popconfirm
-                            placement="topRight"
-                            title="Hoàn thành công việc"
-                            description="Bạn có chắc chắn là công việc này đã hoàn thành chứ chứ?"
-                            okText="Xác nhận"
-                            cancelText="Hủy"
-                            onConfirm={() => handleOk(2)}
-                        >
-                            <Button
-                                className="btn btn-status"
-                                icon={<FontAwesomeIcon
-                                    style={{
-                                        color: '#389e0d',
-                                        marginRight: 10
-                                    }} icon={faCircleCheck} />}>Hoàn thành</Button>
-                        </Popconfirm>
-                        : <></>
+                            <Popconfirm
+                                placement="topRight"
+                                title="Huỷ trình công việc"
+                                description="Bạn có chắc muốn huỷ trình công việc này chứ?"
+                                okText="Xác nhận"
+                                cancelText="Hủy"
+                                onConfirm={() => handleOk(0)}
+                            >
+                                <Button
+                                    className="btn btn-status"
+                                    icon={<FontAwesomeIcon
+                                        style={{
+                                            color: '#cf1322',
+                                            marginRight: 10
+                                        }} icon={faCancel} />}>Huỷ trình</Button>
+                            </Popconfirm>
+                            : task.status === 1 && token.chuc_vu._id == 'LS02' ?
+                                <Space>
+                                    <Popconfirm
+                                        placement="topRight"
+                                        title="Hoàn thành công việc"
+                                        description="Bạn có chắc chắn là công việc này đã hoàn thành chứ ?"
+                                        okText="Xác nhận"
+                                        cancelText="Hủy"
+                                        onConfirm={() => handleOk(2)}
+                                    >
+                                        <Button
+                                            className="btn btn-status"
+                                            icon={<FontAwesomeIcon
+                                                style={{
+                                                    color: '#389e0d',
+                                                    marginRight: 10
+                                                }} icon={faCircleCheck} />}>Hoàn thành</Button>
+                                    </Popconfirm>
+
+                                    <Popconfirm
+                                        placement="topRight"
+                                        title="Thực hiện lại công việc"
+                                        description="Bạn có chắc chắn là công việc này không đạt yêu cầu chứ?"
+                                        okText="Xác nhận"
+                                        cancelText="Hủy"
+                                        onConfirm={() => handleOk(-2)}
+                                    >
+                                        <Button
+                                            className="btn btn-status"
+                                            icon={<FontAwesomeIcon
+                                                style={{
+                                                    color: '#cf1322',
+                                                    marginRight: 10
+                                                }} icon={faCancel} />}>Thực hiện lại</Button>
+                                    </Popconfirm>
+                                </Space>
+                                : <></>
 
                 }
             >
                 {
                     matter._id ?
                         <Row>
-                            <Col md={{ span: 12, push: 1 }}>
+                            <Col md={{ span: 14, push: 1 }}>
                                 <Descriptions
                                     title="Vụ việc"
                                     column={{
@@ -162,13 +183,13 @@ function TaskDetail() {
                                     <Descriptions.Item span={1} label="Dịch vụ">{matter.dich_vu.ten_dv}</Descriptions.Item>
                                 </Descriptions>
                             </Col>
-                            <Col md={{ span: 10, push: 2 }}>
+                            <Col md={{ span: 8, push: 3 }}>
                                 <Descriptions
                                     title="Luật sư phụ trách"
                                     column={{
-                                        md: 2,
+                                        md: 1,
                                     }}>
-                                    <Descriptions.Item span={2} label="Tên luật sư">{matter.luat_su.ho_ten}</Descriptions.Item>
+                                    <Descriptions.Item span={1} label="Tên luật sư">{matter.luat_su.ho_ten}</Descriptions.Item>
                                     <Descriptions.Item span={1} label="Số điện thoại">{matter.luat_su.account.sdt}</Descriptions.Item>
                                     <Descriptions.Item span={1} label="Email">{matter.luat_su.email}</Descriptions.Item>
                                 </Descriptions>
@@ -179,7 +200,7 @@ function TaskDetail() {
                 {
                     task._id ?
                         <Row>
-                            <Col md={{ span: 12, push: 1 }}>
+                            <Col md={{ span: 14, push: 1 }}>
                                 <Descriptions
                                     title="Thông tin chi tiết"
                                     column={{
@@ -195,20 +216,26 @@ function TaskDetail() {
                                                 <Descriptions.Item span={1} label="Hạn chót công việc">
                                                     {moment(task.han_chot_cong_viec).format('DD-MM-YYYY LT')}
                                                 </Descriptions.Item>
+                                                <Descriptions.Item span={1} label="Yêu cầu công việc">
+                                                    {task.yeu_cau}
+                                                </Descriptions.Item>
+                                                <Descriptions.Item span={1} label="Mô tả công việc">
+                                                    {task.mo_ta}
+                                                </Descriptions.Item>
                                             </> : <></>
                                     }
                                 </Descriptions>
                             </Col>
-                            <Col md={{ span: 10, push: 2 }}>
+                            <Col md={{ span: 8, push: 3 }}>
                                 <Descriptions
                                     title="Phụ trách công việc"
                                     column={{
-                                        md: 2,
+                                        md: 1,
                                     }}>
                                     {
                                         task._id ?
                                             <>
-                                                <Descriptions.Item span={2} label="Họ tên">{task.nguoi_phu_trach.ho_ten}</Descriptions.Item>
+                                                <Descriptions.Item span={1} label="Họ tên">{task.nguoi_phu_trach.ho_ten}</Descriptions.Item>
                                                 <Descriptions.Item span={1} label="Số điện thoại">
                                                     {task.nguoi_phu_trach.account.sdt}
                                                 </Descriptions.Item>
@@ -228,10 +255,10 @@ function TaskDetail() {
                         {
                             key: '1',
                             label: `Tài liệu đính kèm`,
-                            children: task._id && task.status == 0 ? <FormAddFile fileTask = {task.tai_lieu}/> :
-                            task._id && task.status != 0 ?
-                            <FormAddFile fileTask = {task.tai_lieu} props={1}/>
-                            : <></>
+                            children: task._id && task.status == 0 ? <FormAddFile fileTask={task.tai_lieu} /> :
+                                task._id && task.status != 0 ?
+                                    <FormAddFile fileTask={task.tai_lieu} props={1} />
+                                    : <></>
                         },
                     ]} />
                 {task.status === 0 ?

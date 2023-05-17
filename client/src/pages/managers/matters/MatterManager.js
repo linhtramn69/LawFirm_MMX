@@ -51,7 +51,7 @@ function MatterManager() {
         getTime()
         getMatters();
     }, [])
-
+console.log(state.matters);
     const handleTotalMatter = (value) => {
         const arr = state.matters.filter(vl => vl.status === value)
         return arr.length

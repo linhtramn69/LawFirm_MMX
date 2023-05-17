@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { quoteService } from "~/services";
-import { Button, Card, Col, Descriptions, Divider, Popconfirm, Row, Space, Typography } from "antd";
+import { Button, Card, Col, Descriptions, Divider, Popconfirm, Row, Space, Typography, message } from "antd";
 import { TitleCardModal } from "~/components";
 import ModalCalendar from "./ModalCalendar";
 import { useToken } from "~/store";
@@ -26,6 +26,7 @@ const item = [
 const url = ['', 'admin', 'tu-van-vien']
 
 function QuoteDetail() {
+    const [messageApi, contextHolderMess] = message.useMessage();
 
     let { id } = useParams();
     const [quote, setQuote] = useState({
@@ -52,14 +53,27 @@ function QuoteDetail() {
         setOpenSendMail(true);
     };
     const handleOk = async () => {
-        await quoteService.sendMail({ ...quote })
-        setOpenSendMail(false);
+        try{
+          await quoteService.sendMail({ ...quote })
+          messageApi.open({
+              type: 'success',
+              content: "Gửi email thành công",
+            })
+            setOpenSendMail(false);  
+        } catch(err) {
+            messageApi.open({
+                type: 'error',
+                content: 'Gửi email thất bại',
+            });
+        }
+        
     };
     const handleCancel = () => {
         setOpenSendMail(false);
     };
     return (
         <>
+        {contextHolderMess}
             <Card style={{ paddingLeft: 20 }}
                 title={
                     <TitleCardModal
@@ -68,19 +82,20 @@ function QuoteDetail() {
                         current={quote ? quote.status : 0}
                     />}>
                 <Space size={10}>
-                    {quote.status < 3 ?
+                    {quote.status < 3 && token.chuc_vu._id != 'LS02' ?
                         <Link to={`/${url[token.account.quyen]}/quote/edit/${id}`}>
                             <Button type="primary" className="btn-primary">
                                 {quote.status === 0 ? 'TẠO BÁO GIÁ' : 'CHỈNH SỬA'}
                             </Button>
                         </Link>
                         : null}
-                    {quote.status > 0 ?
+                    {quote.status > 0 && token.chuc_vu._id != 'LS02' ?
                         <Button type="primary" className="btn-primary" onClick={showModal}>
                             TẠO LỊCH HẸN
                         </Button>
                         : null}
-                    <Popconfirm
+                        {
+                           token.chuc_vu._id != 'LS02'? <Popconfirm
                         title="Xác nhận"
                         description="Bạn có muốn gửi báo giá này bằng email không?"
                         open={openSendMail}
@@ -88,7 +103,9 @@ function QuoteDetail() {
                         onCancel={handleCancel}
                     >
                         <Button type="primary" onClick={showPopconfirmSendMail} className="btn-primary">GỬI EMAIL</Button>
-                    </Popconfirm>
+                    </Popconfirm> : <></>
+                        }
+                   
                     
                 </Space>
                 <Divider />

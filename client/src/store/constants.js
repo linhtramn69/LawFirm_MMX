@@ -12,3 +12,6 @@ export const SET_FEES = 'set_fees'
 export const SET_USER = 'set_user'
 export const SET_BILLS = 'set_bills'
 export const SET_BILL = 'set_bill'
+export const SET_CONTACTS = 'set_contacts'
+export const SET_PERIODS = 'set_periods'
+
