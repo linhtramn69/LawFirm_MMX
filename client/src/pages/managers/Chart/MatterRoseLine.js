@@ -28,10 +28,10 @@ const options = {
         legend: {
             position: 'top',
         },
-        title: {
-            display: true,
-            text: 'Tổng tiền hoa hồng',
-        },
+        // title: {
+        //     display: true,
+        //     text: 'Tổng tiền hoa hồng',
+        // },
     },
 };
 
@@ -55,7 +55,7 @@ export function MatterRoseLine() {
         labels,
         datasets: [
             {
-                label: null,
+                label: "VNĐ",
                 data: bill,
                 borderColor: 'rgb(255, 99, 132)',
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',

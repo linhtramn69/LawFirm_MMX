@@ -22,7 +22,7 @@ const itemsHeadTop = [
         icon: <PhoneOutlined />,
     },
     {
-        label: 'Estimating@Law-Co.Com',
+        label: 'MMX@Law-Firm.Com',
         key: 'mail',
         icon: <MailOutlined />
     },

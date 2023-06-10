@@ -1,4 +1,4 @@
-import { Avatar, Button, Col, Divider, Row, Space, } from "antd";
+import { Avatar, Button, Card, Col, Divider, Row, Space, } from "antd";
 import {
     ReconciliationFilled,
     UsbFilled,
@@ -67,7 +67,7 @@ function FeeManager() {
             </Space>
             <Divider />
             <Row>
-                <Col md={{ span: 12 }} xs={{ span: 24 }}>
+                <Col md={{ span: 11 }} xs={{ span: 24 }}>
                     <Row>
                         <Col style={{ ...styleCol }} xs={{ span: 4 }}>
                             <Avatar
@@ -147,9 +147,18 @@ function FeeManager() {
                     <Divider />
 
                 </Col>
-                <Col md={{ span: 10, push: 2 }} xs={{ span: 24 }}>
-                   <BillChiLine/>
-                   <BillThuLine/>
+                <Col md={{ span: 10, push: 3 }} xs={{ span: 24 }}>
+                <Card className="card-chart" style={{ width: '500px'}}
+                        headStyle={{ background: 'linear-gradient(to bottom, #3333cc 0%, #000066 100%)', color: 'white', textAlign: 'center' }}
+                        title={`Tổng thu khách hàng năm ${new Date().getFullYear()} / VNĐ`}>
+                        <BillThuLine />
+                    </Card>
+                    <Divider />
+                    <Card className="card-chart" style={{ width: '500px'}}
+                        headStyle={{ background: 'linear-gradient(to bottom, #3333cc 0%, #000066 100%)', color: 'white', textAlign: 'center' }}
+                        title={`Tổng chi nội bộ năm ${new Date().getFullYear()} / VNĐ`}>
+                        <BillChiLine />
+                    </Card>
                 </Col>
             </Row>
         </>

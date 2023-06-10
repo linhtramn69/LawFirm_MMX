@@ -318,8 +318,8 @@ function FormAddFee() {
                                 </Select>
                             </Form.Item>
                             <Form.Item
-                                label="Tên tài khoản"
-                                name="nameCreditCard"
+                                label="Số tài khoản"
+                                name="numberCreditCard"
                             >
                                 <Input
                                     style={{
@@ -328,8 +328,8 @@ function FormAddFee() {
                                 />
                             </Form.Item>
                             <Form.Item
-                                label="Số tài khoản"
-                                name="numberCreditCard"
+                                label="Tên tài khoản"
+                                name="nameCreditCard"
                             >
                                 <Input
                                     style={{

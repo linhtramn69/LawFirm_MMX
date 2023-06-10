@@ -217,10 +217,10 @@ console.log(state.files);
                                                     {moment(task.han_chot_cong_viec).format('DD-MM-YYYY LT')}
                                                 </Descriptions.Item>
                                                 <Descriptions.Item span={1} label="Yêu cầu công việc">
-                                                    {task.yeu_cau}
+                                                    {task.yeu_cau_cong_viec}
                                                 </Descriptions.Item>
                                                 <Descriptions.Item span={1} label="Mô tả công việc">
-                                                    {task.mo_ta}
+                                                    {task.mo_ta_cong_viec}
                                                 </Descriptions.Item>
                                             </> : <></>
                                     }

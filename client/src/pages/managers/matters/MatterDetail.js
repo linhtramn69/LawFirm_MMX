@@ -208,7 +208,7 @@ function MatterDetail() {
             dispatch(actions.setBills(result))
         }
         const getContact = async () => {
-            const rs = (await contactService.findByMatter({ id: id })).data
+            const rs = (await contactService.findByMatter({ vu_viec: id })).data
             dispatch(actions.setContacts(rs))
         }
         const getPeriods = async () => {
@@ -434,7 +434,7 @@ function MatterDetail() {
             }
         })
     }
-    console.log(result);
+    console.log(state.contacts);
     return (
         <>
             {

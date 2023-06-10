@@ -21,10 +21,8 @@ function thongke() {
                         headStyle={{ background: 'linear-gradient(to bottom, #3333cc 0%, #000066 100%)', color: 'white', textAlign: 'center' }}
                         title={`Tổng thu khách hàng năm ${new Date().getFullYear()} / VNĐ`}>
                         <BillThuLine />
-
                     </Card>
                     <Divider />
-
                     <Card className="card-chart"
                         headStyle={{ background: 'linear-gradient(to bottom, #3333cc 0%, #000066 100%)', color: 'white', textAlign: 'center' }}
                         title={`Lĩnh vực được quan tâm theo năm ${new Date().getFullYear()} / Tỷ lệ %`}>

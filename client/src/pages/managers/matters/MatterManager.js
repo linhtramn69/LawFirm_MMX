@@ -1,4 +1,4 @@
-import { Avatar, Button, Col, Divider, Row, Space, } from "antd";
+import { Avatar, Button, Card, Col, Divider, Row, Space, } from "antd";
 import {
     ReconciliationFilled,
     CreditCardFilled,
@@ -84,7 +84,7 @@ console.log(state.matters);
             </Space>
             <Divider />
             <Row>
-                <Col md={{ span: 13 }} xs={{ span: 24 }}>
+                <Col md={{ span: 11 }} xs={{ span: 24 }}>
                     <Row>
                         <Col style={{ ...styleCol }} xs={{ span: 4 }}>
                             <Avatar
@@ -161,23 +161,18 @@ console.log(state.matters);
                         </Col>
                     </Row>
                 </Col>
-                <Col md={{ span: 10, push: 1 }} xs={{ span: 24 }}>
-                    <Divider>
-                        <Title level={4}>Số lượng vụ việc đã hoàn thành theo từng tháng / {new Date().getFullYear()}</Title>
-                    </Divider>
-                    <Row>
-                        <Col span={24} >
-                            <MatterFinishBar />
-                        </Col>
-                    </Row>
-                    <Divider>
-                        <Title level={4}>Tổng tiền hoa hồng được nhận theo tháng / {new Date().getFullYear()}</Title>
-                    </Divider>
-                    <Row>
-                        <Col span={24} >
-                            <MatterRoseLine />
-                        </Col>
-                    </Row>
+                <Col md={{ span: 11, push: 2 }} xs={{ span: 24 }}>
+                            <Card className="card-chart" style={{ width: '600px'}}
+                        headStyle={{ background: 'linear-gradient(to bottom, #3333cc 0%, #000066 100%)', color: 'white', textAlign: 'center' }}
+                        title={`Số lượng vụ việc đã hoàn thành theo từng tháng / ${new Date().getFullYear()}`}>
+                        <MatterFinishBar />
+                    </Card>
+                    <Divider/>
+                    <Card className="card-chart" style={{ width: '600px'}}
+                        headStyle={{ background: 'linear-gradient(to bottom, #3333cc 0%, #000066 100%)', color: 'white', textAlign: 'center' }}
+                        title={`Tổng hoa hồng nhận được theo tháng / ${new Date().getFullYear()}`}>
+                        <MatterRoseLine />
+                    </Card>
                 </Col>
             </Row>
             {isModalOpenTask ? <ModalAddTask open={isModalOpenTask} onCancel={handleCancelTask} /> : null}

@@ -236,9 +236,9 @@ function FormMatter({ props }) {
             status: 0,
             ngay_lap: new Date(),
             tai_lieu: matter._id ? state.files : null,
-            cong_viec: matter._id ? state.tasks : null,
-            phi_co_dinh: matter._id ? state.steps : null,
-            chi_phi_phat_sinh: matter._id ? state.fees : null
+            // cong_viec: matter._id ? state.tasks : null,
+            // phi_co_dinh: matter._id ? state.steps : null,
+            // chi_phi_phat_sinh: matter._id ? state.fees : null
         }
         matter._id ? handleUpdate(newData) : handleAdd(newData)
     }

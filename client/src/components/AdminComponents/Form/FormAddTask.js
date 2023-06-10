@@ -253,7 +253,7 @@ function FormAddTask() {
                     </Form.Item>
                     <Form.Item
                         label="Yêu cầu công việc"
-                        name="yeu_cau"
+                        name="yeu_cau_cong_viec"
                         rules={[
                             {
                                 required: true,
@@ -265,7 +265,7 @@ function FormAddTask() {
                     </Form.Item>
                     <Form.Item
                         label="Mô tả công việc"
-                        name="mo_ta"
+                        name="mo_ta_cong_viec"
                         rules={[
                             {
                                 required: true,

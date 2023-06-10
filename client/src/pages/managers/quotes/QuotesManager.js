@@ -20,14 +20,14 @@ const styleCol = {
 function QuoteManager() {
     const [state, dispatch] = useStore();
     const [time, setTime] = useState([]);
-    const {token} = useToken()
+    const { token } = useToken()
     useEffect(() => {
         const getQuotes = async () => {
             const quote = (await quoteService.get()).data;
             dispatch(actions.setQuotes(quote));
         }
-        const getTime = async() => {
-            const time = (await timeAppointmentService.findByStaff({id: token._id})).data;
+        const getTime = async () => {
+            const time = (await timeAppointmentService.findByStaff({ id: token._id })).data;
             setTime(time)
         }
         getTime()
@@ -37,16 +37,16 @@ function QuoteManager() {
         const arr = state.quotes.filter(vl => vl.status === value)
         return arr.length
     }
-    const handleTimeByDay= (value) => {
-        const arr = time.filter(vl => moment(vl.thoi_gian.start).format('DDMMYYYY') ===  moment().format('DDMMYYYY'))
+    const handleTimeByDay = (value) => {
+        const arr = time.filter(vl => moment(vl.thoi_gian.start).format('DDMMYYYY') === moment().format('DDMMYYYY'))
         return arr.length
     }
-    const handleTimeByWeek= (value) => {
-        const arr = time.filter(vl => moment(vl.thoi_gian.start).week() ===  moment().week())
+    const handleTimeByWeek = (value) => {
+        const arr = time.filter(vl => moment(vl.thoi_gian.start).week() === moment().week())
         return arr.length
     }
-    const handleTimeByMonth= (value) => {
-        const arr = time.filter(vl => moment(vl.thoi_gian.start).format('MMYYYY') ===  moment().format('MMYYYY'))
+    const handleTimeByMonth = (value) => {
+        const arr = time.filter(vl => moment(vl.thoi_gian.start).format('MMYYYY') === moment().format('MMYYYY'))
         return arr.length
     }
     console.log(time);
@@ -55,7 +55,7 @@ function QuoteManager() {
 
             <Space wrap direction="horizontal">
                 <Link to={`/tu-van-vien/quotes/add`}>
-                <Button className="btn-cyan" icon={<UsbFilled />} block>Báo giá mới</Button>
+                    <Button className="btn-cyan" icon={<UsbFilled />} block>Báo giá mới</Button>
                 </Link>
                 <Button className="btn-cyan" icon={<CalendarFilled />} block>Lịch hẹn mới</Button>
             </Space>
@@ -106,17 +106,21 @@ function QuoteManager() {
                 </Col>
             </Row>
             <Row>
-                    <Col span={8} push={2}>
-                        <Card className="card-chart">
-                            <TypeServiceFavoritePie/>
-                        </Card>
-                    </Col>
-                    <Col span={8} push={6}>
-                        <Card className="card-chart">
-                            <ProvincePie/>
-                        </Card>
-                    </Col>
-                </Row>
+                <Col span={8} push={1}>
+                    <Card className="card-chart"  style={{ width: '600px'}}
+                        headStyle={{ background: 'linear-gradient(to bottom, #3333cc 0%, #000066 100%)', color: 'white', textAlign: 'center' }}
+                        title={`Lĩnh vực được quan tâm theo năm ${new Date().getFullYear()} / Tỷ lệ %`}>
+                        <TypeServiceFavoritePie />
+                    </Card>
+                </Col>
+                <Col span={8} push={5}>
+                    <Card className="card-chart" style={{ width: '600px'}}
+                        headStyle={{ background: 'linear-gradient(to bottom, #3333cc 0%, #000066 100%)', color: 'white', textAlign: 'center' }}
+                        title={`Khách hàng theo khu vực`}>
+                        <ProvincePie />
+                    </Card>
+                </Col>
+            </Row>
         </>
     );
 }
