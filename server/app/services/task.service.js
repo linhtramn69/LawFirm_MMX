@@ -17,6 +17,8 @@ class Task {
             ngay_giao: payload.ngay_giao,
             status: payload.status,
             tai_lieu: payload.tai_lieu,
+            yeu_cau_cong_viec: payload.yeu_cau_cong_viec,
+            mo_ta_cong_viec: payload.mo_ta_cong_viec
         };
 
         Object.keys(task).forEach(

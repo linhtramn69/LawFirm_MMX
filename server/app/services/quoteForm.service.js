@@ -215,8 +215,8 @@ class QuoteForm {
                                                 <a href="http://www.google.com" target="_blank">
                                                 www.abclawoffice.com.vn</a>
                                                 |
-                                                <a href="mailto:ask@abclawoffice.com" target="_blank">ask@abclawoffice.com</a>
-                                                <br> © Bản quyền thuộc về văn phòng luật ABC
+                                                <a href="mailto:ask@mmxlawfirm.com" target="_blank">ask@mmxlawfirm.com</a>
+                                                <br> © Bản quyền thuộc về công ty luật MMX
                                                     . Tất cả các quyền được bảo hộ
                                             </td>
                                         </tr>
